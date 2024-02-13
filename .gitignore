@@ -35,6 +35,7 @@
 *.csv
 *.tmx
 *.tiled-project
+*.tiled-session
 
 # Build and config
 .vscode/*
