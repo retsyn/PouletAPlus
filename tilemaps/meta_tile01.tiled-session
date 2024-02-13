@@ -1,0 +1,113 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "meta06.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "PouletAPlus.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "meta01.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta02.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta03.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta04.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta05.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta06.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.161048689138582,
+                "y": 31.53558052434457
+            }
+        },
+        "meta07.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta08.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 35.955056179775276,
+                "y": 34.45692883895131
+            }
+        },
+        "meta10.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 35.58052434456929,
+                "y": 39.10112359550562
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/GameDev/PouletAPlus/tilemaps",
+    "last.externalTilesetPath": "C:/GameDev/PouletAPlus/tilemaps",
+    "last.imagePath": "C:/GameDev/PouletAPlus/tilemaps",
+    "map.height": 8,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 8,
+    "openFiles": [
+        "meta06.tmx",
+        "PouletAPlus.tsx"
+    ],
+    "project": "meta_tile01.tiled-project",
+    "recentFiles": [
+        "PouletAPlus.tsx",
+        "meta06.tmx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}
