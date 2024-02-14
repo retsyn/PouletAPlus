@@ -1,5 +1,4 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#pragma once
 
 #include <Arduboy2.h>
 #include <Arduboy.h>
@@ -13,6 +12,3 @@ extern const uint8_t PROGMEM title[];
 // These arrays show which order to show frames in animations.
 // const uint8_t PROGMEM player_anim_walk[2] = {1, 2};
 
-
-
-#endif
