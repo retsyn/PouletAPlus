@@ -29,17 +29,21 @@ void setup()
     arduboy->display();
 
     // Game init stuff!
-    stage->write_meta_tile(0, 1, 0, 0, 0, 0);
-    stage->write_meta_tile(1, 2, 0, 0, 0, 0);
-    stage->write_meta_tile(2, 1, 0, 0, 0, 0);
-    stage->write_meta_tile(3, 3, 0, 0, 0, 0);
-    stage->write_meta_tile(4, 4, 0, 0, 0, 0);
-    stage->write_meta_tile(5, 1, 0, 0, 0, 0);
-    stage->write_meta_tile(6, 5, 0, 0, 0, 0);
-    stage->write_meta_tile(7, 2, 0, 0, 0, 0);
-    stage->write_meta_tile(8, 6, 0, 0, 0, 0);
-    stage->write_meta_tile(9, 1, 0, 0, 0, 0);
-
+    stage->write_meta_tile(0, 0, 0, 0, 0, 0);
+    stage->write_meta_tile(1, 0, 0, 0, 0, 0);
+    stage->write_meta_tile(2, 0, 0, 0, 0, 0);
+    stage->write_meta_tile(3, 1, 0, 0, 0, 0);
+    stage->write_meta_tile(4, 0, 0, 0, 0, 0);
+    stage->write_meta_tile(5, 2, 0, 0, 0, 0);
+    stage->write_meta_tile(6, 0, 0, 0, 0, 0);
+    stage->write_meta_tile(7, 3, 0, 0, 0, 0);
+    stage->write_meta_tile(8, 4, 0, 0, 0, 0);
+    stage->write_meta_tile(9, 5, 0, 0, 0, 0);
+    stage->write_meta_tile(10, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(11, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(12, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(14, 1, 0, 0, 1, 0);
+    stage->write_meta_tile(15, 0, 0, 0, 1, 0);
 }
 
 void loop()
@@ -61,7 +65,10 @@ void loop()
 
     case in_play:
         stage->draw_level(scroll);
-        scroll++;
+        if (arduboy->pressed(LEFT_BUTTON))
+            scroll--;
+        if (arduboy->pressed(RIGHT_BUTTON))
+            scroll++;
 
     default:
         break;

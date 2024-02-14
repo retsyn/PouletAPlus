@@ -3,14 +3,14 @@
 #include "graphics.h"
 
 const unsigned char meta_tiles[] PROGMEM = {
-    1, 0, 0, 0, 0, 0, 0, 0,
-    2, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0,
-    4, 0, 0, 0, 0, 0, 0, 0,
-    1, 0, 0, 0, 0, 0, 0, 0,
-    2, 0, 0, 0, 0, 0, 7, 0,
-    3, 0, 0, 4, 4, 0, 6, 0,
-    4, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 7, 0,
+    0, 0, 0, 4, 4, 0, 6, 0,
+    1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -64,7 +64,55 @@ void Stage::write_meta_tile(uint8_t horizontal_meta, uint8_t meta_index, bool sp
   }
 
   // Now that we have a copy from progmem, we can edit it based on the flags.
-  // TODO!  make spikeson etc, work.
+  // Hard mode holes!
+  if (holes)
+  {
+    for (int i = 0; i < 64; ++i)
+    {
+      if ((i % 8) > 2 && (i % 8) < 6)
+      {
+        meta_tile[i] = TILE_EMPTY;
+      }
+    }
+  }
+
+  // Spikes or no spikes
+  if (!spikeson)
+  {
+
+    for (int i = 0; i < 64; ++i)
+    {
+      if (meta_tile[i] == TILE_SPIKE)
+      {
+        meta_tile[i] = TILE_EMPTY;
+      }
+    }
+  }
+
+  // Floor or no floor.
+  if (flooroff)
+  {
+    for (int i = 56; i < 64; ++i)
+    {
+      meta_tile[i] = TILE_EMPTY;
+    }
+  }
+
+  // In a castle or not.
+  if (castle)
+  {
+    for (int i = 0; i < 64; ++i)
+    {
+      if (meta_tile[i] == TILE_EMPTY)
+      {
+        meta_tile[i] = TILE_CASTLEWALL;
+      }
+      else if (meta_tile[i] == TILE_CLASSIC)
+      {
+        meta_tile[i] = TILE_CASTLEBLOCK;
+      }
+    }
+  }
 
   // Now that we have edited the meta_tile, we "paste" it to the in-game array.
   for (int row = 0; row < 8; ++row)
