@@ -70,13 +70,18 @@ void loop()
 
         // Debug shit!
         if (arduboy->pressed(LEFT_BUTTON))
-            scroll--;
+            player->vx -= player->accel;
         if (arduboy->pressed(RIGHT_BUTTON))
-            scroll++;
+            player->vx += player->accel;
+        if (arduboy->justPressed(B_BUTTON))
+            player->vy = -1.6;
+
+        // Debug scroll?
+        scroll = player->x - 64;
         player->draw(scroll);
         player->physics(stage);
 
-        default:
+    default:
         break;
     }
     advance_master_frames();
