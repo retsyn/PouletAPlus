@@ -4,6 +4,7 @@
 #include "game.h"
 #include "graphics.h"
 #include "tilemap.h"
+#include "entity.h"
 
 GameState game_state = title_screen;
 Tinyfont tinyfont = Tinyfont(arduboy->sBuffer, Arduboy2::width(), Arduboy2::height());
@@ -13,6 +14,7 @@ uint8_t master_ticker = TICKER_SPEED;
 uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
+Entity *player = new Entity(ENT_POULET, 10.0f, 10.0f);
 
 int16_t scroll = 0;
 
@@ -65,12 +67,16 @@ void loop()
 
     case in_play:
         stage->draw_level(scroll);
+
+        // Debug shit!
         if (arduboy->pressed(LEFT_BUTTON))
             scroll--;
         if (arduboy->pressed(RIGHT_BUTTON))
             scroll++;
+        player->draw(scroll);
+        player->physics(stage);
 
-    default:
+        default:
         break;
     }
     advance_master_frames();

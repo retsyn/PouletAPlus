@@ -140,3 +140,29 @@ void Stage::draw_level(uint16_t cam_offset_x)
     }
   }
 }
+
+bool Stage::is_solid(uint16_t x, uint16_t y)
+{
+  int i;
+  uint16_t tx = x / 8;
+  uint16_t ty = y / 8;
+
+  // Convert i to be the queried tile on the 1-d map.
+  i = tx + (ty * 128);
+
+  if (maparray[i] != TILE_EMPTY) // If not empty space...
+  {
+    if (maparray[i] <= LAST_SOLID) // If in the "solids"
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 0;
+  }
+}
