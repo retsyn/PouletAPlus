@@ -221,6 +221,14 @@ const unsigned char PROGMEM aviator_plus_mask[] =
 0xce, 0xff, 0x4e, 0xff, 0x2c, 0xff, 0xc8, 0xfe, 0xc0, 0xfc, 0x00, 0xe0, 0x00, 0x00, 0x00, 0x00,
 };
 
+// Animation sequences
+const unsigned char PROGMEM poulet_anim_idle[1] = {0};
+const unsigned char PROGMEM poulet_anim_walk[4] = {1, 2, 3, 2};
+const unsigned char PROGMEM poulet_anim_jump_up[1] = {4};
+const unsigned char PROGMEM poulet_anim_jump_down[1] = {5};
+const unsigned char PROGMEM poulet_anim_attack[1] = {6};
+const unsigned char PROGMEM poulet_anim_death[1] = {7};
+
 
 const unsigned char PROGMEM foreground[] =
 {

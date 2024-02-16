@@ -15,19 +15,34 @@
 #define PHYS_GRAVITY 0.07f
 #define PHYS_FRICTION 0.06f
 
+enum PlayerAnimState
+{
+    idle = 0,
+    walking,
+    jumping_up,
+    jumping_down,
+    attacking,
+    dead
+};
+
 class Entity
 {
 private:
-    // Anim state vars:
-    uint8_t anim_frame;
-    uint8_t anim_ticker;
-    uint8_t anim_wait;
-    uint8_t anim_state;
     // Collision "skins" pixel widths:
     uint8_t top_skin;
     uint8_t bottom_skin;
     uint8_t left_skin;
     uint8_t right_skin;
+
+protected:
+    // Anim state vars:
+    uint8_t anim_frame;
+    uint8_t anim_ticker;
+    uint8_t anim_wait;
+    uint8_t anim_state;
+
+    // Precalc framelengths--
+    const uint8_t FRAMELEN[6] = {0, 4, 1, 1, 1, 1};
 
 public:
     float vx = 0.0f;
@@ -37,24 +52,29 @@ public:
     float accel = 0.1f;
 
     bool grounded;
+    bool flip;
     uint8_t type = 0;
     float x = 0.0f;
     float y = 0.0f;
     const unsigned char *sprite;
 
     Entity(uint8_t newtype, float start_x, float start_y);
-    void draw(int16_t offset_x);
+    virtual void draw(int16_t offset_x);
     void physics(Stage *in_stage);
 };
 
 class PlayerEntity : public Entity
 {
 public:
-
     bool flyboy = 0;
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
+    void draw(int16_t offset_x) override;
+
+protected:
+    // Precalc framelengths--
+    const uint8_t FRAMELEN[6] = {0, 3, 0, 0, 0, 0};
 
 private:
     uint8_t jump_buffer = 0;

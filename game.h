@@ -7,11 +7,3 @@ enum GameState{
     game_over
 };
 
-enum PlayerAnimState{
-    standing = 0,
-    walking,
-    jumping_up,
-    jumping_down,
-    attacking,
-    dead
-};
