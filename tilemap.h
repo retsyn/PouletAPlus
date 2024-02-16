@@ -1,5 +1,7 @@
 #pragma once
 
+#define MAP_WIDTH 128
+
 #define TILE_SPIKE 4
 #define TILE_EMPTY 0
 #define TILE_CASTLEWALL 5

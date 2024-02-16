@@ -14,7 +14,7 @@ uint8_t master_ticker = TICKER_SPEED;
 uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
-Entity *player = new Entity(ENT_POULET, 10.0f, 10.0f);
+PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
 int16_t scroll = 0;
 
@@ -39,13 +39,13 @@ void setup()
     stage->write_meta_tile(5, 2, 0, 0, 0, 0);
     stage->write_meta_tile(6, 0, 0, 0, 0, 0);
     stage->write_meta_tile(7, 3, 0, 0, 0, 0);
-    stage->write_meta_tile(8, 4, 0, 0, 0, 0);
-    stage->write_meta_tile(9, 5, 0, 0, 0, 0);
-    stage->write_meta_tile(10, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(8, 4, 1, 0, 0, 0);
+    stage->write_meta_tile(9, 5, 1, 0, 0, 0);
+    stage->write_meta_tile(10, 0, 1, 0, 1, 0);
     stage->write_meta_tile(11, 0, 0, 0, 1, 0);
     stage->write_meta_tile(12, 0, 0, 0, 1, 0);
     stage->write_meta_tile(14, 1, 0, 0, 1, 0);
-    stage->write_meta_tile(15, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(15, 0, 0, 0, 0, 0);
 }
 
 void loop()
@@ -69,16 +69,12 @@ void loop()
         stage->draw_level(scroll);
 
         // Debug shit!
-        if (arduboy->pressed(LEFT_BUTTON))
-            player->vx -= player->accel;
-        if (arduboy->pressed(RIGHT_BUTTON))
-            player->vx += player->accel;
-        if (arduboy->justPressed(B_BUTTON))
-            player->vy = -1.6;
+
 
         // Debug scroll?
         scroll = player->x - 64;
         player->draw(scroll);
+        player->control();
         player->physics(stage);
 
     default:

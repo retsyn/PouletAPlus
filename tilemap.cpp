@@ -119,7 +119,7 @@ void Stage::write_meta_tile(uint8_t horizontal_meta, uint8_t meta_index, bool sp
   {
     for (int column = 0; column < 8; ++column)
     {
-      maparray[(horizontal_meta * 8) + (row * 128) + column] = meta_tile[(row * 8) + column];
+      maparray[(horizontal_meta * 8) + (row * MAP_WIDTH) + column] = meta_tile[(row * 8) + column];
     }
   }
 }
@@ -134,8 +134,8 @@ void Stage::draw_level(uint16_t cam_offset_x)
   {
     if (maparray[i] != 0)
     {
-      tx = (i % 128) * 8;
-      ty = (i / 128) * 8;
+      tx = (i % MAP_WIDTH) * 8;
+      ty = (i / MAP_WIDTH) * 8;
       Sprites::drawOverwrite(tx - cam_offset_x, ty, foreground, maparray[i]);
     }
   }

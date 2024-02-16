@@ -1,4 +1,4 @@
-#include <Arduboy2.h>
+#include "globals.h"
 #include "entity.h"
 
 Entity::Entity(uint8_t newtype, float start_x, float start_y)
@@ -10,11 +10,9 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
 
     // Generic collision skins (biased to middle bottom of the 16x16 sprite)
     top_skin = 9;
-    bottom_skin = 16;
+    bottom_skin = 15;
     left_skin = 4;
     right_skin = 11;
-
-
 
     // Get sprite to point to the spot in progmem.
     switch (type)
@@ -43,8 +41,10 @@ void Entity::physics(Stage *in_stage)
     bool horiz_collide = 0;
 
     // Cap horizontal movement speed:
-    if (vx > top_speed) vx = top_speed;
-    if (vx < -top_speed) vx = -top_speed;
+    if (vx > top_speed)
+        vx = top_speed;
+    if (vx < -top_speed)
+        vx = -top_speed;
 
     // Apply gravity!
     vy += PHYS_GRAVITY;
@@ -56,13 +56,18 @@ void Entity::physics(Stage *in_stage)
     if (vy > 0)
     {
         // Check for downward collision by iterating through pixels travelled;
-        for (int i = y; i <= int(ny); i++)
+        for (int i = floor(y); i <= floor(ny); i++)
         {
-            if (in_stage->is_solid(x + left_skin, i + bottom_skin) or in_stage->is_solid(x + right_skin, i + bottom_skin))
+            if (in_stage->is_solid(floor(x) + left_skin, i + bottom_skin) || in_stage->is_solid(floor(x) + right_skin, i + bottom_skin))
             {
                 vy = 0;
                 y = i - 1;
                 vert_collide = 1;
+                grounded = 1;
+            }
+            else
+            {
+                grounded = 0;
             }
         }
     }
@@ -71,7 +76,7 @@ void Entity::physics(Stage *in_stage)
         // Check for upward collision by iterating through pixels travelled;
         for (int i = y; i >= int(ny); i--)
         {
-            if (in_stage->is_solid(x + left_skin + 1, i + top_skin) or in_stage->is_solid(x + right_skin - 1, i + top_skin))
+            if (in_stage->is_solid(x + left_skin + 1, i + top_skin) || in_stage->is_solid(x + right_skin - 1, i + top_skin))
             {
                 vy = 0;
                 y = i + 1;
@@ -87,7 +92,7 @@ void Entity::physics(Stage *in_stage)
         // Check for right collision...
         for (int i = x; i <= int(nx); i++)
         {
-            if (in_stage->is_solid(i + right_skin, y + bottom_skin - 1) or in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
+            if (in_stage->is_solid(i + right_skin, y + bottom_skin - 1) || in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
             {
                 vx = 0;
                 x = i - 1;
@@ -100,7 +105,7 @@ void Entity::physics(Stage *in_stage)
         // Check for left collision...
         for (int i = x; i >= int(nx); i--)
         {
-            if (in_stage->is_solid(i + left_skin, y + top_skin + 1) or in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
+            if (in_stage->is_solid(i + left_skin, y + top_skin + 1) || in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
             {
                 vx = 0;
                 x = i + 1;
@@ -110,4 +115,47 @@ void Entity::physics(Stage *in_stage)
     }
     if (!horiz_collide)
         x += vx;
+
+    // Add friction:
+    // Add friction:
+    if (grounded)
+    {
+        if (vx > 0)
+        {
+            vx -= PHYS_FRICTION;
+        }
+        if (vx < 0)
+        {
+            vx += PHYS_FRICTION;
+        }
+        if (abs(vx) < PHYS_FRICTION)
+        {
+            vx = 0;
+        }
+    }
+}
+
+PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
+{
+    jump_buffer = 0;
+    accel = PLAYER_ACCEL;
+    top_speed = PLAYER_TOPSPEED;
+}
+
+void PlayerEntity::control()
+{
+
+    if (arduboy->pressed(LEFT_BUTTON))
+        vx -= accel;
+    if (arduboy->pressed(RIGHT_BUTTON))
+        vx += accel;
+    if (arduboy->justPressed(B_BUTTON))
+        vy = -PLAYER_JUMPPOWER;
+        grounded = 0;
+
+    // Little physics manipulation outside the physics module so we don't have to override:
+    if (vy < 0 and arduboy->pressed(B_BUTTON))
+    {
+        vy -= JUMP_JUICE;
+    }
 }
