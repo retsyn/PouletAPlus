@@ -3,6 +3,7 @@
 
 // Define the local pointer to the arduboy instance.
 Arduboy2* arduboy;
+Tinyfont* tinyfont;
 
 void initArduboy2() {
   // Allocate the Arduboy2 instance on the heap
@@ -13,4 +14,9 @@ void initArduboy2() {
 
   // Initialize the Arduboy2 instance
   arduboy->begin();
+
+  tinyfont = new Tinyfont(arduboy->sBuffer, Arduboy2::width(), Arduboy2::height());
+
 }
+
+

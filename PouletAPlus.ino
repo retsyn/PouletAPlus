@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Tinyfont.h>
 #include "globals.h"
 #include "game.h"
 #include "graphics.h"
@@ -7,7 +6,6 @@
 #include "entity.h"
 
 GameState game_state = title_screen;
-Tinyfont tinyfont = Tinyfont(arduboy->sBuffer, Arduboy2::width(), Arduboy2::height());
 
 uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
 uint8_t master_ticker = TICKER_SPEED;
@@ -15,6 +13,7 @@ uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
+
 
 int16_t scroll = 0;
 
@@ -99,8 +98,8 @@ void advance_master_frames()
 void show_title_screen()
 {
     arduboy->drawBitmap(0, 0, title, 128, 64, 1);
-    tinyfont.setCursor(82, 45);
-    tinyfont.print("START");
-    tinyfont.setCursor(82, 50);
-    tinyfont.print("OPTIONS");
+    tinyfont->setCursor(82, 45);
+    tinyfont->print("START");
+    tinyfont->setCursor(82, 50);
+    tinyfont->print("OPTIONS");
 }

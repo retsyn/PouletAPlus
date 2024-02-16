@@ -8,12 +8,12 @@
 #define ENT_FENNEC 2
 
 #define PLAYER_JUMPPOWER 1.20f
-#define PLAYER_ACCEL 0.1f
-#define PLAYER_TOPSPEED 0.75f
+#define PLAYER_ACCEL 0.15f
+#define PLAYER_TOPSPEED 0.70f
 #define JUMP_JUICE 0.043f
 
 #define PHYS_GRAVITY 0.07f
-#define PHYS_FRICTION 0.2f
+#define PHYS_FRICTION 0.06f
 
 class Entity
 {

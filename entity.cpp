@@ -27,7 +27,7 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
 
     vx = 0.0f;
     vy = 0.0f;
-    grounded = false;
+
 }
 
 void Entity::draw(int16_t offset_x)
@@ -53,6 +53,8 @@ void Entity::physics(Stage *in_stage)
     int16_t nx = (x + vx);
     int16_t ny = (y + vy);
 
+
+
     if (vy > 0)
     {
         // Check for downward collision by iterating through pixels travelled;
@@ -63,14 +65,14 @@ void Entity::physics(Stage *in_stage)
                 vy = 0;
                 y = i - 1;
                 vert_collide = 1;
-                grounded = 1;
-            }
-            else
-            {
-                grounded = 0;
+                grounded = true;
+                break;
             }
         }
     }
+
+
+
     else if (vy < 0)
     {
         // Check for upward collision by iterating through pixels travelled;
@@ -81,6 +83,7 @@ void Entity::physics(Stage *in_stage)
                 vy = 0;
                 y = i + 1;
                 vert_collide = 1;
+                break;
             }
         }
     }
@@ -97,6 +100,7 @@ void Entity::physics(Stage *in_stage)
                 vx = 0;
                 x = i - 1;
                 horiz_collide = 1;
+                break;
             }
         }
     }
@@ -110,6 +114,7 @@ void Entity::physics(Stage *in_stage)
                 vx = 0;
                 x = i + 1;
                 horiz_collide = 1;
+                break;
             }
         }
     }
@@ -144,14 +149,18 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 
 void PlayerEntity::control()
 {
+    tinyfont->setCursor(1,1);
+    if(grounded) tinyfont->print("GRND");
+    
 
     if (arduboy->pressed(LEFT_BUTTON))
         vx -= accel;
     if (arduboy->pressed(RIGHT_BUTTON))
         vx += accel;
-    if (arduboy->justPressed(B_BUTTON))
-        vy = -PLAYER_JUMPPOWER;
-        grounded = 0;
+    if (arduboy->justPressed(B_BUTTON)){
+        if(grounded) vy = -PLAYER_JUMPPOWER;
+        grounded = false;
+    }
 
     // Little physics manipulation outside the physics module so we don't have to override:
     if (vy < 0 and arduboy->pressed(B_BUTTON))
