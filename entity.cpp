@@ -46,11 +46,14 @@ void Entity::physics(Stage *in_stage)
     bool vert_collide = 0;
     bool horiz_collide = 0;
 
-    // Cap horizontal movement speed:
-    if (vx > top_speed)
-        vx = top_speed;
-    if (vx < -top_speed)
-        vx = -top_speed;
+    // Cap horizontal movement speed on ground:
+    if (grounded)
+    {
+        if (vx > top_speed)
+            vx = top_speed;
+        if (vx < -top_speed)
+            vx = -top_speed;
+    }
 
     // Apply gravity!
     vy += PHYS_GRAVITY;
@@ -128,9 +131,7 @@ void Entity::physics(Stage *in_stage)
     if (!horiz_collide)
         x += vx;
 
-    // Add friction:
-    // Add friction:
-    if (grounded)
+    if (grounded && (attack == false))
     {
         if (vx > 0)
         {
@@ -156,6 +157,7 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 
 void PlayerEntity::control()
 {
+    /*
     tinyfont->setCursor(1, 1);
     if (grounded)
         tinyfont->print("GRND");
@@ -168,23 +170,30 @@ void PlayerEntity::control()
     tinyfont->print(anim_ticker);
     tinyfont->setCursor(48, 1);
     tinyfont->print(jump_buffer);
+    */
 
+    // Movement
     if (arduboy->pressed(LEFT_BUTTON))
     {
-        vx -= accel;
+        if (vx > -top_speed)
+            vx -= accel;
         flip = true;
     }
     if (arduboy->pressed(RIGHT_BUTTON))
     {
-        vx += accel;
+        if (vx < top_speed)
+            vx += accel;
         flip = false;
     }
+
+    // Jumping
     if (arduboy->justPressed(B_BUTTON))
     {
         if (grounded)
         {
             vy = -PLAYER_JUMPPOWER;
             grounded = false;
+            attack = false;
         }
         else
         {
@@ -203,6 +212,32 @@ void PlayerEntity::control()
             }
         }
         jump_buffer--;
+    }
+
+    // Attacking
+    if (!grounded && arduboy->justPressed(A_BUTTON))
+    {
+        attack = true;
+        if (!flip)
+        {
+            vx = HORIZ_ATTACK_SPEED;
+        }
+        else
+        {
+            vx = -HORIZ_ATTACK_SPEED;
+        }
+        vy = VERT_ATTACK_SPEED;
+        skidding = 20;
+    }
+
+    if (attack)
+    {
+        if (grounded)
+        {
+            skidding--;
+            if (skidding <= 0)
+                attack = false;
+        }
     }
 
     // Little physics manipulation outside the physics module so we don't have to override:
@@ -237,6 +272,11 @@ void PlayerEntity::draw(int16_t offset_x)
         {
             anim_state = jumping_down;
         }
+    }
+
+    if (attack)
+    {
+        anim_state = attacking;
     }
 
     // Advance animation frames:

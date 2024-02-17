@@ -10,7 +10,10 @@
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
 #define PLAYER_TOPSPEED 0.70f
-#define PLAYER_JUMP_BUFFER_TIME 12;
+#define PLAYER_JUMP_BUFFER_TIME 12
+#define HORIZ_ATTACK_SPEED 2.0f
+
+#define VERT_ATTACK_SPEED 1.5f
 #define JUMP_JUICE 0.043f
 
 #define PHYS_GRAVITY 0.07f
@@ -41,7 +44,8 @@ protected:
     uint8_t anim_ticker;
     uint8_t anim_wait;
     uint8_t anim_state;
-
+    bool attack = false;
+  
     // Precalc framelengths--
     const uint8_t FRAMELEN[6] = {0, 4, 1, 1, 1, 1};
 
@@ -67,7 +71,8 @@ public:
 class PlayerEntity : public Entity
 {
 public:
-    bool flyboy = 0;
+    bool flyboy = false;
+    uint8_t skidding = 0;
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
@@ -78,5 +83,4 @@ protected:
     const uint8_t FRAMELEN[6] = {0, 3, 0, 0, 0, 0};
 
     uint8_t jump_buffer = 0;
-
 };
