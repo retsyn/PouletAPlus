@@ -14,7 +14,6 @@ uint8_t screen_ticker = TICKER_SPEED;
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
-
 int16_t scroll = 0;
 
 void advance_master_frames();
@@ -43,6 +42,7 @@ void setup()
     stage->write_meta_tile(10, 0, 1, 0, 1, 0);
     stage->write_meta_tile(11, 0, 0, 0, 1, 0);
     stage->write_meta_tile(12, 0, 0, 0, 1, 0);
+    stage->write_meta_tile(13, 3, 0, 0, 1, 0);
     stage->write_meta_tile(14, 1, 0, 0, 1, 0);
     stage->write_meta_tile(15, 0, 0, 0, 0, 0);
 }
@@ -69,12 +69,12 @@ void loop()
 
         // Debug shit!
 
-
         // Debug scroll?
         scroll = player->x - 64;
         player->draw(scroll);
         player->control();
         player->physics(stage);
+
 
     default:
         break;

@@ -157,20 +157,6 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 
 void PlayerEntity::control()
 {
-    /*
-    tinyfont->setCursor(1, 1);
-    if (grounded)
-        tinyfont->print("GRND");
-    tinyfont->setCursor(1, 6);
-    if (flip)
-        tinyfont->print("FLIP");
-    tinyfont->setCursor(24, 1);
-    tinyfont->print(anim_frame);
-    tinyfont->setCursor(24, 6);
-    tinyfont->print(anim_ticker);
-    tinyfont->setCursor(48, 1);
-    tinyfont->print(jump_buffer);
-    */
 
     // Movement
     if (arduboy->pressed(LEFT_BUTTON))
@@ -189,11 +175,12 @@ void PlayerEntity::control()
     // Jumping
     if (arduboy->justPressed(B_BUTTON))
     {
-        if (grounded)
+        if (grounded || (coyote_buffer > 0 && vy >= 0))
         {
             vy = -PLAYER_JUMPPOWER;
             grounded = false;
             attack = false;
+            coyote_buffer = 0;
         }
         else
         {
@@ -212,6 +199,15 @@ void PlayerEntity::control()
             }
         }
         jump_buffer--;
+    }
+
+    // Coyote time assignment:
+    if (grounded)
+        coyote_buffer = PLAYER_COYOTE_TIME;
+    if (!grounded)
+    {
+        if(coyote_buffer > 0)
+            coyote_buffer--;
     }
 
     // Attacking
@@ -249,6 +245,12 @@ void PlayerEntity::control()
 
 void PlayerEntity::draw(int16_t offset_x)
 {
+
+    // Debug stuff
+    tinyfont->setCursor(1, 1);
+    if(coyote_buffer > 0){
+        tinyfont->print("COY");
+    }
 
     // Anim state determination:
     if (grounded)

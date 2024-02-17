@@ -11,6 +11,7 @@
 #define PLAYER_ACCEL 0.15f
 #define PLAYER_TOPSPEED 0.70f
 #define PLAYER_JUMP_BUFFER_TIME 12
+#define PLAYER_COYOTE_TIME 10
 #define HORIZ_ATTACK_SPEED 2.0f
 
 #define VERT_ATTACK_SPEED 1.5f
@@ -73,6 +74,7 @@ class PlayerEntity : public Entity
 public:
     bool flyboy = false;
     uint8_t skidding = 0;
+    uint8_t coyote_buffer = 0;
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
