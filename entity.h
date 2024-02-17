@@ -10,6 +10,7 @@
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
 #define PLAYER_TOPSPEED 0.70f
+#define PLAYER_JUMP_BUFFER_TIME 12;
 #define JUMP_JUICE 0.043f
 
 #define PHYS_GRAVITY 0.07f
@@ -76,6 +77,6 @@ protected:
     // Precalc framelengths--
     const uint8_t FRAMELEN[6] = {0, 3, 0, 0, 0, 0};
 
-private:
     uint8_t jump_buffer = 0;
+
 };

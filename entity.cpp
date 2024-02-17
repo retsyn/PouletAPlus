@@ -9,6 +9,8 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     type = newtype;
 
     anim_wait = 5;
+    anim_ticker = anim_wait;
+    anim_state = 0;
 
     // Generic collision skins (biased to middle bottom of the 16x16 sprite)
     top_skin = 9;
@@ -59,7 +61,7 @@ void Entity::physics(Stage *in_stage)
 
     if (vy > 0)
     {
-        
+
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
@@ -70,11 +72,12 @@ void Entity::physics(Stage *in_stage)
                 vert_collide = 1;
                 grounded = true;
                 break;
-            } else {
+            }
+            else
+            {
                 grounded = false;
             }
         }
-        
     }
 
     else if (vy < 0)
@@ -163,6 +166,8 @@ void PlayerEntity::control()
     tinyfont->print(anim_frame);
     tinyfont->setCursor(24, 6);
     tinyfont->print(anim_ticker);
+    tinyfont->setCursor(48, 1);
+    tinyfont->print(jump_buffer);
 
     if (arduboy->pressed(LEFT_BUTTON))
     {
@@ -177,8 +182,27 @@ void PlayerEntity::control()
     if (arduboy->justPressed(B_BUTTON))
     {
         if (grounded)
+        {
             vy = -PLAYER_JUMPPOWER;
-        grounded = false;
+            grounded = false;
+        }
+        else
+        {
+            jump_buffer = PLAYER_JUMP_BUFFER_TIME;
+        }
+    }
+    // Jump buffer logic-- to be triggered if the buffer count is nonzero and the button is held.
+    if (jump_buffer > 0)
+    {
+        if (grounded)
+        {
+            if (arduboy->pressed(B_BUTTON))
+            {
+                vy = -PLAYER_JUMPPOWER;
+                grounded = false;
+            }
+        }
+        jump_buffer--;
     }
 
     // Little physics manipulation outside the physics module so we don't have to override:
