@@ -247,10 +247,12 @@ void PlayerEntity::draw(int16_t offset_x)
 {
 
     // Debug stuff
+    /*
     tinyfont->setCursor(1, 1);
     if(coyote_buffer > 0){
         tinyfont->print("COY");
     }
+    */
 
     // Anim state determination:
     if (grounded)

@@ -17,51 +17,67 @@
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
             }
         },
         "meta02.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
             }
         },
         "meta03.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
             }
         },
         "meta04.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
             }
         },
         "meta05.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
             }
         },
         "meta06.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.161048689138582,
-                "y": 31.53558052434457
+                "x": 24.943820224719097,
+                "y": 30.861423220973784
             }
         },
         "meta07.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "meta08.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 35.88014981273409,
+                "y": 34.30711610486892
+            }
+        },
+        "meta09.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
@@ -69,20 +85,60 @@
                 "y": 32.0374269005848
             }
         },
-        "meta08.tmx": {
-            "scale": 13.35,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 35.955056179775276,
-                "y": 34.45692883895131
-            }
-        },
         "meta10.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 35.58052434456929,
-                "y": 39.10112359550562
+                "x": 35.43071161048689,
+                "y": 38.951310861423224
+            }
+        },
+        "meta11.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta12.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta13.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta14.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "meta15.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 35.131086142322104,
+                "y": 31.760299625468164
+            }
+        },
+        "meta16.tmx": {
+            "scale": 13.35,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 35.131086142322104,
+                "y": 31.835205992509366
             }
         }
     },
@@ -101,8 +157,10 @@
     ],
     "project": "meta_tile01.tiled-project",
     "recentFiles": [
-        "PouletAPlus.tsx",
-        "meta06.tmx"
+        "meta02.tmx",
+        "meta01.tmx",
+        "meta06.tmx",
+        "PouletAPlus.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
