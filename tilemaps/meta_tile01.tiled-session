@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "meta06.tmx",
+    "activeFile": "meta12.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -152,15 +152,38 @@
     "map.tileWidth": 8,
     "map.width": 8,
     "openFiles": [
+        "PouletAPlus.tsx",
+        "meta01.tmx",
+        "meta02.tmx",
+        "meta03.tmx",
+        "meta04.tmx",
+        "meta05.tmx",
         "meta06.tmx",
-        "PouletAPlus.tsx"
+        "meta07.tmx",
+        "meta08.tmx",
+        "meta09.tmx",
+        "meta16.tmx",
+        "meta14.tmx",
+        "meta10.tmx",
+        "meta11.tmx",
+        "meta12.tmx",
+        "meta13.tmx",
+        "meta15.tmx"
     ],
     "project": "meta_tile01.tiled-project",
     "recentFiles": [
-        "meta02.tmx",
+        "PouletAPlus.tsx",
         "meta01.tmx",
+        "meta02.tmx",
+        "meta03.tmx",
+        "meta04.tmx",
+        "meta05.tmx",
         "meta06.tmx",
-        "PouletAPlus.tsx"
+        "meta07.tmx",
+        "meta08.tmx",
+        "meta09.tmx",
+        "meta16.tmx",
+        "meta14.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

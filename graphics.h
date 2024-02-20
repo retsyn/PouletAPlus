@@ -19,4 +19,4 @@ extern const unsigned char PROGMEM poulet_anim_attack[];
 extern const unsigned char PROGMEM poulet_anim_death[];
 
 // objects
-extern const unsigned char PROGMEM door[];
+extern const unsigned char PROGMEM door_plus_mask[];
