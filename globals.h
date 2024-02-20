@@ -1,7 +1,12 @@
 #pragma once
 
+#define LEFT_BOUND 0
+#define RIGHT_BOUND 1024
+
 #include <Arduboy2.h>
 #include <Tinyfont.h>
+
+
 
 
 // Declare a global pointer to Arduboy2 and Tinyfont instances.

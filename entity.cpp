@@ -103,9 +103,9 @@ void Entity::physics(Stage *in_stage)
     if (vx > 0)
     {
         // Check for right collision...
-        for (int i = x; i <= int(nx); i++)
+        for (int i = floor(x); i <= floor(nx) + 1; i++)
         {
-            if (in_stage->is_solid(i + right_skin, y + bottom_skin - 1) || in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
+            if (in_stage->is_solid(i + right_skin, y + top_skin + 1) || in_stage->is_solid(i + right_skin, y + bottom_skin - 1))
             {
                 vx = 0;
                 x = i - 1;
@@ -117,7 +117,7 @@ void Entity::physics(Stage *in_stage)
     else if (vx < 0)
     {
         // Check for left collision...
-        for (int i = x; i >= int(nx); i--)
+        for (int i = floor(x); i >= floor(nx); i--)
         {
             if (in_stage->is_solid(i + left_skin, y + top_skin + 1) || in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
             {
@@ -145,6 +145,13 @@ void Entity::physics(Stage *in_stage)
         {
             vx = 0;
         }
+    }
+
+    // Restrict to the playfield.
+    if(x < LEFT_BOUND - left_skin){
+        x = LEFT_BOUND - left_skin;
+    } else if(x + right_skin > RIGHT_BOUND - 1){
+        x = RIGHT_BOUND - right_skin - 1; 
     }
 }
 

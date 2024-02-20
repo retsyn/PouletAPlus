@@ -31,7 +31,6 @@ void setup()
 
     // Game init stuff!
     load_stage(1, stage);
-
 }
 
 void loop()
@@ -58,10 +57,18 @@ void loop()
 
         // Debug scroll?
         scroll = player->x - 64;
+        if (scroll < 0)
+        {
+            scroll = 0;
+        }
+        else if (scroll > 1024 - 128)
+        {
+            scroll = 1024 - 128;
+        }
+
         player->draw(scroll);
         player->control();
         player->physics(stage);
-
 
     default:
         break;

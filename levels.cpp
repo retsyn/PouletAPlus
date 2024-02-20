@@ -24,7 +24,7 @@ const unsigned char PROGMEM stage01[] = {
     0x08,
 
     0xF0, // Screen 8
-    0xF2
+    0xF1
 
 };
 
@@ -32,7 +32,6 @@ void load_stage(uint8_t stage_num, Stage *game_stage)
 {
 
     game_stage->write_meta_tile(0, 15, 0, 0, 0, 0);
-
 
     unsigned char *stage_data;
     switch (stage_num)
@@ -59,11 +58,10 @@ void load_stage(uint8_t stage_num, Stage *game_stage)
         // Grab all flags.
         bool spikeson = paintover_flags & 0x01;
         bool flooroff = paintover_flags & 0x02;
-        bool castle = paintover_flags & 0x03;
-        bool holes = paintover_flags & 0x04;
+        bool castle = paintover_flags & 0x04;
+        bool holes = paintover_flags & 0x08;
 
-        //game_stage->write_meta_tile(i, meta_tile, spikeson, flooroff, castle, holes);
+        // game_stage->write_meta_tile(i, meta_tile, spikeson, flooroff, castle, holes);
         game_stage->write_meta_tile(i, meta_tile, spikeson, flooroff, castle, holes);
-
     }
 }

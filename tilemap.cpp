@@ -229,6 +229,9 @@ bool Stage::is_solid(uint16_t x, uint16_t y)
   uint16_t tx = x / 8;
   uint16_t ty = y / 8;
 
+  if (ty < 0)
+    return false; // Refuse to regard spaces above the screen as anything but empty.
+
   // Convert i to be the queried tile on the 1-d map.
   i = tx + (ty * 128);
 
