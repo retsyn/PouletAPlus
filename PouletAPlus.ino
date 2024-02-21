@@ -5,6 +5,7 @@
 #include "tilemap.h"
 #include "entity.h"
 #include "levels.h"
+#include "gizmos.h"
 
 GameState game_state = title_screen;
 
@@ -14,6 +15,8 @@ uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
+Door *door = new Door(10, 10);
+
 
 int16_t scroll = 0;
 
@@ -27,7 +30,7 @@ void setup()
     arduboy->begin();
     arduboy->blank();
     arduboy->setFrameRate(60);
-    arduboy->display();
+    //arduboy->display();
 
     // Game init stuff!
     load_stage(1, stage);
@@ -44,6 +47,8 @@ void loop()
     {
     case title_screen:
         show_title_screen();
+        advance_master_frames();
+
         if (arduboy->justPressed(B_BUTTON))
         {
             game_state = in_play;
@@ -53,7 +58,7 @@ void loop()
     case in_play:
         stage->draw_level(scroll);
 
-        // Debug shit!
+        //door->update(player);  // Can't uncomment this without ruining the sketch somehow!
 
         // Debug scroll?
         scroll = player->x - 64;
@@ -70,10 +75,11 @@ void loop()
         player->control();
         player->physics(stage);
 
+        break;
+
     default:
         break;
     }
-    advance_master_frames();
 
     arduboy->display();
 }
@@ -96,4 +102,6 @@ void show_title_screen()
     tinyfont->print("START");
     tinyfont->setCursor(82, 50);
     tinyfont->print("OPTIONS");
+
+    
 }
