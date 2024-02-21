@@ -15,12 +15,14 @@ uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
-Door *door = new Door(10, 10);
+Door *door = new Door(0, 0);
 
 
 int16_t scroll = 0;
+uint8_t lvl = 0;
 
 void advance_master_frames();
+void next_stage();
 
 void setup()
 {
@@ -33,7 +35,9 @@ void setup()
     //arduboy->display();
 
     // Game init stuff!
-    load_stage(1, stage);
+    load_stage(0, stage);
+    door->x = (stage->exit_x * 8);
+    door->y = (stage->exit_y * 8);
 }
 
 void loop()
@@ -56,11 +60,10 @@ void loop()
         break;
 
     case in_play:
-        stage->draw_level(scroll);
 
 
         // Debug scroll?
-        scroll = player->x - 64;
+        scroll = floor(player->x - 64);
         if (scroll < 0)
         {
             scroll = 0;
@@ -69,10 +72,13 @@ void loop()
         {
             scroll = 1024 - 128;
         }
+        stage->draw_level(scroll);
 
-        door->update(player);  // Can't uncomment this without ruining the sketch somehow!
+        door->update(player);
+        if(door->open){
+            next_stage();
+        }
         door->draw(scroll);
-
 
         player->draw(scroll);
         player->control();
@@ -103,4 +109,12 @@ void show_title_screen()
     arduboy->drawBitmap(0, 0, title, 128, 64, 1);
 
     
+}
+
+void next_stage(){
+    lvl += 1;
+    load_stage(lvl, stage);
+    door->open = false;
+    player->x = 10;
+    player->y = 10;
 }

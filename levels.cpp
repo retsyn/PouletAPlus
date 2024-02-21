@@ -1,5 +1,6 @@
 #include "levels.h"
 #include "tilemap.h"
+#include "gizmos.h"
 
 const unsigned char PROGMEM stage01[] = {
     0x00, // Screen 1
@@ -24,7 +25,38 @@ const unsigned char PROGMEM stage01[] = {
     0x08,
 
     0xF0, // Screen 8
-    0xF1
+    0xF1,
+
+    122, 5 // Door coords
+
+};
+
+const unsigned char PROGMEM stage02[] = {
+    0x30, // Screen 1
+    0x20,
+
+    0x30, // Screen 2
+    0x40,
+
+    0x50, // Screen 3
+    0x18,
+
+    0x20, // Screen 4
+    0x50,
+
+    0x80, // Screen 5
+    0xA0,
+
+    0x10, // Screen 6
+    0xA0,
+
+    0x20, // Screen 7
+    0x28,
+
+    0xF0, // Screen 8
+    0xF0,
+
+    122, 5 // Door coords
 
 };
 
@@ -39,7 +71,9 @@ void load_stage(uint8_t stage_num, Stage *game_stage)
     case 0:
         stage_data = stage01;
         break;
-    default:
+    case 1:
+        stage_data = stage02;
+        default:
         break;
     }
 
@@ -64,4 +98,10 @@ void load_stage(uint8_t stage_num, Stage *game_stage)
         // game_stage->write_meta_tile(i, meta_tile, spikeson, flooroff, castle, holes);
         game_stage->write_meta_tile(i, meta_tile, spikeson, flooroff, castle, holes);
     }
+
+    game_stage->exit_x = pgm_read_byte(stage_data + 16);
+    game_stage->exit_y = pgm_read_byte(stage_data + 17);
+
+    // Proposal that we read enemy type and position here with a loop from 
+    // address (stage_data + 18) to sizeof(stage)
 }

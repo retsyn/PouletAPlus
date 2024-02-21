@@ -30,5 +30,5 @@ Door::Door(int16_t start_x, int16_t start_y)
 
 void Door::draw(int16_t camera_offset)
 {
-    Sprites::drawPlusMask(x - camera_offset, y, door_plus_mask, 0);
+    Sprites::drawPlusMask(x - camera_offset, y, door_plus_mask, open);
 }
