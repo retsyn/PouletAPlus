@@ -27,7 +27,7 @@ void setup()
     initArduboy2();
 
     // Hardware stuff
-    arduboy->begin();
+    //arduboy->begin();
     arduboy->blank();
     arduboy->setFrameRate(60);
     //arduboy->display();
@@ -58,7 +58,6 @@ void loop()
     case in_play:
         stage->draw_level(scroll);
 
-        //door->update(player);  // Can't uncomment this without ruining the sketch somehow!
 
         // Debug scroll?
         scroll = player->x - 64;
@@ -70,6 +69,10 @@ void loop()
         {
             scroll = 1024 - 128;
         }
+
+        door->update(player);  // Can't uncomment this without ruining the sketch somehow!
+        door->draw(scroll);
+
 
         player->draw(scroll);
         player->control();
@@ -98,10 +101,6 @@ void advance_master_frames()
 void show_title_screen()
 {
     arduboy->drawBitmap(0, 0, title, 128, 64, 1);
-    tinyfont->setCursor(82, 45);
-    tinyfont->print("START");
-    tinyfont->setCursor(82, 50);
-    tinyfont->print("OPTIONS");
 
     
 }
