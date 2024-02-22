@@ -219,6 +219,7 @@ void Stage::draw_level(uint16_t cam_offset_x)
 
       if (tx > -8 && tx < 128)
         Sprites::drawOverwrite(tx, ty, foreground, maparray[i]);
+        
     }
   }
 }

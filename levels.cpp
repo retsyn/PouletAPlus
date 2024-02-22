@@ -3,30 +3,22 @@
 #include "gizmos.h"
 
 const unsigned char PROGMEM stage01[] = {
-    0x00, // Screen 1
-    0x00,
-
-    0x10, // Screen 2
-    0x00,
-
-    0x20, // Screen 3
-    0x08,
-
-    0xF0, // Screen 4
-    0x50,
-
-    0x00, // Screen 5
-    0x00,
-
-    0x10, // Screen 6
-    0x00,
-
-    0x20, // Screen 7
-    0x08,
-
-    0xF0, // Screen 8
-    0xF1,
-
+    0x00, // 0
+    0x00, // 1
+    0x10, // 2
+    0x00, // 3
+    0x20, // 4
+    0x00, // 5
+    0xF0, // 6
+    0x90, // 7
+    0x00, // 8
+    0x00, // 9
+    0xC0, // 10
+    0x00, // 11
+    0x20, // 12
+    0x08, // 13
+    0xF0, // 14
+    0xF1, // 15
     122, 5 // Door coords
 
 };
@@ -34,28 +26,20 @@ const unsigned char PROGMEM stage01[] = {
 const unsigned char PROGMEM stage02[] = {
     0x30, // Screen 1
     0x20,
-
     0x30, // Screen 2
     0x40,
-
     0x50, // Screen 3
     0x18,
-
     0x20, // Screen 4
     0x50,
-
     0x80, // Screen 5
     0xA0,
-
     0x10, // Screen 6
     0xA0,
-
     0x20, // Screen 7
-    0x28,
-
+    0x30,
     0xF0, // Screen 8
     0xF0,
-
     122, 5 // Door coords
 
 };
