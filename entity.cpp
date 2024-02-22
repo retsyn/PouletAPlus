@@ -33,14 +33,6 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     vy = 0.0f;
 }
 
-/*
-// This function is virtual now.
-void Entity::draw(int16_t offset_x)
-{
-    Sprites::drawPlusMask(x - offset_x, y, sprite, 0);
-}
-*/
-
 void Entity::physics(Stage *in_stage)
 {
     bool vert_collide = 0;
@@ -56,7 +48,10 @@ void Entity::physics(Stage *in_stage)
     }
 
     // Apply gravity!
-    vy += PHYS_GRAVITY;
+    if (!flying)
+    {
+        vy += PHYS_GRAVITY;
+    }
 
     // Check where velocity will put this ent next:
     int16_t nx = (x + vx);
@@ -148,10 +143,13 @@ void Entity::physics(Stage *in_stage)
     }
 
     // Restrict to the playfield.
-    if(x < LEFT_BOUND - left_skin){
+    if (x < LEFT_BOUND - left_skin)
+    {
         x = LEFT_BOUND - left_skin;
-    } else if(x + right_skin > RIGHT_BOUND - 1){
-        x = RIGHT_BOUND - right_skin - 1; 
+    }
+    else if (x + right_skin > RIGHT_BOUND - 1)
+    {
+        x = RIGHT_BOUND - right_skin - 1;
     }
 }
 
@@ -213,7 +211,7 @@ void PlayerEntity::control()
         coyote_buffer = PLAYER_COYOTE_TIME;
     if (!grounded)
     {
-        if(coyote_buffer > 0)
+        if (coyote_buffer > 0)
             coyote_buffer--;
     }
 
@@ -320,10 +318,32 @@ void PlayerEntity::draw(int16_t offset_x)
     case attacking:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_attack[anim_frame]) + (MIRROR * int(flip)));
         break;
-    case dead:
+    case deading:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
         break;
     default:
         break;
+    }
+}
+
+void Foe::draw(int16_t offset_x){
+    
+    if(!dead){
+        anim_state = walking;
+    } else {
+        anim_state = dead;
+    }
+
+    switch (anim_state){
+        case walking:
+            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_walk[anim_frame]) + (FOE_MIRROR * int(flip)));
+            break;
+        
+        case deading:
+            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_die[anim_frame]) + (FOE_MIRROR * int(flip)));
+            break;
+
+        default:
+            break;
     }
 }

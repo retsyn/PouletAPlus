@@ -27,7 +27,7 @@ enum PlayerAnimState
     jumping_up,
     jumping_down,
     attacking,
-    dead
+    deading
 };
 
 class Entity
@@ -39,9 +39,10 @@ protected:
     uint8_t anim_wait;
     uint8_t anim_state;
     bool attack = false;
+    bool flying = false;
 
     // Precalc framelengths--
-    const uint8_t FRAMELEN[6] = {0, 4, 1, 1, 1, 1};
+    const uint8_t FRAMELEN[6] = {0, 2, 0};
 
 public:
     float vx = 0.0f;
@@ -84,4 +85,19 @@ protected:
     const uint8_t FRAMELEN[6] = {0, 3, 0, 0, 0, 0};
 
     uint8_t jump_buffer = 0;
+};
+
+class Foe : public Entity
+{
+public:
+    bool dead = false;
+
+    void draw(int16_t offset_x) override;
+
+    virtual void think(Stage *in_stage, PlayerEntity *player);
+};
+
+class Fennec : Foe
+{
+    void think(Stage *in_stage, PlayerEntity* player) override;
 };
