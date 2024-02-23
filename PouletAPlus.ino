@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "levels.h"
 #include "gizmos.h"
+#include "foes.h"
 
 GameState game_state = title_screen;
 
@@ -21,6 +22,7 @@ int16_t scroll = 0;
 uint8_t lvl = 0;
 
 void advance_master_frames();
+void update_foes();
 void next_stage();
 void fade_out();
 void fade_in();
@@ -79,6 +81,7 @@ void loop()
         door->update(player);
         door->draw(scroll);
         player->draw(scroll);
+        // update_foes();
 
         if (door->open)
         {

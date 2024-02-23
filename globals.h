@@ -3,6 +3,8 @@
 #define LEFT_BOUND 0
 #define RIGHT_BOUND 1024
 
+#define FOE_MAX 16
+
 #include <Arduboy2.h>
 
 

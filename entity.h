@@ -91,13 +91,12 @@ class Foe : public Entity
 {
 public:
     bool dead = false;
+    bool spawned = false;
 
+    Foe(uint8_t newtype, float start_x, float start_y);
     void draw(int16_t offset_x) override;
+    void think(Stage *in_stage, PlayerEntity *player);
 
-    virtual void think(Stage *in_stage, PlayerEntity *player);
+    void kill();
 };
 
-class Fennec : Foe
-{
-    void think(Stage *in_stage, PlayerEntity* player) override;
-};

@@ -11,6 +11,7 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     anim_wait = 5;
     anim_ticker = anim_wait;
     anim_state = 0;
+    anim_frame = 0;
 
     // Generic collision skins (biased to middle bottom of the 16x16 sprite)
     top_skin = 9;
@@ -326,24 +327,56 @@ void PlayerEntity::draw(int16_t offset_x)
     }
 }
 
-void Foe::draw(int16_t offset_x){
-    
-    if(!dead){
+Foe::Foe(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
+{
+    x = start_x;
+    y = start_y;
+
+    type = newtype;
+
+    switch (type)
+    {
+    case (ENT_FENNEC):
+        sprite = fennec_plus_mask;
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Foe::draw(int16_t offset_x)
+{
+
+    if(!spawned)
+        return;
+
+    if (!dead)
+    {
         anim_state = walking;
-    } else {
+    }
+    else
+    {
         anim_state = dead;
     }
 
-    switch (anim_state){
-        case walking:
-            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_walk[anim_frame]) + (FOE_MIRROR * int(flip)));
-            break;
-        
-        case deading:
-            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_die[anim_frame]) + (FOE_MIRROR * int(flip)));
-            break;
+    // All foes only have two states.
+    switch (anim_state)
+    {
+    case walking:
+        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_walk[anim_frame]) + (FOE_MIRROR * int(flip)));
+        break;
 
-        default:
-            break;
+    case deading:
+        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_die[anim_frame]) + (FOE_MIRROR * int(flip)));
+        break;
+
+    default:
+        break;
     }
+}
+
+void Foe::kill(){
+    spawned = false;
+    type = ENT_DUD;
 }
