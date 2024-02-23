@@ -17,12 +17,12 @@ uint8_t screen_ticker = TICKER_SPEED;
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 Door *door = new Door(0, 0);
+FoeRoster *foes = new FoeRoster();
 
 int16_t scroll = 0;
 uint8_t lvl = 0;
 
 void advance_master_frames();
-void update_foes();
 void next_stage();
 void fade_out();
 void fade_in();
@@ -61,6 +61,7 @@ void loop()
             fade_out();
             fade_in();
             game_state = in_play;
+            foes->add_foe(ENT_FENNEC, 60, 10);
         }
         break;
 
@@ -81,7 +82,7 @@ void loop()
         door->update(player);
         door->draw(scroll);
         player->draw(scroll);
-        // update_foes();
+        foes->update(player, stage);
 
         if (door->open)
         {
