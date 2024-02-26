@@ -8,16 +8,12 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     y = start_y;
     type = newtype;
 
-    anim_wait = 5;
-    anim_ticker = anim_wait;
+    anim_ticker = SPR_WAIT;
     anim_state = 0;
     anim_frame = 0;
 
     // Generic collision skins (biased to middle bottom of the 16x16 sprite)
-    top_skin = 9;
-    bottom_skin = 15;
-    left_skin = 4;
-    right_skin = 11;
+
 
     // Get sprite to point to the spot in progmem.
     switch (type)
@@ -64,7 +60,7 @@ void Entity::physics(Stage *in_stage)
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
-            if (in_stage->is_solid(floor(x) + left_skin, i + bottom_skin) || in_stage->is_solid(floor(x) + right_skin, i + bottom_skin))
+            if (in_stage->is_solid(floor(x) + SPR_LFTSKIN, i + SPR_BOTSKIN) || in_stage->is_solid(floor(x) + SPR_RGTSKIN, i + SPR_BOTSKIN))
             {
                 vy = 0;
                 y = i - 1;
@@ -84,7 +80,7 @@ void Entity::physics(Stage *in_stage)
         // Check for upward collision by iterating through pixels travelled;
         for (int i = y; i >= int(ny); i--)
         {
-            if (in_stage->is_solid(x + left_skin + 1, i + top_skin) || in_stage->is_solid(x + right_skin - 1, i + top_skin))
+            if (in_stage->is_solid(x + SPR_LFTSKIN + 1, i + SPR_TOPSKIN) || in_stage->is_solid(x + SPR_RGTSKIN - 1, i + SPR_TOPSKIN))
             {
                 vy = 0;
                 y = i + 1;
@@ -101,7 +97,7 @@ void Entity::physics(Stage *in_stage)
         // Check for right collision...
         for (int i = floor(x); i <= floor(nx) + 1; i++)
         {
-            if (in_stage->is_solid(i + right_skin, y + top_skin + 1) || in_stage->is_solid(i + right_skin, y + bottom_skin - 1))
+            if (in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_BOTSKIN - 1))
             {
                 vx = 0;
                 x = i - 1;
@@ -115,7 +111,7 @@ void Entity::physics(Stage *in_stage)
         // Check for left collision...
         for (int i = floor(x); i >= floor(nx); i--)
         {
-            if (in_stage->is_solid(i + left_skin, y + top_skin + 1) || in_stage->is_solid(i + left_skin, y + bottom_skin - 1))
+            if (in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_BOTSKIN - 1))
             {
                 vx = 0;
                 x = i + 1;
@@ -144,13 +140,13 @@ void Entity::physics(Stage *in_stage)
     }
 
     // Restrict to the playfield.
-    if (x < LEFT_BOUND - left_skin)
+    if (x < LEFT_BOUND - SPR_LFTSKIN)
     {
-        x = LEFT_BOUND - left_skin;
+        x = LEFT_BOUND - SPR_LFTSKIN;
     }
-    else if (x + right_skin > RIGHT_BOUND - 1)
+    else if (x + SPR_RGTSKIN > RIGHT_BOUND - 1)
     {
-        x = RIGHT_BOUND - right_skin - 1;
+        x = RIGHT_BOUND - SPR_RGTSKIN - 1;
     }
 }
 
@@ -294,7 +290,7 @@ void PlayerEntity::draw(int16_t offset_x)
     if (anim_ticker <= 0)
     {
         anim_frame++;
-        anim_ticker = anim_wait;
+        anim_ticker = SPR_WAIT;
     };
     // If the frame exceeds the current animation, refer to the pre-calced anim lengths.
     if (anim_frame > FRAMELEN[anim_state])

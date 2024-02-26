@@ -7,6 +7,12 @@
 #define ENT_POULET 1
 #define ENT_FENNEC 2
 
+#define SPR_WAIT 6
+#define SPR_TOPSKIN 9
+#define SPR_BOTSKIN 15
+#define SPR_LFTSKIN 4
+#define SPR_RGTSKIN 11
+
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
 #define PLAYER_TOPSPEED 0.70f
@@ -36,23 +42,17 @@ protected:
     // Anim state vars:
     uint8_t anim_frame;
     uint8_t anim_ticker;
-    uint8_t anim_wait;
+
     uint8_t anim_state;
     bool attack = false;
     bool flying = false;
 
     // Precalc framelengths--
-    const uint8_t FRAMELEN[6] = {0, 2, 0};
+    const uint8_t FRAMELEN[3] = {0, 2, 0};
 
 public:
     float vx = 0.0f;
     float vy = 0.0f;
-
-    // Collision "skins" pixel widths:
-    uint8_t top_skin;
-    uint8_t bottom_skin;
-    uint8_t left_skin;
-    uint8_t right_skin;
 
     float top_speed = 1.0f;
     float accel = 0.1f;

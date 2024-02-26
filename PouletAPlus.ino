@@ -6,7 +6,7 @@
 #include "entity.h"
 #include "levels.h"
 #include "gizmos.h"
-#include "foes.h"
+
 
 GameState game_state = title_screen;
 
@@ -17,7 +17,6 @@ uint8_t screen_ticker = TICKER_SPEED;
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 Door *door = new Door(0, 0);
-FoeRoster *foes = new FoeRoster();
 
 int16_t scroll = 0;
 uint8_t lvl = 0;
@@ -59,9 +58,11 @@ void loop()
         if (arduboy->justPressed(B_BUTTON))
         {
             fade_out();
+
+            // Debug monster init:
+
             fade_in();
             game_state = in_play;
-            foes->add_foe(ENT_FENNEC, 60, 10);
         }
         break;
 
@@ -82,7 +83,6 @@ void loop()
         door->update(player);
         door->draw(scroll);
         player->draw(scroll);
-        foes->update(player, stage);
 
         if (door->open)
         {
@@ -94,8 +94,6 @@ void loop()
         player->control();
         player->physics(stage);
 
-        // Debug Print!
-        arduboy->print(uint8_t((player->x / 64))); // Which MetaTile Slab
 
         break;
 
