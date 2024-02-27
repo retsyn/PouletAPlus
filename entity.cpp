@@ -387,11 +387,19 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
             if (flip)
             {
-                x -= 1;
+                if(!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN)){
+                    x -= 1;
+                } else {
+                    flip = false;
+                }
             }
             else
             {
-                x += 1;
+                if(!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN)){
+                    x += 1;
+                } else {
+                    flip = true;
+                }
             }
             break;
 
