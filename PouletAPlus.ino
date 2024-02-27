@@ -4,7 +4,6 @@
 #include "graphics.h"
 #include "tilemap.h"
 #include "entity.h"
-#include "levels.h"
 #include "gizmos.h"
 
 
@@ -16,6 +15,7 @@ uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
+Foe *foe = new Foe(ENT_FENNEC, 40, 10);
 Door *door = new Door(0, 0);
 
 int16_t scroll = 0;
@@ -37,7 +37,6 @@ void setup()
     // arduboy->display();
 
     // Game init stuff!
-    load_stage(0, stage);
     door->x = (stage->exit_x * 8);
     door->y = (stage->exit_y * 8);
 }
@@ -60,6 +59,8 @@ void loop()
             fade_out();
 
             // Debug monster init:
+            foe->spawned = true;
+            foe->dead = false;
 
             fade_in();
             game_state = in_play;
@@ -93,6 +94,9 @@ void loop()
 
         player->control();
         player->physics(stage);
+        foe->update(stage, player);
+        foe->draw(scroll);
+
 
 
         break;
@@ -123,7 +127,6 @@ void show_title_screen()
 void next_stage()
 {
     lvl += 1;
-    load_stage(lvl, stage);
     door->open = false;
     player->x = 0;
     scroll = 0;

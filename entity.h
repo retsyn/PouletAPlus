@@ -13,16 +13,20 @@
 #define SPR_LFTSKIN 4
 #define SPR_RGTSKIN 11
 
+// Foe speeds:
+#define SPEED_FENNEC 10
+
+// Player physics:
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
 #define PLAYER_TOPSPEED 0.70f
 #define PLAYER_JUMP_BUFFER_TIME 12
 #define PLAYER_COYOTE_TIME 10
 #define HORIZ_ATTACK_SPEED 2.0f
-
 #define VERT_ATTACK_SPEED 1.5f
 #define JUMP_JUICE 0.043f
 
+// World physics
 #define PHYS_GRAVITY 0.07f
 #define PHYS_FRICTION 0.06f
 
@@ -34,6 +38,19 @@ enum PlayerAnimState
     jumping_down,
     attacking,
     deading
+};
+
+enum FoeState
+{
+    moving = 0,
+    dying,
+};
+
+enum FoeAI
+{
+    miller = 0,
+    flyer,
+    hflyer
 };
 
 class Entity
@@ -87,16 +104,25 @@ protected:
     uint8_t jump_buffer = 0;
 };
 
-class Foe : public Entity
+class Foe
 {
 public:
-    bool dead = false;
     bool spawned = false;
+    bool dead = false;
+    bool flip = false;
+    uint8_t enttype = ENT_DUD;
+    uint8_t ai = miller;
+    uint16_t x = 0;
+    uint8_t y = 0;
+    uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
+    // When enemies die they probably won't fly away, just blink.
 
-    Foe(uint8_t newtype, float start_x, float start_y);
-    void draw(int16_t offset_x) override;
-    void think(Stage *in_stage, PlayerEntity *player);
+    void draw(int16_t offset);
+    void update(Stage *stage, PlayerEntity *player);
 
-    void kill();
+    Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
+    unsigned char *sprite;
+
+protected:
+    bool anim_bit = false; // Just two frames.  We gotta be elfin'.
 };
-

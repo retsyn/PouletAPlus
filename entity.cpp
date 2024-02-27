@@ -14,7 +14,6 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
 
     // Generic collision skins (biased to middle bottom of the 16x16 sprite)
 
-
     // Get sprite to point to the spot in progmem.
     switch (type)
     {
@@ -323,17 +322,18 @@ void PlayerEntity::draw(int16_t offset_x)
     }
 }
 
-Foe::Foe(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
+Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
 {
     x = start_x;
     y = start_y;
 
-    type = newtype;
+    enttype = newtype;
 
-    switch (type)
+    switch (enttype)
     {
     case (ENT_FENNEC):
         sprite = fennec_plus_mask;
+        ai = miller;
         break;
 
     default:
@@ -344,35 +344,59 @@ Foe::Foe(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_
 void Foe::draw(int16_t offset_x)
 {
 
-    if(!spawned)
+    if (!spawned)
         return;
 
-    if (!dead)
+    if (dead)
+        return; // Later make this the blink state?
+
+    Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
+}
+
+void Foe::update(Stage *stage, PlayerEntity *player)
+{
+    bool advance = false;
+
+    if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))
     {
-        anim_state = walking;
-    }
-    else
-    {
-        anim_state = dead;
+        y += 1;
     }
 
-    // All foes only have two states.
-    switch (anim_state)
-    {
-    case walking:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_walk[anim_frame]) + (FOE_MIRROR * int(flip)));
-        break;
+    timer += 1;
 
-    case deading:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_die[anim_frame]) + (FOE_MIRROR * int(flip)));
+    switch (enttype)
+    {
+    case (ENT_FENNEC):
+        if (timer >= SPEED_FENNEC)
+        {
+            advance = true;
+            anim_bit = !anim_bit;
+            timer = 0;
+        }
         break;
 
     default:
         break;
     }
-}
 
-void Foe::kill(){
-    spawned = false;
-    type = ENT_DUD;
+    if (advance)
+    {
+        switch (ai)
+        {
+        case (miller):
+
+            if (flip)
+            {
+                x -= 1;
+            }
+            else
+            {
+                x += 1;
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
 }
