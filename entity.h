@@ -63,6 +63,8 @@ protected:
     uint8_t anim_state;
     bool attack = false;
     bool flying = false;
+    bool blinking = false;
+    bool blinkon = true;
 
     // Precalc framelengths--
     const uint8_t FRAMELEN[3] = {0, 2, 0};

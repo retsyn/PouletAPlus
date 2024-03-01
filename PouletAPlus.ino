@@ -6,7 +6,6 @@
 #include "entity.h"
 #include "gizmos.h"
 
-
 GameState game_state = title_screen;
 
 uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
@@ -15,7 +14,9 @@ uint8_t screen_ticker = TICKER_SPEED;
 
 Stage *stage = new Stage();
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
-Foe *foe = new Foe(ENT_FENNEC, 40, 10);
+// Foe *foe = new Foe(ENT_FENNEC, 40, 10);
+Foe *foe_roster[FOE_MAX];
+
 Door *door = new Door(0, 0);
 
 int16_t scroll = 0;
@@ -25,6 +26,8 @@ void advance_master_frames();
 void next_stage();
 void fade_out();
 void fade_in();
+void init_foes(Foe **roster);
+void update_foes(Foe **roster);
 
 void setup()
 {
@@ -59,8 +62,7 @@ void loop()
             fade_out();
 
             // Debug monster init:
-            foe->spawned = true;
-            foe->dead = false;
+            init_foes(foe_roster);
 
             fade_in();
             game_state = in_play;
@@ -83,7 +85,7 @@ void loop()
 
         door->update(player);
         door->draw(scroll);
-        player->draw(scroll);
+
 
         if (door->open)
         {
@@ -92,12 +94,10 @@ void loop()
             fade_in();
         }
 
+        update_foes(foe_roster);
+        player->draw(scroll);
         player->control();
         player->physics(stage);
-        foe->update(stage, player);
-        foe->draw(scroll);
-
-
 
         break;
 
@@ -161,5 +161,24 @@ void fade_in()
         arduboy->fillRect(0, 0, 128 - i, 64, BLACK);
 
         arduboy->display();
+    }
+}
+
+void init_foes(Foe **roster)
+{
+    for (uint8_t i = 0; i < FOE_MAX; i++)
+    {
+        roster[i] = new Foe(ENT_FENNEC, 160 * i, 10);
+        roster[i]->spawned = true;
+        roster[i]->dead = false;
+    }
+}
+
+void update_foes(Foe **roster)
+{
+    for (uint8_t i = 0; i < FOE_MAX; i++)
+    {
+        roster[i]->update(stage, player);
+        roster[i]->draw(scroll);
     }
 }

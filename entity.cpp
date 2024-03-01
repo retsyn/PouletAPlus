@@ -255,6 +255,14 @@ void PlayerEntity::draw(int16_t offset_x)
     }
     */
 
+    // If blinkrate is on:
+    if (blinking)
+    {
+        blinkon = !blinkon;
+        if (blinkon)
+            return;
+    }
+
     // Anim state determination:
     if (grounded)
     {
@@ -387,17 +395,23 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
             if (flip)
             {
-                if(!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN)){
+                if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN))
+                {
                     x -= 1;
-                } else {
+                }
+                else
+                {
                     flip = false;
                 }
             }
             else
             {
-                if(!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN)){
+                if (!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN))
+                {
                     x += 1;
-                } else {
+                }
+                else
+                {
                     flip = true;
                 }
             }
