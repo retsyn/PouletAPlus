@@ -29,3 +29,6 @@ extern const unsigned char PROGMEM foe_anim_die[];
 
 // Fennec
 extern const unsigned char PROGMEM fennec_plus_mask[];
+
+// The toque!
+extern const unsigned char PROGMEM toque_plus_mask[];

@@ -53,6 +53,9 @@ enum FoeAI
     hflyer
 };
 
+
+class Foe;
+
 class Entity
 {
 protected:
@@ -61,7 +64,6 @@ protected:
     uint8_t anim_ticker;
 
     uint8_t anim_state;
-    bool attack = false;
     bool flying = false;
     bool blinking = false;
     bool blinkon = true;
@@ -78,6 +80,8 @@ public:
 
     bool grounded;
     bool flip;
+    bool attack = false;
+
     uint8_t type = 0;
     float x = 0.0f;
     float y = 0.0f;
@@ -92,12 +96,14 @@ class PlayerEntity : public Entity
 {
 public:
     bool flyboy = false;
+    bool toque = true;
     uint8_t skidding = 0;
     uint8_t coyote_buffer = 0;
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
     void draw(int16_t offset_x) override;
+    void takehit(Foe* hitter);
 
 protected:
     // Precalc framelengths--
@@ -121,6 +127,7 @@ public:
 
     void draw(int16_t offset);
     void update(Stage *stage, PlayerEntity *player);
+    bool collide(PlayerEntity *player);
 
     Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
     unsigned char *sprite;

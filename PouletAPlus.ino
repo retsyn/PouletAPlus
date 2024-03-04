@@ -86,7 +86,6 @@ void loop()
         door->update(player);
         door->draw(scroll);
 
-
         if (door->open)
         {
             fade_out();
@@ -180,5 +179,15 @@ void update_foes(Foe **roster)
     {
         roster[i]->update(stage, player);
         roster[i]->draw(scroll);
+
+        if (roster[i]->collide(player))
+        {
+            if (!player->attack)
+            {
+                player->takehit(roster[i]);
+            } else {
+                roster[i]->dead = true;
+            }
+        }
     }
 }
