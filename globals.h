@@ -3,7 +3,9 @@
 #define LEFT_BOUND 0
 #define RIGHT_BOUND 1024
 
-#define FOE_MAX 4
+#define KILL_BOUNCE 1.25
+
+#define FOE_MAX 5
 
 #include <Arduboy2.h>
 

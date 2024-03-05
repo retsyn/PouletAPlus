@@ -42,6 +42,10 @@ void setup()
     // Game init stuff!
     door->x = (stage->exit_x * 8);
     door->y = (stage->exit_y * 8);
+    //
+    door->x = 1000;
+    door->y = 32;
+
 }
 
 void loop()
@@ -180,6 +184,11 @@ void update_foes(Foe **roster)
         roster[i]->update(stage, player);
         roster[i]->draw(scroll);
 
+        // No need to operate on dead foes.
+        if(roster[i]->dead){
+            continue;
+        }
+
         if (roster[i]->collide(player))
         {
             if (!player->attack)
@@ -187,6 +196,8 @@ void update_foes(Foe **roster)
                 player->takehit(roster[i]);
             } else {
                 roster[i]->dead = true;
+                player->attack = false;
+                player->vy = -KILL_BOUNCE;
             }
         }
     }

@@ -158,6 +158,16 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 
 void PlayerEntity::control()
 {
+    // IFrames stuff:
+    if (blinking)
+    {
+        iframes--;
+        if (iframes <= 0)
+        {
+            blinking = false;
+            blinkon = true;
+        }
+    }
 
     // Movement
     if (arduboy->pressed(LEFT_BUTTON))
@@ -315,7 +325,7 @@ void PlayerEntity::draw(int16_t offset_x)
         break;
     case jumping_up:
         // Special hack for drawing toque first only on this anim:
-        if(toque)
+        if (toque)
             Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 1, toque_plus_mask, 0);
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
         break;
@@ -332,13 +342,20 @@ void PlayerEntity::draw(int16_t offset_x)
         break;
     }
 
-    if(toque && (anim_state != jumping_up)){
+    if (toque && (anim_state != jumping_up))
+    {
         Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
     }
 }
 
 void PlayerEntity::takehit(Foe *hitter)
 {
+    // Iframes will prevent a hit.
+    if (iframes > 0)
+    {
+        return;
+    }
+
     vy = -1.0;
     if (hitter->x > x)
     {
@@ -348,6 +365,13 @@ void PlayerEntity::takehit(Foe *hitter)
     {
         vx = 2;
     }
+
+    if (toque)
+    {
+        toque = false;
+    }
+    blinking = true;
+    iframes = PLAYER_IFRAMES;
 }
 
 Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
@@ -377,8 +401,11 @@ void Foe::draw(int16_t offset_x)
 
     if (dead)
     {
-        Sprites::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
-        return; // Later make this the blink state?
+        if (timer % 2 == 0)
+        {
+            Sprites::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
+        }
+        return; 
     }
 
     Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
@@ -395,6 +422,13 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     timer += 1;
 
+    if(dead){
+        if(timer >= DEATH_ANIM){
+            spawned = false;
+        }
+        return;
+    }
+
     switch (enttype)
     {
     case (ENT_FENNEC):
@@ -408,11 +442,6 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     default:
         break;
-    }
-
-    if (dead)
-    {
-        return;
     }
 
     if (advance)
@@ -453,6 +482,10 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
 bool Foe::collide(PlayerEntity *player)
 {
+    if (dead)
+    {
+        return;
+    }
 
     if ((x + SPR_LFTSKIN < player->x + SPR_RGTSKIN) && (x + SPR_RGTSKIN > player->x + SPR_LFTSKIN) && (y + SPR_TOPSKIN < player->y + SPR_BOTSKIN) && (y + SPR_BOTSKIN > player->y + SPR_TOPSKIN))
     {

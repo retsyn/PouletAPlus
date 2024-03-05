@@ -16,6 +16,11 @@
 // Foe speeds:
 #define SPEED_FENNEC 10
 
+#define DEATH_ANIM 90
+
+// Game Rule stuff.
+#define PLAYER_IFRAMES 130
+
 // Player physics:
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
@@ -65,7 +70,6 @@ protected:
 
     uint8_t anim_state;
     bool flying = false;
-    bool blinking = false;
     bool blinkon = true;
 
     // Precalc framelengths--
@@ -81,6 +85,8 @@ public:
     bool grounded;
     bool flip;
     bool attack = false;
+    bool blinking = false;
+    uint8_t iframes = 0;
 
     uint8_t type = 0;
     float x = 0.0f;

@@ -10,7 +10,13 @@
 #define TILE_CLASSIC 1
 #define TILE_CASTLEBLOCK 2
 #define TILE_CHOCBLOCK 3
+#define TILE_COIN1 9
+#define TILE_COIN2 10
 #define LAST_SOLID 3
+
+#define TILE_ANIM_SPEED 20
+
+
 
 extern const uint8_t PROGMEM meta_tiles[];
 extern const uint8_t PROGMEM stage1_1[];
@@ -25,6 +31,9 @@ protected:
 public:
     uint8_t exit_x;
     uint8_t exit_y;
+
+    uint8_t tile_anim = 0;
+    bool frame_two = false;
 
     void draw_level(uint16_t offset_x);
     bool is_solid(uint16_t x, uint16_t y);
