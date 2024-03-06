@@ -67,6 +67,7 @@ void loop()
 
             // Debug monster init:
             init_foes(foe_roster);
+            stage->fill_coins();
 
             fade_in();
             game_state = in_play;
@@ -86,6 +87,7 @@ void loop()
             scroll = 1024 - 128;
         }
         stage->draw_level(scroll);
+        stage->draw_coins(scroll);
 
         door->update(player);
         door->draw(scroll);

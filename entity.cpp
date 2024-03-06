@@ -147,6 +147,10 @@ void Entity::physics(Stage *in_stage)
     {
         x = RIGHT_BOUND - SPR_RGTSKIN - 1;
     }
+
+    // Get coins!
+
+    in_stage->get_coin(x + 8, y + 12);
 }
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
@@ -370,6 +374,7 @@ void PlayerEntity::takehit(Foe *hitter)
     {
         toque = false;
     }
+    arduboy->setRGBled(255, 0, 0);
     blinking = true;
     iframes = PLAYER_IFRAMES;
 }

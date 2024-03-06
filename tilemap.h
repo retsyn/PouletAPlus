@@ -25,16 +25,20 @@ extern const uint8_t PROGMEM stage1_2[];
 class Stage
 {
 
-protected:
-    uint8_t *mapptr = stage1_1;
-
 public:
+    uint8_t *mapptr = stage1_1;
     uint8_t exit_x;
     uint8_t exit_y;
 
     uint8_t tile_anim = 0;
+    bool coin_map[1024] = {0};
     bool frame_two = false;
 
     void draw_level(uint16_t offset_x);
+    void fill_coins();
+    void draw_coins(uint16_t offset_x);
+    void get_coin(uint16_t x, uint16_t y);
     bool is_solid(uint16_t x, uint16_t y);
+
+    
 };
