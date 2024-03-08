@@ -32,3 +32,6 @@ extern const unsigned char PROGMEM fennec_plus_mask[];
 
 // The toque!
 extern const unsigned char PROGMEM toque_plus_mask[];
+
+// The digits
+extern const unsigned char PROGMEM digits_plus_mask[];

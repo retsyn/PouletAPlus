@@ -5,6 +5,7 @@
 #include "tilemap.h"
 #include "entity.h"
 #include "gizmos.h"
+#include "digits.h"
 
 GameState game_state = title_screen;
 
@@ -45,7 +46,6 @@ void setup()
     //
     door->x = 1000;
     door->y = 32;
-
 }
 
 void loop()
@@ -91,6 +91,9 @@ void loop()
 
         door->update(player);
         door->draw(scroll);
+
+        // Draw score!
+        draw_digits(6502, 6, 80, 1);
 
         if (door->open)
         {
@@ -187,7 +190,8 @@ void update_foes(Foe **roster)
         roster[i]->draw(scroll);
 
         // No need to operate on dead foes.
-        if(roster[i]->dead){
+        if (roster[i]->dead)
+        {
             continue;
         }
 
@@ -196,7 +200,9 @@ void update_foes(Foe **roster)
             if (!player->attack)
             {
                 player->takehit(roster[i]);
-            } else {
+            }
+            else
+            {
                 roster[i]->dead = true;
                 player->attack = false;
                 player->vy = -KILL_BOUNCE;

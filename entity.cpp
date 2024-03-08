@@ -410,7 +410,7 @@ void Foe::draw(int16_t offset_x)
         {
             Sprites::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
         }
-        return; 
+        return;
     }
 
     Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
@@ -427,8 +427,10 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     timer += 1;
 
-    if(dead){
-        if(timer >= DEATH_ANIM){
+    if (dead)
+    {
+        if (timer >= DEATH_ANIM)
+        {
             spawned = false;
         }
         return;
