@@ -93,7 +93,8 @@ void loop()
         door->draw(scroll);
 
         // Draw score!
-        draw_digits(6502, 6, 80, 1);
+        draw_digits(scroll, 7, 78, 1);
+        draw_lives(100, 1, 5);
 
         if (door->open)
         {

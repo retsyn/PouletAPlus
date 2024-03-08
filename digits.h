@@ -4,3 +4,4 @@
 #include <Arduboy.h>
 
 void draw_digits(uint32_t value, uint8_t digits, uint8_t x, uint8_t y);
+void draw_lives(uint8_t x, uint8_t y, uint8_t total);
