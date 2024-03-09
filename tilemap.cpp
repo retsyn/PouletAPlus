@@ -108,7 +108,7 @@ void Stage::draw_level(uint16_t cam_offset_x)
   }
 }
 
-void Stage::get_coin(uint16_t x, uint16_t y)
+bool Stage::get_coin(uint16_t x, uint16_t y)
 {
   int i;
   uint16_t tx = x / 8;
@@ -122,6 +122,9 @@ void Stage::get_coin(uint16_t x, uint16_t y)
 
   if(coin_map[i] == true){
     coin_map[i] = false;
+    return true;
+  } else {
+    return false;
   }
 }
 

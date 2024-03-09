@@ -5,6 +5,8 @@
 
 #define KILL_BOUNCE 1.25
 
+#define COIN_PTS 5
+
 #define FOE_MAX 5
 
 #include <Arduboy2.h>

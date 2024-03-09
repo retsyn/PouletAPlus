@@ -82,6 +82,8 @@ public:
     float top_speed = 1.0f;
     float accel = 0.1f;
 
+    uint16_t score = 0;
+
     bool grounded;
     bool flip;
     bool attack = false;
@@ -106,10 +108,13 @@ public:
     uint8_t skidding = 0;
     uint8_t coyote_buffer = 0;
 
+
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
     void draw(int16_t offset_x) override;
     void takehit(Foe* hitter);
+
+
 
 protected:
     // Precalc framelengths--

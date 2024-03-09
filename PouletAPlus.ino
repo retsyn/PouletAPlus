@@ -13,7 +13,10 @@ uint8_t u_frame{0}; // The update frame value for animations not handled by obje
 uint8_t master_ticker = TICKER_SPEED;
 uint8_t screen_ticker = TICKER_SPEED;
 
+
+
 Stage *stage = new Stage();
+uint8_t level = 0;
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 // Foe *foe = new Foe(ENT_FENNEC, 40, 10);
 Foe *foe_roster[FOE_MAX];
@@ -93,8 +96,9 @@ void loop()
         door->draw(scroll);
 
         // Draw score!
-        draw_digits(scroll, 7, 78, 1);
+        draw_digits(player->score, 7, 78, 1);
         draw_lives(100, 1, 5);
+        draw_level(1, 1, level);
 
         if (door->open)
         {
@@ -207,6 +211,7 @@ void update_foes(Foe **roster)
                 roster[i]->dead = true;
                 player->attack = false;
                 player->vy = -KILL_BOUNCE;
+                player->score += 25;
             }
         }
     }

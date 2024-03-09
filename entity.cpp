@@ -150,7 +150,9 @@ void Entity::physics(Stage *in_stage)
 
     // Get coins!
 
-    in_stage->get_coin(x + 8, y + 12);
+    if(in_stage->get_coin(x + 8, y + 12)){
+        score += COIN_PTS;
+    }
 }
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)

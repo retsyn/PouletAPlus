@@ -23,3 +23,13 @@ void draw_lives(uint8_t x, uint8_t y, uint8_t total){
     draw_digits(total, 2, x + 19, y);
 
 }
+
+void draw_level(uint8_t x, uint8_t y, uint8_t stage){
+    
+    uint8_t world = (stage / 3) + 1;
+    uint8_t sublevel = (stage % 3) + 1;
+    Sprites::drawPlusMask(x, y, digits_plus_mask, world);
+    Sprites::drawPlusMask(x + 6, y, digits_plus_mask, 12);
+    Sprites::drawPlusMask(x + 12, y, digits_plus_mask, sublevel);
+
+}
