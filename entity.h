@@ -65,10 +65,10 @@ class Entity
 {
 protected:
     // Anim state vars:
-    uint8_t anim_frame;
-    uint8_t anim_ticker;
+    uint8_t anim_frame = 0;
+    uint8_t anim_ticker = 0;
 
-    uint8_t anim_state;
+    uint8_t anim_state = 0;
     bool flying = false;
     bool blinkon = true;
 
@@ -84,8 +84,8 @@ public:
 
     uint16_t score = 0;
 
-    bool grounded;
-    bool flip;
+    bool grounded = false;
+    bool flip = false;
     bool attack = false;
     bool blinking = false;
     uint8_t iframes = 0;

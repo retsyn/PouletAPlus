@@ -5,7 +5,7 @@
 
 #define KILL_BOUNCE 1.25
 
-#define COIN_PTS 5
+#define COIN_PTS 2
 
 #define FOE_MAX 5
 
@@ -19,3 +19,4 @@ extern Arduboy2* arduboy;
 void initArduboy2();
 
 #define TICKER_SPEED 30
+#define SCREEN_TRANS_SPEED 120

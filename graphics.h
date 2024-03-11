@@ -35,3 +35,7 @@ extern const unsigned char PROGMEM toque_plus_mask[];
 
 // The digits
 extern const unsigned char PROGMEM digits_plus_mask[];
+
+
+// Other text
+extern const uint8_t PROGMEM stage_label[];

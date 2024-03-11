@@ -150,8 +150,12 @@ void Entity::physics(Stage *in_stage)
 
     // Get coins!
 
-    if(in_stage->get_coin(x + 8, y + 12)){
-        score += COIN_PTS;
+    if (y > -8)
+    {
+        if (in_stage->get_coin(x + 8, y + 12))
+        {
+            score += COIN_PTS;
+        }
     }
 }
 
@@ -263,13 +267,10 @@ void PlayerEntity::control()
 void PlayerEntity::draw(int16_t offset_x)
 {
 
-    // Debug stuff
-    /*
-    tinyfont->setCursor(1, 1);
-    if(coyote_buffer > 0){
-        tinyfont->print("COY");
+    if (y <= -16)
+    {
+        return;
     }
-    */
 
     // If blinkrate is on:
     if (blinking)
@@ -491,9 +492,14 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
 bool Foe::collide(PlayerEntity *player)
 {
+    if (player->y <= -16)
+    {
+        return false;
+    }
+
     if (dead)
     {
-        return;
+        return false;
     }
 
     if ((x + SPR_LFTSKIN < player->x + SPR_RGTSKIN) && (x + SPR_RGTSKIN > player->x + SPR_LFTSKIN) && (y + SPR_TOPSKIN < player->y + SPR_BOTSKIN) && (y + SPR_BOTSKIN > player->y + SPR_TOPSKIN))

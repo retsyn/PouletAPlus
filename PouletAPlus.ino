@@ -11,9 +11,7 @@ GameState game_state = title_screen;
 
 uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
 uint8_t master_ticker = TICKER_SPEED;
-uint8_t screen_ticker = TICKER_SPEED;
-
-
+uint8_t screen_ticker = 0;
 
 Stage *stage = new Stage();
 uint8_t level = 0;
@@ -67,14 +65,27 @@ void loop()
         if (arduboy->justPressed(B_BUTTON))
         {
             fade_out();
+            arduboy->clear();
 
-            // Debug monster init:
+            screen_ticker = 0;
+            game_state = interstitial;
+        }
+        break;
+
+    case interstitial:
+
+        draw_hud();
+        Sprites::drawOverwrite(36, 30, stage_label, 0);
+        draw_level(76, 30, level);
+        screen_ticker += 1;
+        if (screen_ticker >= SCREEN_TRANS_SPEED)
+        {
             init_foes(foe_roster);
             stage->fill_coins();
-
             fade_in();
             game_state = in_play;
         }
+
         break;
 
     case in_play:
@@ -95,10 +106,7 @@ void loop()
         door->update(player);
         door->draw(scroll);
 
-        // Draw score!
-        draw_digits(player->score, 7, 78, 1);
-        draw_lives(100, 1, 5);
-        draw_level(1, 1, level);
+        draw_hud();
 
         if (door->open)
         {
@@ -134,7 +142,8 @@ void advance_master_frames()
 
 void show_title_screen()
 {
-    arduboy->drawBitmap(0, 0, title, 128, 64, 1);
+
+    Sprites::drawOverwrite(0, 0, title, 0);
 }
 
 void next_stage()
@@ -215,4 +224,11 @@ void update_foes(Foe **roster)
             }
         }
     }
+}
+
+void draw_hud()
+{
+    draw_digits(player->score, 7, 78, 1);
+    draw_lives(100, 1, 5);
+    draw_level(1, 1, level);
 }
