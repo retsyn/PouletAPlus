@@ -22,7 +22,6 @@ Foe *foe_roster[FOE_MAX];
 Door *door = new Door(0, 0);
 
 int16_t scroll = 0;
-uint8_t lvl = 0;
 
 void advance_master_frames();
 void next_stage();
@@ -46,7 +45,7 @@ void setup()
     door->y = (stage->exit_y * 8);
     //
     door->x = 1000;
-    door->y = 32;
+    door->y = 40;
 }
 
 void loop()
@@ -73,23 +72,19 @@ void loop()
         break;
 
     case interstitial:
-
         draw_hud();
         Sprites::drawOverwrite(36, 30, stage_label, 0);
         draw_level(76, 30, level);
         screen_ticker += 1;
         if (screen_ticker >= SCREEN_TRANS_SPEED)
         {
-            init_foes(foe_roster);
-            stage->fill_coins();
-            fade_in();
+            setup_level();
+            screen_ticker = 0;
             game_state = in_play;
         }
-
         break;
 
     case in_play:
-
         // Debug scroll?
         scroll = floor(player->x - 64);
         if (scroll < 0)
@@ -112,7 +107,7 @@ void loop()
         {
             fade_out();
             next_stage();
-            fade_in();
+            start_level();
         }
 
         update_foes(foe_roster);
@@ -148,7 +143,7 @@ void show_title_screen()
 
 void next_stage()
 {
-    lvl += 1;
+    level += 1;
     door->open = false;
     player->x = 0;
     scroll = 0;
@@ -231,4 +226,45 @@ void draw_hud()
     draw_digits(player->score, 7, 78, 1);
     draw_lives(100, 1, 5);
     draw_level(1, 1, level);
+}
+
+void start_level()
+{
+    if (level % 3 == 0)
+    {
+        game_state = interstitial;
+    }
+    else
+    {
+        game_state = in_play;
+    }
+
+    switch (level)
+    {
+    case 0:
+        stage->mapptr = stage1_1;
+        break;
+
+    case 1:
+        stage->mapptr = stage1_2;
+        break;
+
+    case 2:
+        stage->mapptr = stage1_3;
+        break;
+
+    default:
+        break;
+    }
+
+    if (game_state == in_play)
+    {
+        fade_in();
+    }
+}
+
+void setup_level()
+{
+    init_foes(foe_roster);
+    stage->fill_coins();
 }

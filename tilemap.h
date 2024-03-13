@@ -17,10 +17,10 @@
 #define TILE_ANIM_SPEED 20
 
 
-
-extern const uint8_t PROGMEM meta_tiles[];
 extern const uint8_t PROGMEM stage1_1[];
 extern const uint8_t PROGMEM stage1_2[];
+extern const uint8_t PROGMEM stage1_3[];
+
 
 class Stage
 {

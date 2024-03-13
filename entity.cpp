@@ -59,7 +59,7 @@ void Entity::physics(Stage *in_stage)
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
-            if (in_stage->is_solid(floor(x) + SPR_LFTSKIN, i + SPR_BOTSKIN) || in_stage->is_solid(floor(x) + SPR_RGTSKIN, i + SPR_BOTSKIN))
+            if (in_stage->is_solid(int16_t(floor(x) + SPR_LFTSKIN), int16_t(i + SPR_BOTSKIN)) || in_stage->is_solid(int16_t(floor(x) + SPR_RGTSKIN), int16_t(i + SPR_BOTSKIN)))
             {
                 vy = 0;
                 y = i - 1;
@@ -79,7 +79,7 @@ void Entity::physics(Stage *in_stage)
         // Check for upward collision by iterating through pixels travelled;
         for (int i = y; i >= int(ny); i--)
         {
-            if (in_stage->is_solid(x + SPR_LFTSKIN + 1, i + SPR_TOPSKIN) || in_stage->is_solid(x + SPR_RGTSKIN - 1, i + SPR_TOPSKIN))
+            if (in_stage->is_solid(int16_t(x + SPR_LFTSKIN + 1), int16_t(i + SPR_TOPSKIN)) || in_stage->is_solid(int16_t(x + SPR_RGTSKIN - 1), int16_t(i + SPR_TOPSKIN)))
             {
                 vy = 0;
                 y = i + 1;
@@ -96,7 +96,7 @@ void Entity::physics(Stage *in_stage)
         // Check for right collision...
         for (int i = floor(x); i <= floor(nx) + 1; i++)
         {
-            if (in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_BOTSKIN - 1))
+            if (in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
                 x = i - 1;
@@ -110,7 +110,7 @@ void Entity::physics(Stage *in_stage)
         // Check for left collision...
         for (int i = floor(x); i >= floor(nx); i--)
         {
-            if (in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_BOTSKIN - 1))
+            if (in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
                 x = i + 1;
