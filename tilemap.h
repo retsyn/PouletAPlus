@@ -37,8 +37,8 @@ public:
     void draw_level(uint16_t offset_x);
     void fill_coins();
     void draw_coins(uint16_t offset_x);
-    bool get_coin(uint16_t x, uint16_t y);
-    bool is_solid(int16_t x, int16_t y);
+    bool get_coin(uint16_t x, uint8_t y);
+    bool is_solid(uint16_t x, int8_t y);
 
     
 };

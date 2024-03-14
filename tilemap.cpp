@@ -110,7 +110,7 @@ void Stage::draw_level(uint16_t cam_offset_x)
   }
 }
 
-bool Stage::get_coin(uint16_t x, uint16_t y)
+bool Stage::get_coin(uint16_t x, uint8_t y)
 {
 
   if(y <= 0){
@@ -135,7 +135,7 @@ bool Stage::get_coin(uint16_t x, uint16_t y)
   }
 }
 
-bool Stage::is_solid(int16_t x, int16_t y)
+bool Stage::is_solid(uint16_t x, int8_t y)
 {
   int i;
   uint16_t tx = x / 8;
@@ -144,9 +144,6 @@ bool Stage::is_solid(int16_t x, int16_t y)
   if(y < 0){
     return 0;
   }
-
-  if (ty < 0)
-    return false; // Refuse to regard spaces above the screen as anything but empty.
 
   // Convert i to be the queried tile on the 1-d map.
   i = tx + (ty * 128);
