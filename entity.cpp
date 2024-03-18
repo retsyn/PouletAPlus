@@ -148,15 +148,6 @@ void Entity::physics(Stage *in_stage)
         x = RIGHT_BOUND - SPR_RGTSKIN - 1;
     }
 
-    // Get coins!
-
-    if (y > -8)
-    {
-        if (in_stage->get_coin(x + 8, y + 12))
-        {
-            score += COIN_PTS;
-        }
-    }
 }
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
@@ -387,13 +378,18 @@ Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
     x = start_x;
     y = start_y;
 
+    spawned = 0;
+    dead = 1;
+    flip = 0;
+    anim_bit = 0;
+
+
     enttype = newtype;
 
     switch (enttype)
     {
     case (ENT_FENNEC):
         sprite = fennec_plus_mask;
-        ai = miller;
         break;
 
     default:
@@ -456,9 +452,9 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     if (advance)
     {
-        switch (ai)
+        switch (enttype)
         {
-        case (miller):
+        case (ENT_FENNEC):
 
             if (flip)
             {

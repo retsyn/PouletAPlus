@@ -44,51 +44,6 @@ const uint8_t PROGMEM stage2_1[]{
     1, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 6, 0, 3, 3, 0, 0, 0, 8, 8, 8, 8, 8, 8, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 1, 2, 2, 2, 1, 8, 8, 8, 8, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 2,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 
-void Stage::fill_coins()
-{
-  // Transfer any coins in the tilemap to the "coin map".
-  
-  for (int i = 0; i < MAP_MEM; i++)
-  {
-    if (pgm_read_byte(mapptr + i) == 9)
-    {
-      coin_map[i] = true;
-    }
-    else
-    {
-      coin_map[i] = false;
-    }
-  }
-}
-
-void Stage::draw_coins(uint16_t cam_offset_x)
-{
-  int16_t tx;
-  int16_t ty;
-
-  tile_anim++;
-  if (tile_anim >= TILE_ANIM_SPEED)
-  {
-    tile_anim = 0;
-    frame_two = !frame_two;
-  }
-
-  for (int i = 0; i < MAP_MEM; i++)
-  {
-    tx = ((i % MAP_WIDTH) * 8) - cam_offset_x;
-    ty = (i / MAP_WIDTH) * 8;
-
-    if (tx > -8 && tx < 128)
-    {
-      // For animated coins!
-      if (coin_map[i] == true)
-      {
-        Sprites::drawOverwrite(tx, ty, foreground, 9 + frame_two);
-      }
-    }
-  }
-}
-
 void Stage::draw_level(uint16_t cam_offset_x)
 {
 
@@ -110,38 +65,14 @@ void Stage::draw_level(uint16_t cam_offset_x)
   }
 }
 
-bool Stage::get_coin(uint16_t x, uint8_t y)
-{
-
-  if(y <= 0){
-    return 0;
-  }
-
-  int i;
-  uint16_t tx = x / 8;
-  uint16_t ty = y / 8;
-
-  if (ty < 0)
-    return false; // Refuse to regard spaces above the screen as anything but empty.
-
-  // Convert i to be the queried tile on the 1-d map.
-  i = tx + (ty * 128);
-
-  if(coin_map[i] == true){
-    coin_map[i] = false;
-    return true;
-  } else {
-    return false;
-  }
-}
-
 bool Stage::is_solid(uint16_t x, int8_t y)
 {
   int i;
   uint16_t tx = x / 8;
   uint16_t ty = y / 8;
 
-  if(y < 0){
+  if (y < 0)
+  {
     return 0;
   }
 
@@ -162,5 +93,49 @@ bool Stage::is_solid(uint16_t x, int8_t y)
   else
   {
     return 0;
+  }
+}
+
+void Stage::fill_coins()
+{
+  for (uint16_t i = 0; i < 768; i++)
+  {
+
+    // For debug, just fill them all...
+    size_t byte_index = i / 8;
+    uint8_t bit_index = i % 8;
+
+    if (pgm_read_byte(mapptr + i) == TILE_COIN1)
+    {
+      // Add a bit:
+      coins[byte_index] |= (1 << bit_index);
+    }
+    // To remove a bit:
+    // coins[byte_index] &= ~(1 << bit_index);
+  }
+}
+
+void Stage::draw_coins(uint16_t cam_offset_x)
+{
+
+  int16_t tx;
+  uint8_t ty;
+
+  for (uint16_t i = 0; i < 768; i++)
+  {
+    size_t byte_index = i / 8;
+    uint8_t bit_index = i % 8;
+
+    if (coins[byte_index] & (1 << bit_index))
+    {
+
+      tx = ((i % MAP_WIDTH) * 8) - cam_offset_x;
+      ty = (i / MAP_WIDTH) * 8 + 8;
+
+      if (tx > -8 && tx < 128)
+      {
+        Sprites::drawOverwrite(tx, ty, foreground, TILE_COIN1 + tile_anim);
+      }
+    }
   }
 }

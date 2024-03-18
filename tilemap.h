@@ -3,6 +3,8 @@
 #define MAP_WIDTH 128
 #define MAP_MEM 1024
 
+#define COIN_ARRAY 96
+
 #define TILE_SPIKE 4
 #define TILE_EMPTY 0
 #define TILE_CASTLEWALL 5
@@ -31,14 +33,16 @@ public:
     uint8_t exit_y;
 
     uint8_t tile_anim = 0;
-    bool coin_map[1024] = {0};
-    bool frame_two = false;
+
+    uint8_t coins[COIN_ARRAY];
 
     void draw_level(uint16_t offset_x);
     void fill_coins();
+    void draw_coins();
     void draw_coins(uint16_t offset_x);
     bool get_coin(uint16_t x, uint8_t y);
     bool is_solid(uint16_t x, int8_t y);
 
     
+
 };

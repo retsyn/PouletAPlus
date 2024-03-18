@@ -10,8 +10,10 @@
 GameState game_state = title_screen;
 
 uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
-uint8_t master_ticker = TICKER_SPEED;
+
 uint8_t screen_ticker = 0;
+
+int freeMemory();
 
 Stage *stage = new Stage();
 uint8_t level = 0;
@@ -27,6 +29,7 @@ void advance_master_frames();
 void next_stage();
 void fade_out();
 void fade_in();
+void allocate_foes(Foe **roster);
 void init_foes(Foe **roster);
 void update_foes(Foe **roster);
 
@@ -39,6 +42,9 @@ void setup()
     arduboy->blank();
     arduboy->setFrameRate(60);
     // arduboy->display();
+
+    // Static memory initializations:
+    allocate_foes(foe_roster);
 
     // Game init stuff!
     door->x = (stage->exit_x * 8);
@@ -96,7 +102,6 @@ void loop()
             scroll = 1024 - 128;
         }
         stage->draw_level(scroll);
-        stage->draw_coins(scroll);
 
         door->update(player);
         door->draw(scroll);
@@ -109,11 +114,23 @@ void loop()
             next_stage();
             start_level();
         }
+        stage->draw_coins(scroll);
 
         update_foes(foe_roster);
         player->draw(scroll);
         player->control();
         player->physics(stage);
+
+        for (uint8_t i = 0; i < FOE_MAX; i++)
+        {
+            arduboy->setCursor(i * 8, 56);
+            arduboy->print(foe_roster[i]->spawned);
+        }
+        arduboy->setCursor(64, 56);
+        arduboy->print(freeMemory());
+        
+        advance_master_frames();
+
 
         break;
 
@@ -126,12 +143,14 @@ void loop()
 
 void advance_master_frames()
 {
+    static uint8_t master_ticker = TICKER_SPEED;
     // Advance the frames of all animations.
     master_ticker--;
     if (master_ticker <= 0)
     {
         u_frame++;
         master_ticker = TICKER_SPEED;
+        stage->tile_anim = !stage->tile_anim;
     }
 }
 
@@ -174,6 +193,7 @@ void fade_in()
             i -= 5;
         }
         stage->draw_level(scroll);
+        stage->draw_coins(scroll);
         player->draw(scroll);
         arduboy->fillRect(0, 0, 128 - i, 64, BLACK);
 
@@ -181,11 +201,20 @@ void fade_in()
     }
 }
 
+void allocate_foes(Foe **roster)
+{
+    for (uint8_t i = 0; i < FOE_MAX; i++)
+    {
+        roster[i] = new Foe(ENT_FENNEC, 10 * i, 10);
+        roster[i]->spawned = true;
+        roster[i]->dead = false;
+    }
+}
+
 void init_foes(Foe **roster)
 {
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
-        roster[i] = new Foe(ENT_FENNEC, 160 * i, 10);
         roster[i]->spawned = true;
         roster[i]->dead = false;
     }
@@ -237,6 +266,7 @@ void start_level()
     else
     {
         game_state = in_play;
+        setup_level();
     }
 
     switch (level)
@@ -261,10 +291,19 @@ void start_level()
     {
         fade_in();
     }
+
+
 }
 
 void setup_level()
 {
     init_foes(foe_roster);
     stage->fill_coins();
+}
+
+int freeMemory()
+{
+    extern int __heap_start, *__brkval;
+    int v;
+    return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }

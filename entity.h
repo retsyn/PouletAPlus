@@ -126,11 +126,12 @@ protected:
 class Foe
 {
 public:
-    bool spawned = false;
-    bool dead = false;
-    bool flip = false;
+    bool spawned : 1;
+    bool dead : 1;
+    bool flip : 1;
+    bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
+
     uint8_t enttype = ENT_DUD;
-    uint8_t ai = miller;
     uint16_t x = 0;
     uint8_t y = 0;
     uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
@@ -143,6 +144,4 @@ public:
     Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
     unsigned char *sprite;
 
-protected:
-    bool anim_bit = false; // Just two frames.  We gotta be elfin'.
 };
