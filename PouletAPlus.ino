@@ -45,6 +45,7 @@ void setup()
 
     // Static memory initializations:
     allocate_foes(foe_roster);
+    setup_level();
 
     // Game init stuff!
     door->x = (stage->exit_x * 8);
@@ -84,7 +85,6 @@ void loop()
         screen_ticker += 1;
         if (screen_ticker >= SCREEN_TRANS_SPEED)
         {
-            setup_level();
             screen_ticker = 0;
             game_state = in_play;
         }
@@ -105,6 +105,7 @@ void loop()
 
         door->update(player);
         door->draw(scroll);
+        stage->draw_coins(scroll);
 
         draw_hud();
 
@@ -114,9 +115,9 @@ void loop()
             next_stage();
             start_level();
         }
-        stage->draw_coins(scroll);
 
         update_foes(foe_roster);
+        stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN));
         player->draw(scroll);
         player->control();
         player->physics(stage);
@@ -128,9 +129,8 @@ void loop()
         }
         arduboy->setCursor(64, 56);
         arduboy->print(freeMemory());
-        
-        advance_master_frames();
 
+        advance_master_frames();
 
         break;
 
@@ -266,7 +266,7 @@ void start_level()
     else
     {
         game_state = in_play;
-        setup_level();
+        
     }
 
     switch (level)
@@ -287,12 +287,12 @@ void start_level()
         break;
     }
 
+    setup_level();
+
     if (game_state == in_play)
     {
         fade_in();
     }
-
-
 }
 
 void setup_level()

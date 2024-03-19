@@ -368,7 +368,7 @@ void PlayerEntity::takehit(Foe *hitter)
     {
         toque = false;
     }
-    arduboy->setRGBled(255, 0, 0);
+    //arduboy->setRGBled(255, 0, 0);
     blinking = true;
     iframes = PLAYER_IFRAMES;
 }

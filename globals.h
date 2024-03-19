@@ -7,7 +7,7 @@
 
 #define COIN_PTS 2
 
-#define FOE_MAX 8
+#define FOE_MAX 4
 
 #include <Arduboy2.h>
 
