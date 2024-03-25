@@ -167,12 +167,11 @@ bool Stage::get_coin(uint16_t x, uint16_t y)
   arduboy->setCursor(0, 32);
   arduboy->print(bit_index);
 
-  if(coins[byte_index] & (1 << bit_index)){
-      coins[byte_index] &= ~(1 << bit_index);
+  if (coins[byte_index] & (1 << bit_index))
+  {
+    coins[byte_index] &= ~(1 << bit_index);
     return true;
   }
-
-
 
   return false;
 }

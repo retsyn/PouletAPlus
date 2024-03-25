@@ -12,7 +12,14 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     anim_state = 0;
     anim_frame = 0;
 
-    // Generic collision skins (biased to middle bottom of the 16x16 sprite)
+    // initial bools
+    flying = false;
+    blinkon = true;
+    death = false;
+    grounded = false;
+    flip = false;
+    attack = false;
+    blinking = false;
 
     // Get sprite to point to the spot in progmem.
     switch (type)
@@ -147,7 +154,6 @@ void Entity::physics(Stage *in_stage)
     {
         x = RIGHT_BOUND - SPR_RGTSKIN - 1;
     }
-
 }
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
@@ -159,6 +165,9 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 
 void PlayerEntity::control()
 {
+    if(death){
+        return;
+    }
     // IFrames stuff:
     if (blinking)
     {
@@ -257,6 +266,7 @@ void PlayerEntity::control()
 
 void PlayerEntity::draw(int16_t offset_x)
 {
+    
 
     if (y <= -16)
     {
@@ -313,6 +323,12 @@ void PlayerEntity::draw(int16_t offset_x)
         anim_frame = 0;
     };
 
+    if (death)
+    {
+        anim_state = deading;
+    }
+
+
     switch (anim_state)
     {
     case idle:
@@ -368,9 +384,14 @@ void PlayerEntity::takehit(Foe *hitter)
     {
         toque = false;
     }
-    
+    else
+    {
+        death = true;
+    }
+
     blinking = true;
     iframes = PLAYER_IFRAMES;
+
 }
 
 Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
@@ -382,7 +403,6 @@ Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
     dead = 1;
     flip = 0;
     anim_bit = 0;
-
 
     enttype = newtype;
 

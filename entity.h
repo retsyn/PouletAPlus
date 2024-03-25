@@ -58,7 +58,6 @@ enum FoeAI
     hflyer
 };
 
-
 class Foe;
 
 class Entity
@@ -67,10 +66,7 @@ protected:
     // Anim state vars:
     uint8_t anim_frame = 0;
     uint8_t anim_ticker = 0;
-
     uint8_t anim_state = 0;
-    bool flying = false;
-    bool blinkon = true;
 
     // Precalc framelengths--
     const uint8_t FRAMELEN[3] = {0, 2, 0};
@@ -83,12 +79,19 @@ public:
     float accel = 0.1f;
 
     uint16_t score = 0;
+    uint8_t lives = 5;
 
-    bool grounded = false;
-    bool flip = false;
-    bool attack = false;
-    bool blinking = false;
+    bool flying : 1;
+    bool blinkon : 1;
+    bool death : 1;
+    bool grounded : 1;
+
+    bool flip : 1;
+    bool attack : 1;
+    bool blinking : 1;
+
     uint8_t iframes = 0;
+
 
     uint8_t type = 0;
     float x = 0.0f;
@@ -108,13 +111,10 @@ public:
     uint8_t skidding = 0;
     uint8_t coyote_buffer = 0;
 
-
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
     void draw(int16_t offset_x) override;
-    void takehit(Foe* hitter);
-
-
+    void takehit(Foe *hitter);
 
 protected:
     // Precalc framelengths--
@@ -143,5 +143,4 @@ public:
 
     Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
     unsigned char *sprite;
-
 };

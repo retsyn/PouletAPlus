@@ -18,6 +18,7 @@ int freeMemory();
 Stage *stage = new Stage();
 uint8_t level = 0;
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
+
 // Foe *foe = new Foe(ENT_FENNEC, 40, 10);
 Foe *foe_roster[FOE_MAX];
 
@@ -130,6 +131,11 @@ void loop()
         arduboy->setCursor(64, 56);
         arduboy->print(freeMemory());
 
+        // Some in game stuff:
+        if(player->y > 64){
+            die();
+        }
+
         advance_master_frames();
 
         break;
@@ -206,8 +212,8 @@ void allocate_foes(Foe **roster)
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
         roster[i] = new Foe(ENT_FENNEC, 10 * i, 10);
-        roster[i]->spawned = true;
-        roster[i]->dead = false;
+        roster[i]->spawned = false;
+        roster[i]->dead = true;
     }
 }
 
@@ -215,6 +221,8 @@ void init_foes(Foe **roster)
 {
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
+        roster[i]->x = (40 + i * 30);
+        roster[i]->y = 20;
         roster[i]->spawned = true;
         roster[i]->dead = false;
     }
@@ -253,7 +261,7 @@ void update_foes(Foe **roster)
 void draw_hud()
 {
     draw_digits(player->score, 7, 78, 1);
-    draw_lives(100, 1, 5);
+    draw_lives(100, 1, player->lives);
     draw_level(1, 1, level);
 }
 
@@ -266,8 +274,7 @@ void start_level()
     else
     {
         game_state = in_play;
-        
-    }
+        }
 
     switch (level)
     {
@@ -306,4 +313,9 @@ int freeMemory()
     extern int __heap_start, *__brkval;
     int v;
     return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+}
+
+void die(){
+    player->lives -= 1;
+    
 }
