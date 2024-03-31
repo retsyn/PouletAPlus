@@ -3,6 +3,8 @@
 #define LEFT_BOUND 0
 #define RIGHT_BOUND 1024
 
+#define DEATHTIME_MAX 255
+
 #define KILL_BOUNCE 1.25
 
 #define COIN_PTS 2

@@ -17,6 +17,7 @@ int freeMemory();
 
 Stage *stage = new Stage();
 uint8_t level = 0;
+uint8_t deathtime = DEATHTIME_MAX;
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
 // Foe *foe = new Foe(ENT_FENNEC, 40, 10);
@@ -92,6 +93,17 @@ void loop()
         break;
 
     case in_play:
+
+        // If dead!
+        if(player->death){
+            deathtime -= 1;
+            if(deathtime <= 0){
+                game_state = interstitial;
+                deathtime = DEATHTIME_MAX;
+                setup_level();
+            }
+        }
+
         // Debug scroll?
         scroll = floor(player->x - 64);
         if (scroll < 0)
@@ -123,16 +135,12 @@ void loop()
         player->control();
         player->physics(stage);
 
-        for (uint8_t i = 0; i < FOE_MAX; i++)
-        {
-            arduboy->setCursor(i * 8, 56);
-            arduboy->print(foe_roster[i]->spawned);
-        }
+        // Debug
         arduboy->setCursor(64, 56);
         arduboy->print(freeMemory());
 
         // Some in game stuff:
-        if(player->y > 64){
+        if(player->y > 64 && !player->death){
             die();
         }
 
@@ -282,14 +290,6 @@ void start_level()
         stage->mapptr = stage1_1;
         break;
 
-    case 1:
-        stage->mapptr = stage1_2;
-        break;
-
-    case 2:
-        stage->mapptr = stage1_3;
-        break;
-
     default:
         break;
     }
@@ -306,6 +306,11 @@ void setup_level()
 {
     init_foes(foe_roster);
     stage->fill_coins();
+    player->x = 8;
+    player->y = 8;
+    player->vx = 0;
+    player->vy = 0;
+    player->death = false;
 }
 
 int freeMemory()
@@ -316,6 +321,7 @@ int freeMemory()
 }
 
 void die(){
+    player->death = true;
     player->lives -= 1;
-    
+    player->toque = false;
 }

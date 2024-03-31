@@ -44,10 +44,10 @@ void Entity::physics(Stage *in_stage)
     // Cap horizontal movement speed on ground:
     if (grounded)
     {
-        if (vx > top_speed)
-            vx = top_speed;
-        if (vx < -top_speed)
-            vx = -top_speed;
+        if (vx > PLAYER_TOPSPEED)
+            vx = PLAYER_TOPSPEED;
+        if (vx < -PLAYER_TOPSPEED)
+            vx = -PLAYER_TOPSPEED;
     }
 
     // Apply gravity!
@@ -160,12 +160,12 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 {
     jump_buffer = 0;
     accel = PLAYER_ACCEL;
-    top_speed = PLAYER_TOPSPEED;
 }
 
 void PlayerEntity::control()
 {
-    if(death){
+    if (death)
+    {
         return;
     }
     // IFrames stuff:
@@ -179,16 +179,16 @@ void PlayerEntity::control()
         }
     }
 
-    // Movement
+    // Movementf
     if (arduboy->pressed(LEFT_BUTTON))
     {
-        if (vx > -top_speed)
+        if (vx > -PLAYER_TOPSPEED)
             vx -= accel;
         flip = true;
     }
     if (arduboy->pressed(RIGHT_BUTTON))
     {
-        if (vx < top_speed)
+        if (vx < PLAYER_TOPSPEED)
             vx += accel;
         flip = false;
     }
@@ -266,7 +266,6 @@ void PlayerEntity::control()
 
 void PlayerEntity::draw(int16_t offset_x)
 {
-    
 
     if (y <= -16)
     {
@@ -328,7 +327,6 @@ void PlayerEntity::draw(int16_t offset_x)
         anim_state = deading;
     }
 
-
     switch (anim_state)
     {
     case idle:
@@ -387,11 +385,11 @@ void PlayerEntity::takehit(Foe *hitter)
     else
     {
         death = true;
+        lives -= 1;
     }
 
     blinking = true;
     iframes = PLAYER_IFRAMES;
-
 }
 
 Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)

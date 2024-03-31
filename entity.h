@@ -13,6 +13,7 @@
 #define SPR_LFTSKIN 4
 #define SPR_RGTSKIN 11
 
+
 // Foe speeds:
 #define SPEED_FENNEC 10
 
@@ -24,7 +25,7 @@
 // Player physics:
 #define PLAYER_JUMPPOWER 1.20f
 #define PLAYER_ACCEL 0.15f
-#define PLAYER_TOPSPEED 0.70f
+#define PLAYER_TOPSPEED 0.75f
 #define PLAYER_JUMP_BUFFER_TIME 12
 #define PLAYER_COYOTE_TIME 10
 #define HORIZ_ATTACK_SPEED 2.0f
@@ -75,7 +76,7 @@ public:
     float vx = 0.0f;
     float vy = 0.0f;
 
-    float top_speed = 1.0f;
+    //float top_speed = 1.0f;
     float accel = 0.1f;
 
     uint16_t score = 0;
