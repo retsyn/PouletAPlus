@@ -39,3 +39,7 @@ extern const unsigned char PROGMEM digits_plus_mask[];
 
 // Other text
 extern const uint8_t PROGMEM stage_label[];
+
+// Items:
+extern const unsigned char PROGMEM glasses_plus_mask[];
+extern const unsigned char PROGMEM balloon_plus_mask[];
