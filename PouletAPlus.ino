@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "gizmos.h"
 #include "digits.h"
+#include "items.h"
 
 GameState game_state = title_screen;
 
@@ -20,8 +21,8 @@ uint8_t level = 0;
 uint8_t deathtime = DEATHTIME_MAX;
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
-// Foe *foe = new Foe(ENT_FENNEC, 40, 10);
 Foe *foe_roster[FOE_MAX];
+Balloon *balloon_roster[BALLOON_MAX];
 
 Door *door = new Door(0, 0);
 
@@ -31,9 +32,13 @@ void advance_master_frames();
 void next_stage();
 void fade_out();
 void fade_in();
+
+// Object roster and allocations
 void allocate_foes(Foe **roster);
 void init_foes(Foe **roster);
 void update_foes(Foe **roster);
+
+void allocate_balloons(Balloon **roster);
 
 void setup()
 {
@@ -47,6 +52,7 @@ void setup()
 
     // Static memory initializations:
     allocate_foes(foe_roster);
+    allocate_balloons(balloon_roster);
     setup_level();
 
     // Game init stuff!
@@ -95,9 +101,11 @@ void loop()
     case in_play:
 
         // If dead!
-        if(player->death){
+        if (player->death)
+        {
             deathtime -= 1;
-            if(deathtime <= 0){
+            if (deathtime <= 0)
+            {
                 game_state = interstitial;
                 deathtime = DEATHTIME_MAX;
                 setup_level();
@@ -129,7 +137,9 @@ void loop()
             start_level();
         }
 
+        update_balloons(balloon_roster);
         update_foes(foe_roster);
+        
         stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN));
         player->draw(scroll);
         player->control();
@@ -140,7 +150,8 @@ void loop()
         arduboy->print(freeMemory());
 
         // Some in game stuff:
-        if(player->y > 64 && !player->death){
+        if (player->y > 64 && !player->death)
+        {
             die();
         }
 
@@ -219,7 +230,7 @@ void allocate_foes(Foe **roster)
 {
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
-        roster[i] = new Foe(ENT_FENNEC, 10 * i, 10);
+        roster[i] = new Foe(ENT_FENNEC, 180 * i, 10);
         roster[i]->spawned = false;
         roster[i]->dead = true;
     }
@@ -266,6 +277,24 @@ void update_foes(Foe **roster)
     }
 }
 
+void allocate_balloons(Balloon **roster)
+{
+    // Build a static array for balloons
+    for (uint8_t i = 0; i < BALLOON_MAX; i++)
+    {
+        roster[i] = new Balloon(300 * i + 100, 8 * i);
+        roster[i]->popped = false;
+    }
+}
+
+void update_balloons(Balloon **roster){
+
+    // Draw them all on screen
+    for (uint8_t i = 0; i < BALLOON_MAX; i++){
+        roster[i]->draw(scroll);
+    }
+}
+
 void draw_hud()
 {
     draw_digits(player->score, 7, 78, 1);
@@ -282,7 +311,7 @@ void start_level()
     else
     {
         game_state = in_play;
-        }
+    }
 
     switch (level)
     {
@@ -320,7 +349,8 @@ int freeMemory()
     return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
 
-void die(){
+void die()
+{
     player->death = true;
     player->lives -= 1;
     player->toque = false;

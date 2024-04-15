@@ -10,6 +10,9 @@
 #define COIN_PTS 2
 
 #define FOE_MAX 4
+#define BALLOON_MAX 5
+
+#define EPHEM_ANIM_SPEED 10
 
 #include <Arduboy2.h>
 

@@ -43,3 +43,6 @@ extern const uint8_t PROGMEM stage_label[];
 // Items:
 extern const unsigned char PROGMEM glasses_plus_mask[];
 extern const unsigned char PROGMEM balloon_plus_mask[];
+
+// Ephemeral effects:
+extern const unsigned char PROGMEM pop_plus_mask[];
