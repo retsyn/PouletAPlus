@@ -2,22 +2,29 @@
 #include "ephemeral.h"
 #include "globals.h"
 
-Ephemeral::Ephemeral(uint16_t new_x, uint8_t y)
+Ephemeral::Ephemeral()
 {
-
-    // Hardcoded animation for pop.
-    sprite = pop_plus_mask;
-
+    x = 0;
+    y = 0;
     frame = 0;
     anim_timer = EPHEM_ANIM_SPEED;
     done = true;
 }
 
-void Ephemeral::make(uint16_t new_x, uint8_t new_y)
+void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
 {
 
     // Assign new sprite if needed:
     // Will be a switch case if more ephemera are added.
+    switch (ephemType)
+    {
+    case pop:
+        sprite = pop_plus_mask;
+        break;
+
+    default:
+        break;
+    }
 
     sprite = pop_plus_mask;
     frame = 0;
@@ -39,17 +46,44 @@ void Ephemeral::animate()
 {
     if (done)
     {
+        // If the done flag is set, this ephem is "gone."
         return;
     }
 
-    anim_timer--;
-    if (anim_timer <= 0)
+    if (anim_timer > 0)
+    {
+        anim_timer--;
+    }
+    else
     {
         frame++;
-        if (frame > 3)
+        if (frame >= EPHEM_END_FRAME)
         {
             done = true;
         }
-        anim_timer = EPHEM_ANIM_SPEED;
     }
+}
+
+EphemeralRoster::EphemeralRoster()
+{
+
+    for (uint8_t i; i < EPHEM_MAX; i++)
+    {
+        roster[i] = new Ephemeral();
+    }
+}
+
+void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
+{
+
+    uint8_t i = 0;
+    for (i = 0; i < EPHEM_MAX; i++)
+    {
+        if (roster[i]->done)
+        {
+            break;
+        }
+    }
+
+    roster[i]->make(new_x, new_y, type);
 }

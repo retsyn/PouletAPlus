@@ -13,6 +13,8 @@
 #define BALLOON_MAX 5
 
 #define EPHEM_ANIM_SPEED 10
+#define EPHEM_MAX 4
+#define EPHEM_END_FRAME 4
 
 #include <Arduboy2.h>
 

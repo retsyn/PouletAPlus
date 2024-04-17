@@ -1,4 +1,9 @@
 #pragma once
+#include "globals.h"
+
+enum EphemType{
+    pop = 0,
+};
 
 
 class Ephemeral{
@@ -15,12 +20,24 @@ public:
 
     unsigned char *sprite;
 
-    Ephemeral(uint16_t new_x, uint8_t new_y);
+    Ephemeral();
+    void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType);
 
-    void make(uint16_t new_x, uint8_t new_y);
     void draw(uint16_t offset_x);
     void animate();
 
+};
+
+
+class EphemeralRoster{
+
+
+public:
+    Ephemeral *roster[EPHEM_MAX];
+
+    EphemeralRoster();
+    void add(uint16_t new_x, uint8_t new_y, uint8_t type);
+    void update();
 
 };
 

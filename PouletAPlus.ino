@@ -7,6 +7,7 @@
 #include "gizmos.h"
 #include "digits.h"
 #include "items.h"
+#include "ephemeral.h"
 
 GameState game_state = title_screen;
 
@@ -23,6 +24,7 @@ PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
 Foe *foe_roster[FOE_MAX];
 Balloon *balloon_roster[BALLOON_MAX];
+EphemeralRoster *ephemerals;
 
 Door *door = new Door(0, 0);
 
