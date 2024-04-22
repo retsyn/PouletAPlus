@@ -21,7 +21,7 @@ public:
     unsigned char *sprite;
 
     Ephemeral();
-    void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType);
+    void make(uint16_t new_x, uint8_t new_y, uint8_t ephemType);
 
     void draw(uint16_t offset_x);
     void animate();
@@ -37,7 +37,7 @@ public:
 
     EphemeralRoster();
     void add(uint16_t new_x, uint8_t new_y, uint8_t type);
-    void update();
+    void updateRoster(uint16_t offset_x);
 
 };
 

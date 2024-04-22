@@ -24,7 +24,7 @@ PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
 Foe *foe_roster[FOE_MAX];
 Balloon *balloon_roster[BALLOON_MAX];
-EphemeralRoster *ephemerals;
+EphemeralRoster ephemerals;
 
 Door *door = new Door(0, 0);
 
@@ -130,6 +130,8 @@ void loop()
         door->draw(scroll);
         stage->draw_coins(scroll);
 
+        ephemerals.updateRoster(scroll);
+
         draw_hud();
 
         if (door->open)
@@ -146,6 +148,10 @@ void loop()
         player->draw(scroll);
         player->control();
         player->physics(stage);
+
+        if(arduboy->justPressed(UP_BUTTON)){
+            ephemerals.add(player->x, player->y - 16, pop);
+        }
 
         // Debug
         arduboy->setCursor(64, 56);

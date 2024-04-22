@@ -29,6 +29,7 @@ void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
     sprite = pop_plus_mask;
     frame = 0;
     done = false;
+    anim_timer = EPHEM_ANIM_SPEED;
 
     x = new_x;
     y = new_y;
@@ -57,6 +58,7 @@ void Ephemeral::animate()
     else
     {
         frame++;
+        anim_timer = EPHEM_ANIM_SPEED;
         if (frame >= EPHEM_END_FRAME)
         {
             done = true;
@@ -77,13 +79,27 @@ void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
 {
 
     uint8_t i = 0;
-    for (i = 0; i < EPHEM_MAX; i++)
+    for (i = 0; i < EPHEM_MAX - 1; i++)
     {
         if (roster[i]->done)
         {
             break;
         }
+
     }
 
     roster[i]->make(new_x, new_y, type);
+}
+
+
+void EphemeralRoster::updateRoster(uint16_t scroll){
+
+    for(uint8_t i = 0; i < EPHEM_MAX; i++){
+        if(!roster[i]->done){
+            roster[i]->draw(scroll);
+            roster[i]->animate();
+        } else {
+            continue;
+        }
+    }
 }
