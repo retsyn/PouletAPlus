@@ -31,7 +31,6 @@ public:
 
 class EphemeralRoster{
 
-
 public:
     Ephemeral *roster[EPHEM_MAX];
 

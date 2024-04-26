@@ -25,6 +25,7 @@ PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 Foe *foe_roster[FOE_MAX];
 Balloon *balloon_roster[BALLOON_MAX];
 EphemeralRoster ephemerals;
+ItemRoster items;
 
 Door *door = new Door(0, 0);
 
@@ -97,10 +98,17 @@ void loop()
         {
             screen_ticker = 0;
             game_state = in_play;
+
         }
         break;
 
     case in_play:
+
+        // Debug
+        if(arduboy->justPressed(UP_BUTTON)){
+            //items.add(player->x, player->y - 10, 0);
+            ephemerals.add(player->x, player->y - 10, pop);
+        }
 
         // If dead!
         if (player->death)
@@ -130,7 +138,6 @@ void loop()
         door->draw(scroll);
         stage->draw_coins(scroll);
 
-        ephemerals.updateRoster(scroll);
 
         draw_hud();
 
@@ -143,15 +150,14 @@ void loop()
 
         update_balloons(balloon_roster);
         update_foes(foe_roster);
-        
+
         stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN));
         player->draw(scroll);
         player->control();
         player->physics(stage);
-
-        if(arduboy->justPressed(UP_BUTTON)){
-            ephemerals.add(player->x, player->y - 16, pop);
-        }
+        
+        items.updateRoster(stage, player, scroll);
+        ephemerals.updateRoster(scroll);
 
         // Debug
         arduboy->setCursor(64, 56);
@@ -295,11 +301,22 @@ void allocate_balloons(Balloon **roster)
     }
 }
 
-void update_balloons(Balloon **roster){
+void update_balloons(Balloon **roster)
+{
 
     // Draw them all on screen
-    for (uint8_t i = 0; i < BALLOON_MAX; i++){
+    for (uint8_t i = 0; i < BALLOON_MAX; i++)
+    {
+        if(roster[i]->popped){
+            continue;
+        }
         roster[i]->draw(scroll);
+        if (roster[i]->collide(player))
+        {
+            ephemerals.add(roster[i]->x, roster[i]->y, pop);
+            items.add(roster[i]->x, roster[i]->y, glasses);
+            roster[i]->popped = true;
+        }
     }
 }
 
