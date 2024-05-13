@@ -49,6 +49,7 @@ public:
     void update(Stage *stage, PlayerEntity *player);
     void draw(uint16_t offset_x);
     bool collide(PlayerEntity *player);
+    void giveitem(PlayerEntity *player);
 };
 
 
@@ -60,5 +61,6 @@ public:
     ItemRoster();
     ~ItemRoster();
     void add(uint16_t new_x, uint8_t new_y, uint8_t type);
+    void emptyRoster();
     void updateRoster(Stage *stage, PlayerEntity *player, uint16_t scroll);
 };

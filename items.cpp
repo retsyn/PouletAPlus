@@ -63,6 +63,19 @@ void Item::draw(uint16_t offset_x)
     Sprites::drawPlusMask(x - offset_x, y, sprite, 0);
 }
 
+void Item::giveitem(PlayerEntity *player){
+
+    switch (type)
+    {
+    case (toque):
+        player->toque = true;
+        break;
+    
+    default:
+        break;
+    }
+}
+
 bool Item::collide(PlayerEntity *player)
 {
 
@@ -107,13 +120,21 @@ ItemRoster::~ItemRoster()
     }
 }
 
+void ItemRoster::emptyRoster(){
+    // Empty the entire roster (While static memory remains.)
+    for (uint8_t i = 0; i < ITEM_MAX; i++){
+        roster[i]->gotten = true;
+    }
+}
+
+
 void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
 {
 
     uint8_t i = 0;
     for (i = 0; i < ITEM_MAX; i++)
     {
-        if (roster[i]->gotten == false)
+        if (roster[i]->gotten == true)
         {
             break;
         }
@@ -137,7 +158,7 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
         break;
 
     case toque:
-        roster[i]->sprite = toque_plus_mask;
+        roster[i]->sprite = toquepowerup_plus_mask;
         break;
 
     default:
@@ -155,7 +176,10 @@ void ItemRoster::updateRoster(Stage *stage, PlayerEntity *player, uint16_t scrol
         {
             roster[i]->draw(scroll);
             roster[i]->update(stage, player);
-            roster[i]->collide(player);
+            if(roster[i]->collide(player)){
+                roster[i]->gotten = true;
+                roster[i]->giveitem(player);
+            }
         }
         else
         {

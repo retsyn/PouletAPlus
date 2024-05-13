@@ -12,8 +12,8 @@
 GameState game_state = title_screen;
 
 uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
-
 uint8_t screen_ticker = 0;
+uint8_t power_up_seq = 0;
 
 int freeMemory();
 
@@ -26,6 +26,7 @@ Foe *foe_roster[FOE_MAX];
 Balloon *balloon_roster[BALLOON_MAX];
 EphemeralRoster ephemerals;
 ItemRoster items;
+
 
 Door *door = new Door(0, 0);
 
@@ -103,12 +104,6 @@ void loop()
         break;
 
     case in_play:
-
-        // Debug
-        if(arduboy->justPressed(UP_BUTTON)){
-            //items.add(player->x, player->y - 10, 0);
-            ephemerals.add(player->x, player->y - 10, pop);
-        }
 
         // If dead!
         if (player->death)
@@ -296,14 +291,26 @@ void allocate_balloons(Balloon **roster)
     // Build a static array for balloons
     for (uint8_t i = 0; i < BALLOON_MAX; i++)
     {
-        roster[i] = new Balloon(300 * i + 100, 8 * i);
+        roster[i] = new Balloon(0, 0);
+        roster[i]->popped = true;
+    }
+}
+
+
+void init_balloons(Balloon **roster){
+    
+    // Debug loop to put balloons in random text position.
+    for (uint8_t i = 0; i < BALLOON_MAX; i++)
+    {
+        roster[i]->x = (100 + i * 50);
+        roster[i]->y = 35;
         roster[i]->popped = false;
     }
 }
 
+
 void update_balloons(Balloon **roster)
 {
-
     // Draw them all on screen
     for (uint8_t i = 0; i < BALLOON_MAX; i++)
     {
@@ -314,7 +321,7 @@ void update_balloons(Balloon **roster)
         if (roster[i]->collide(player))
         {
             ephemerals.add(roster[i]->x, roster[i]->y, pop);
-            items.add(roster[i]->x, roster[i]->y, glasses);
+            items.add(roster[i]->x, roster[i]->y, toque);
             roster[i]->popped = true;
         }
     }
@@ -359,6 +366,8 @@ void start_level()
 void setup_level()
 {
     init_foes(foe_roster);
+    init_balloons(balloon_roster);
+    items.emptyRoster();
     stage->fill_coins();
     player->x = 8;
     player->y = 8;

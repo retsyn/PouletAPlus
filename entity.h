@@ -108,7 +108,7 @@ class PlayerEntity : public Entity
 {
 public:
     bool flyboy = false;
-    bool toque = true;
+    bool toque = false;
     uint8_t skidding = 0;
     uint8_t coyote_buffer = 0;
 
