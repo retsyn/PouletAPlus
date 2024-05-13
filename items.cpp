@@ -99,6 +99,14 @@ ItemRoster::ItemRoster()
     }
 }
 
+ItemRoster::~ItemRoster()
+{
+    for (uint8_t i = 0; i < ITEM_MAX; i++)
+    {
+        delete roster[i];
+    }
+}
+
 void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
 {
 
@@ -109,6 +117,10 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
         {
             break;
         }
+    }
+
+    if(i >= ITEM_MAX){
+        i = 0; // We were gonna overflow, so now we just delete number one.
     }
 
     // Assign all the arg values to the chosen spot in the roster:

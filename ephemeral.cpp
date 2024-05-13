@@ -69,7 +69,7 @@ void Ephemeral::animate()
 EphemeralRoster::EphemeralRoster()
 {
 
-    for (uint8_t i; i < EPHEM_MAX; i++)
+    for (uint8_t i = 0; i < EPHEM_MAX; i++)
     {
         roster[i] = new Ephemeral();
     }

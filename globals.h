@@ -9,12 +9,12 @@
 
 #define COIN_PTS 2
 
-#define FOE_MAX 4
-#define BALLOON_MAX 5
-#define ITEM_MAX 2
+#define FOE_MAX 3
+#define BALLOON_MAX 2
+#define ITEM_MAX 3
 
 #define EPHEM_ANIM_SPEED 3
-#define EPHEM_MAX 3
+#define EPHEM_MAX 2
 #define EPHEM_END_FRAME 4
 
 #include <Arduboy2.h>

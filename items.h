@@ -58,6 +58,7 @@ public:
     Item *roster[ITEM_MAX];
 
     ItemRoster();
+    ~ItemRoster();
     void add(uint16_t new_x, uint8_t new_y, uint8_t type);
     void updateRoster(Stage *stage, PlayerEntity *player, uint16_t scroll);
 };
