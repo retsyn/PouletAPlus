@@ -23,6 +23,7 @@ extern const uint8_t PROGMEM stage1_1[];
 extern const uint8_t PROGMEM stage1_2[];
 extern const uint8_t PROGMEM stage1_3[];
 
+extern const unsigned char meta_tiles[];
 
 class Stage
 {
@@ -49,3 +50,5 @@ public:
     
 
 };
+
+
