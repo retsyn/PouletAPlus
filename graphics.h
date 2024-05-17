@@ -29,3 +29,21 @@ extern const unsigned char PROGMEM foe_anim_die[];
 
 // Fennec
 extern const unsigned char PROGMEM fennec_plus_mask[];
+
+// The toque!
+extern const unsigned char PROGMEM toque_plus_mask[];
+
+// The digits
+extern const unsigned char PROGMEM digits_plus_mask[];
+
+
+// Other text
+extern const uint8_t PROGMEM stage_label[];
+
+// Items:
+extern const unsigned char PROGMEM glasses_plus_mask[];
+extern const unsigned char PROGMEM balloon_plus_mask[];
+extern const unsigned char PROGMEM toquepowerup_plus_mask[];
+
+// Ephemeral effects:
+extern const unsigned char PROGMEM pop_plus_mask[];

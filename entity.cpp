@@ -12,8 +12,14 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     anim_state = 0;
     anim_frame = 0;
 
-    // Generic collision skins (biased to middle bottom of the 16x16 sprite)
-
+    // initial bools
+    flying = false;
+    blinkon = true;
+    death = false;
+    grounded = false;
+    flip = false;
+    attack = false;
+    blinking = false;
 
     // Get sprite to point to the spot in progmem.
     switch (type)
@@ -38,10 +44,10 @@ void Entity::physics(Stage *in_stage)
     // Cap horizontal movement speed on ground:
     if (grounded)
     {
-        if (vx > top_speed)
-            vx = top_speed;
-        if (vx < -top_speed)
-            vx = -top_speed;
+        if (vx > PLAYER_TOPSPEED)
+            vx = PLAYER_TOPSPEED;
+        if (vx < -PLAYER_TOPSPEED)
+            vx = -PLAYER_TOPSPEED;
     }
 
     // Apply gravity!
@@ -60,7 +66,7 @@ void Entity::physics(Stage *in_stage)
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
-            if (in_stage->is_solid(floor(x) + SPR_LFTSKIN, i + SPR_BOTSKIN) || in_stage->is_solid(floor(x) + SPR_RGTSKIN, i + SPR_BOTSKIN))
+            if (in_stage->is_solid(int16_t(floor(x) + SPR_LFTSKIN), int16_t(i + SPR_BOTSKIN)) || in_stage->is_solid(int16_t(floor(x) + SPR_RGTSKIN), int16_t(i + SPR_BOTSKIN)))
             {
                 vy = 0;
                 y = i - 1;
@@ -80,7 +86,7 @@ void Entity::physics(Stage *in_stage)
         // Check for upward collision by iterating through pixels travelled;
         for (int i = y; i >= int(ny); i--)
         {
-            if (in_stage->is_solid(x + SPR_LFTSKIN + 1, i + SPR_TOPSKIN) || in_stage->is_solid(x + SPR_RGTSKIN - 1, i + SPR_TOPSKIN))
+            if (in_stage->is_solid(int16_t(x + SPR_LFTSKIN + 1), int16_t(i + SPR_TOPSKIN)) || in_stage->is_solid(int16_t(x + SPR_RGTSKIN - 1), int16_t(i + SPR_TOPSKIN)))
             {
                 vy = 0;
                 y = i + 1;
@@ -97,7 +103,7 @@ void Entity::physics(Stage *in_stage)
         // Check for right collision...
         for (int i = floor(x); i <= floor(nx) + 1; i++)
         {
-            if (in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_RGTSKIN, y + SPR_BOTSKIN - 1))
+            if (in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
                 x = i - 1;
@@ -111,7 +117,7 @@ void Entity::physics(Stage *in_stage)
         // Check for left collision...
         for (int i = floor(x); i >= floor(nx); i--)
         {
-            if (in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_TOPSKIN + 1) || in_stage->is_solid(i + SPR_LFTSKIN, y + SPR_BOTSKIN - 1))
+            if (in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
                 x = i + 1;
@@ -154,22 +160,35 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 {
     jump_buffer = 0;
     accel = PLAYER_ACCEL;
-    top_speed = PLAYER_TOPSPEED;
 }
 
 void PlayerEntity::control()
 {
+    if (death)
+    {
+        return;
+    }
+    // IFrames stuff:
+    if (blinking)
+    {
+        iframes--;
+        if (iframes <= 0)
+        {
+            blinking = false;
+            blinkon = true;
+        }
+    }
 
-    // Movement
+    // Movementf
     if (arduboy->pressed(LEFT_BUTTON))
     {
-        if (vx > -top_speed)
+        if (vx > -PLAYER_TOPSPEED)
             vx -= accel;
         flip = true;
     }
     if (arduboy->pressed(RIGHT_BUTTON))
     {
-        if (vx < top_speed)
+        if (vx < PLAYER_TOPSPEED)
             vx += accel;
         flip = false;
     }
@@ -248,13 +267,18 @@ void PlayerEntity::control()
 void PlayerEntity::draw(int16_t offset_x)
 {
 
-    // Debug stuff
-    /*
-    tinyfont->setCursor(1, 1);
-    if(coyote_buffer > 0){
-        tinyfont->print("COY");
+    if (y <= -16)
+    {
+        return;
     }
-    */
+
+    // If blinkrate is on:
+    if (blinking)
+    {
+        blinkon = !blinkon;
+        if (blinkon)
+            return;
+    }
 
     // Anim state determination:
     if (grounded)
@@ -298,6 +322,11 @@ void PlayerEntity::draw(int16_t offset_x)
         anim_frame = 0;
     };
 
+    if (death)
+    {
+        anim_state = deading;
+    }
+
     switch (anim_state)
     {
     case idle:
@@ -307,6 +336,9 @@ void PlayerEntity::draw(int16_t offset_x)
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_walk[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_up:
+        // Special hack for drawing toque first only on this anim:
+        if (toque)
+            Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 1, toque_plus_mask, 0);
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_down:
@@ -321,16 +353,58 @@ void PlayerEntity::draw(int16_t offset_x)
     default:
         break;
     }
+
+    if (toque && (anim_state != jumping_up))
+    {
+        Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
+    }
 }
 
-Foe::Foe(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
+void PlayerEntity::takehit(Foe *hitter)
+{
+    // Iframes will prevent a hit.
+    if (iframes > 0)
+    {
+        return;
+    }
+
+    vy = -1.0;
+    if (hitter->x > x)
+    {
+        vx = -2;
+    }
+    else if (hitter->x < x)
+    {
+        vx = 2;
+    }
+
+    if (toque)
+    {
+        toque = false;
+    }
+    else
+    {
+        death = true;
+        lives -= 1;
+    }
+
+    blinking = true;
+    iframes = PLAYER_IFRAMES;
+}
+
+Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
 {
     x = start_x;
     y = start_y;
 
-    type = newtype;
+    spawned = 0;
+    dead = 1;
+    flip = 0;
+    anim_bit = 0;
 
-    switch (type)
+    enttype = newtype;
+
+    switch (enttype)
     {
     case (ENT_FENNEC):
         sprite = fennec_plus_mask;
@@ -344,35 +418,110 @@ Foe::Foe(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_
 void Foe::draw(int16_t offset_x)
 {
 
-    if(!spawned)
+    if (!spawned)
         return;
 
-    if (!dead)
+    if (dead)
     {
-        anim_state = walking;
-    }
-    else
-    {
-        anim_state = dead;
+        if (timer % 2 == 0)
+        {
+            Sprites::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
+        }
+        return;
     }
 
-    // All foes only have two states.
-    switch (anim_state)
-    {
-    case walking:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_walk[anim_frame]) + (FOE_MIRROR * int(flip)));
-        break;
+    Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
+}
 
-    case deading:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&foe_anim_die[anim_frame]) + (FOE_MIRROR * int(flip)));
+void Foe::update(Stage *stage, PlayerEntity *player)
+{
+    bool advance = false;
+
+    if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))
+    {
+        y += 1;
+    }
+
+    timer += 1;
+
+    if (dead)
+    {
+        if (timer >= DEATH_ANIM)
+        {
+            spawned = false;
+        }
+        return;
+    }
+
+    switch (enttype)
+    {
+    case (ENT_FENNEC):
+        if (timer >= SPEED_FENNEC)
+        {
+            advance = true;
+            anim_bit = !anim_bit;
+            timer = 0;
+        }
         break;
 
     default:
         break;
     }
+
+    if (advance)
+    {
+        switch (enttype)
+        {
+        case (ENT_FENNEC):
+
+            if (flip)
+            {
+                if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN))
+                {
+                    x -= 1;
+                }
+                else
+                {
+                    flip = false;
+                }
+            }
+            else
+            {
+                if (!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN))
+                {
+                    x += 1;
+                }
+                else
+                {
+                    flip = true;
+                }
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
-void Foe::kill(){
-    spawned = false;
-    type = ENT_DUD;
+bool Foe::collide(PlayerEntity *player)
+{
+    if (player->y <= -16)
+    {
+        return false;
+    }
+
+    if (dead)
+    {
+        return false;
+    }
+
+    if ((x + SPR_LFTSKIN < player->x + SPR_RGTSKIN) && (x + SPR_RGTSKIN > player->x + SPR_LFTSKIN) && (y + SPR_TOPSKIN < player->y + SPR_BOTSKIN) && (y + SPR_BOTSKIN > player->y + SPR_TOPSKIN))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

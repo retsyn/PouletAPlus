@@ -8,11 +8,14 @@ void Door::update(PlayerEntity *player)
 
     bool collided = false;
     // Check for collision with the player.
-    if (((player->x + SPR_LFTSKIN) > x) && ((player->x + SPR_RGTSKIN) < x + w))
+    if (player->y > 0)
     {
-        if (((player->y + SPR_TOPSKIN) > y) && ((player->y + SPR_BOTSKIN) < y + h))
+        if (((player->x + SPR_LFTSKIN) > x) && ((player->x + SPR_RGTSKIN) < x + w))
         {
-            collided = true;
+            if (((player->y + SPR_TOPSKIN) > y) && ((player->y + SPR_BOTSKIN) < y + h))
+            {
+                collided = true;
+            }
         }
     }
 

@@ -3,12 +3,20 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "meta13.tmx",
+    "activeFile": "1-2.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "1-2.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 227.99999999999997,
+                "y": 82.33333333333331
+            }
+        },
         "PouletAPlus.tsx": {
             "scaleInDock": 3,
             "scaleInEditor": 1
@@ -17,64 +25,64 @@
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.66315789473684,
-                "y": 31.663157894736845
+                "x": 34.58245614035088,
+                "y": 32
             }
         },
         "meta02.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.66315789473684,
-                "y": 31.663157894736845
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta03.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.812865497076025,
-                "y": 31.812865497076025
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta04.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.887719298245614,
-                "y": 31.887719298245614
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta05.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.812865497076025,
-                "y": 31.812865497076025
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta06.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 24.868913857677907,
-                "y": 30.786516853932586
+                "x": 31.98501872659176,
+                "y": 31.947565543071164
             }
         },
         "meta07.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.887719298245614,
-                "y": 31.887719298245614
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta08.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 35.88014981273409,
-                "y": 34.23220973782772
+                "x": 31.98501872659176,
+                "y": 31.947565543071164
             }
         },
         "meta09.tmx": {
@@ -82,39 +90,39 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 31.962573099415206,
-                "y": 31.962573099415206
+                "y": 32
             }
         },
         "meta10.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 35.3558052434457,
-                "y": 38.87640449438202
+                "x": 31.98501872659176,
+                "y": 31.947565543071164
             }
         },
         "meta11.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 32.0374269005848,
-                "y": 32.0374269005848
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta12.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 34.3578947368421,
-                "y": 32.63625730994152
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta13.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 31.962573099415206
+                "x": 38.02573099415205,
+                "y": 32.26198830409357
             }
         },
         "meta14.tmx": {
@@ -122,23 +130,23 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 31.962573099415206,
-                "y": 31.962573099415206
+                "y": 32
             }
         },
         "meta15.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 35.131086142322104,
-                "y": 31.61048689138577
+                "x": 31.98501872659176,
+                "y": 31.947565543071164
             }
         },
         "meta16.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 35.131086142322104,
-                "y": 31.685393258426966
+                "x": 31.98501872659176,
+                "y": 31.947565543071164
             }
         }
     },
@@ -150,7 +158,7 @@
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
-    "map.width": 8,
+    "map.width": 128,
     "openFiles": [
         "PouletAPlus.tsx",
         "meta01.tmx",
@@ -168,7 +176,8 @@
         "meta11.tmx",
         "meta12.tmx",
         "meta13.tmx",
-        "meta15.tmx"
+        "meta15.tmx",
+        "1-2.tmx"
     ],
     "project": "meta_tile01.tiled-project",
     "recentFiles": [
