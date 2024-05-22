@@ -268,3 +268,22 @@ bool Stage::get_coin(uint16_t x, uint16_t y)
 
   return false;
 }
+
+uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum){
+  // Reaches through the unpacking of meta-tiles to find a tile-id.
+
+  // First find how many screens in the x value is...
+  uint8_t meta_x = (x / 8); // This should point to what meta tile we are in...
+
+  // We get the stage sequence "slice"
+  uint8_t slice_data = pgm_read_byte(&stages[stagenum * 16 + meta_x]);
+
+  // Now the slice data needs to be read for the piece we need.
+  uint8_t meta_tile_index = (slice_data & 0x0F);
+
+  // Calculate the index within the meta-tile:
+  uint8_t tile_index = (meta_tile_index * 16) + (y * 8) + (x % 8);
+
+  // Now get the tile inside the meta tile?
+  return pgm_read_byte(&meta_tiles[tile_index]);
+}

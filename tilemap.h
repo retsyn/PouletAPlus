@@ -1,5 +1,7 @@
 #pragma once
 
+#include "stages.h"
+
 #define MAP_WIDTH 128
 #define MAP_MEM 1024
 
@@ -19,6 +21,7 @@
 #define TILE_ANIM_SPEED 20
 
 
+
 extern const uint8_t PROGMEM stage1_1[];
 extern const uint8_t PROGMEM stage1_2[];
 extern const uint8_t PROGMEM stage1_3[];
@@ -29,7 +32,7 @@ class Stage
 {
 
 public:
-    uint8_t *mapptr = stage1_1;
+    uint8_t *mapptr = stage1_1; // Won't be using this anymore.
     uint8_t exit_x;
     uint8_t exit_y;
 
@@ -44,6 +47,8 @@ public:
     bool get_coin(uint16_t x, uint16_t y);
 
     bool is_solid(uint16_t x, int8_t y);
+
+    uint8_t unpack_tile(uint16_t x, int8_t y, uint8_t stagenum);
 
 
 
