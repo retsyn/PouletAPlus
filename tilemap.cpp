@@ -2,6 +2,7 @@
 #include "tilemap.h"
 #include "graphics.h"
 #include "globals.h"
+#include "stages.h"
 
 const uint8_t PROGMEM stage1_1[]{
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -153,14 +154,22 @@ void Stage::draw_level(uint16_t cam_offset_x)
 
   for (int i = 0; i < MAP_MEM; i++)
   {
-    if (pgm_read_byte(mapptr + i) != 0 && pgm_read_byte(mapptr + i) != TILE_COIN1)
-    {
-      tx = ((i % MAP_WIDTH) * 8) - cam_offset_x;
-      ty = (i / MAP_WIDTH) * 8;
+    // Calculate tile coordinates
+    uint16_t tile_x = i % MAP_WIDTH;
+    uint16_t tile_y = i / MAP_WIDTH;
 
-      if (tx > -8 && tx < 128)
+    // Convert tile coordinates to pixel coordinates and apply camera offset
+    tx = (tile_x * 8) - cam_offset_x;
+    ty = tile_y * 8;
+
+    // Only draw tiles within the visible screen
+    if (tx > -8 && tx < 128)
+    {
+      uint8_t unpacked_tile = unpack_tile(tile_x, tile_y, 0);
+
+      if (unpacked_tile != 0 && unpacked_tile != TILE_COIN1)
       {
-        Sprites::drawOverwrite(tx, ty, foreground, pgm_read_byte(mapptr + i));
+        Sprites::drawOverwrite(tx, ty, foreground, unpacked_tile);
       }
     }
   }
@@ -177,9 +186,13 @@ bool Stage::is_solid(uint16_t x, int8_t y)
     return 0;
   }
 
-  // Convert i to be the queried tile on the 1-d map.
-  i = tx + (ty * 128);
-
+  uint8_t unpacked_tile = unpack_tile(tx, ty, 0);
+  if(unpacked_tile != TILE_EMPTY && unpacked_tile <= LAST_SOLID){
+    return 1;
+  } else {
+    return 0;
+  }
+  /*
   if (pgm_read_byte(mapptr + i) != TILE_EMPTY) // If not empty space...
   {
     if (pgm_read_byte(mapptr + i) <= LAST_SOLID) // If in the "solids"
@@ -195,6 +208,7 @@ bool Stage::is_solid(uint16_t x, int8_t y)
   {
     return 0;
   }
+  */
 }
 
 void Stage::fill_coins()
@@ -269,11 +283,13 @@ bool Stage::get_coin(uint16_t x, uint16_t y)
   return false;
 }
 
-uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum){
+uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum)
+{
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
   // First find how many screens in the x value is...
   uint8_t meta_x = (x / 8); // This should point to what meta tile we are in...
+  
 
   // We get the stage sequence "slice"
   uint8_t slice_data = pgm_read_byte(&stages[stagenum * 16 + meta_x]);
@@ -282,7 +298,7 @@ uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum){
   uint8_t meta_tile_index = (slice_data & 0x0F);
 
   // Calculate the index within the meta-tile:
-  uint8_t tile_index = (meta_tile_index * 16) + (y * 8) + (x % 8);
+  uint8_t tile_index = (meta_tile_index * 64) + ((y % 8) * 8) + (x % 8);
 
   // Now get the tile inside the meta tile?
   return pgm_read_byte(&meta_tiles[tile_index]);

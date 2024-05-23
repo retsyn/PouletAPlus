@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "stages.h"
 
 const uint8_t stages[] PROGMEM = {
     // Stage 1 (16 bytes)
