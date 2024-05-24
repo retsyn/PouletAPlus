@@ -345,16 +345,6 @@ void start_level()
         game_state = in_play;
     }
 
-    switch (level)
-    {
-    case 0:
-        stage->mapptr = stage1_1;
-        break;
-
-    default:
-        break;
-    }
-
     setup_level();
 
     if (game_state == in_play)

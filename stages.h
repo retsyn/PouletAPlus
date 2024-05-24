@@ -2,4 +2,4 @@
 
 #include "globals.h"
 
-extern const uint8_t PROGMEM stages[];
+extern const uint16_t PROGMEM stages[];

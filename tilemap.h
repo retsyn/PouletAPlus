@@ -32,7 +32,6 @@ class Stage
 {
 
 public:
-    uint8_t *mapptr = stage1_1; // Won't be using this anymore.
     uint8_t exit_x;
     uint8_t exit_y;
 
