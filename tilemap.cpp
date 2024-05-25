@@ -22,8 +22,8 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 9, 9, 9, 9, 0, 0,
+    0, 0, 9, 9, 9, 9, 0, 0,
     0, 0, 0, 0, 0, 0, 7, 0,
     0, 0, 0, 4, 4, 0, 6, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
@@ -36,8 +36,8 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 1, 4, 4, 4, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 9, 9, 9, 0,
+    0, 0, 0, 0, 9, 9, 9, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 1, 1, 1,
     0, 0, 0, 0, 1, 2, 2, 1,
@@ -46,9 +46,9 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 4, 4, 0, 0, 0,
     0, 0, 1, 1, 1, 1, 0, 0,
-    0, 0, 5, 5, 5, 5, 0, 0,
-    0, 0, 5, 5, 5, 5, 0, 0,
-    0, 0, 5, 5, 5, 5, 0, 0,
+    0, 0, 5, 5, 5, 5, 0, 9,
+    0, 0, 5, 5, 5, 5, 0, 9,
+    0, 0, 5, 5, 5, 5, 0, 9,
     0, 0, 5, 5, 5, 5, 0, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -77,16 +77,16 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 0,
-    0, 0, 0, 0, 1, 1, 0, 0,
-    0, 0, 0, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 0, 1, 9, 0,
+    0, 0, 0, 0, 1, 1, 9, 0,
+    0, 0, 0, 1, 1, 1, 9, 0,
     0, 0, 1, 1, 1, 1, 0, 0,
     0, 1, 1, 1, 1, 1, 4, 4,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 3, 0, 0, 0, 0, 0, 0,
     0, 3, 0, 0, 0, 0, 0, 0,
-    0, 3, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 3, 9, 9, 0, 0, 0, 0,
+    0, 0, 9, 9, 0, 0, 0, 0,
     0, 0, 0, 0, 4, 4, 0, 0,
     1, 2, 2, 2, 2, 2, 2, 1,
     1, 2, 2, 2, 2, 2, 2, 1,
@@ -94,7 +94,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 9, 9, 9, 9, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 1, 0, 0,
     0, 1, 0, 0, 0, 0, 0, 0,
@@ -103,7 +103,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     8, 8, 8, 8, 8, 8, 8, 8,
     8, 8, 8, 8, 8, 8, 8, 8,
     8, 8, 8, 0, 0, 8, 8, 8,
-    8, 8, 8, 0, 0, 8, 8, 8,
+    8, 8, 8, 9, 9, 8, 8, 8,
     8, 8, 8, 8, 8, 8, 8, 8,
     8, 8, 8, 8, 8, 8, 8, 8,
     1, 1, 1, 1, 1, 1, 1, 1,
@@ -112,8 +112,8 @@ const unsigned char meta_tiles[] PROGMEM = {
     8, 8, 8, 8, 8, 8, 8, 8,
     8, 8, 8, 4, 4, 8, 8, 8,
     8, 8, 1, 1, 1, 1, 1, 1,
-    8, 8, 8, 8, 8, 8, 8, 8,
-    8, 8, 8, 8, 8, 8, 8, 8,
+    8, 8, 8, 9, 9, 8, 8, 8,
+    8, 8, 8, 9, 9, 8, 8, 8,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 1, 1, 0, 0, 0, 0, 0,
     0, 1, 1, 0, 0, 0, 0, 0,
@@ -296,11 +296,11 @@ void Stage::draw_level(uint16_t cam_offset_x)
     // Only draw tiles within the visible screen
     if (tx > -8 && tx < 128)
     {
-      uint8_t unpacked_tile = unpack_tile(tile_x, tile_y, 0);
+      uint8_t unpacked = unpack_tile(tile_x, tile_y, 0);
 
-      if (unpacked_tile != 0 && unpacked_tile != TILE_COIN1)
+      if (unpacked != 0 && unpacked != TILE_COIN1)
       {
-        Sprites::drawOverwrite(tx, ty, foreground, unpacked_tile);
+        Sprites::drawOverwrite(tx, ty, foreground, unpacked);
       }
     }
   }
@@ -317,10 +317,13 @@ bool Stage::is_solid(uint16_t x, int8_t y)
     return 0;
   }
 
-  uint8_t unpacked_tile = unpack_tile(tx, ty, 0);
-  if(unpacked_tile != TILE_EMPTY && unpacked_tile <= LAST_SOLID){
+  uint8_t unpacked = unpack_tile(tx, ty, 0);
+  if (unpacked != TILE_EMPTY && unpacked <= LAST_SOLID)
+  {
     return 1;
-  } else {
+  }
+  else
+  {
     return 0;
   }
 }
@@ -337,7 +340,7 @@ void Stage::fill_coins()
 
     uint8_t tx = i % 128;
     uint8_t ty = (i / 128) + 1;
-    if(unpack_tile(tx, ty, 0) >= TILE_COIN1)
+    if (unpack_tile(tx, ty, 0) >= TILE_COIN1)
     {
       // Add a bit:
       coins[byte_index] |= (1 << bit_index);
@@ -405,10 +408,9 @@ uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum)
 
   // First find how many screens in the x value is...
   uint8_t meta_x = (x / 8); // This should point to what meta tile we are in...
-  
 
   // We get the stage sequence "slice"
-  uint8_t slice_data = pgm_read_byte(&stages[stagenum * 16 + meta_x]);
+  uint16_t slice_data = pgm_read_word(&stages[stagenum * 16 + meta_x]);
 
   // Now the slice data needs to be read for the piece we need-- last five bits are meta-tile
   uint8_t meta_tile_index = (slice_data & 0x1F);
@@ -417,5 +419,47 @@ uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum)
   uint8_t tile_index = (meta_tile_index * 64) + ((y % 8) * 8) + (x % 8);
 
   // Now get the tile inside the meta tile?
-  return pgm_read_byte(&meta_tiles[tile_index]);
+  uint8_t unpacked = pgm_read_byte(&meta_tiles[tile_index]);
+
+  // Now perform 'mutations'
+  // 0x0020- Coins on or off
+  if (unpacked >= TILE_COIN1)
+  {
+    if ((slice_data & 0x20) == 0)
+    {
+      unpacked = TILE_EMPTY;
+    }
+  }
+
+  // 0x0040- Spikes on or off
+  if (unpacked == TILE_SPIKE)
+  {
+    if ((slice_data & 0x0040) == 0)
+    {
+      unpacked = TILE_EMPTY;
+    }
+  }
+
+  // 0x0080- Floorless on or off
+  if (y == 7)
+  {
+    if ((slice_data & 0x0080) != 0)
+    {
+      unpacked = TILE_EMPTY;
+    }
+  }
+
+  // 0x0100- Castle tiles on or off
+  if ((slice_data & 0x0100) != 0)
+  {
+    if (unpacked == TILE_CLASSIC)
+    {
+      unpacked = TILE_CASTLEBLOCK;
+    }
+    else if (unpacked == TILE_EMPTY)
+    {
+      unpacked = TILE_CASTLEWALL;
+    }
+  }
+  return unpacked;
 }
