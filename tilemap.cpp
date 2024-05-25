@@ -449,6 +449,11 @@ uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum)
     }
   }
 
+  //0x0400- Hole Punch Floor on or off
+  if(x > 1 && x < 6 && y > 1){
+    unpacked == TILE_EMPTY;
+  }
+
   // 0x0100- Castle tiles on or off
   if ((slice_data & 0x0100) != 0)
   {
@@ -461,5 +466,14 @@ uint8_t Stage::unpack_tile(uint16_t x, int8_t y, uint8_t stagenum)
       unpacked = TILE_CASTLEWALL;
     }
   }
+
+  // 0x0200- Fill backwall on or off
+  if((slice_data & 0x0200) != 0)
+  {
+    if(unpacked == TILE_EMPTY){
+      unpacked == TILE_CHOCWALL;
+    }
+  }
   return unpacked;
+
 }
