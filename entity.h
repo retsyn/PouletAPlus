@@ -6,6 +6,14 @@
 #define ENT_DUD 0
 #define ENT_POULET 1
 #define ENT_FENNEC 2
+#define ENT_GOOB 3
+#define ENT_BLOOB 4
+
+#define SPAWN_NOTHING 0
+#define SPAWN_BALLOON 1
+#define SPAWN_FENNEC 2
+#define SPAWN_GOOB 3
+#define SPAWN_BLOOB 4
 
 #define SPR_WAIT 6
 #define SPR_TOPSKIN 9
@@ -141,6 +149,7 @@ public:
     void draw(int16_t offset);
     void update(Stage *stage, PlayerEntity *player);
     bool collide(PlayerEntity *player);
+    void assign_sprite();
 
     Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
     unsigned char *sprite;

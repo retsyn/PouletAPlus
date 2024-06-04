@@ -36,6 +36,7 @@ public:
     uint8_t exit_y;
 
     uint8_t tile_anim = 0;
+    uint16_t currentstage = 0;
 
     uint8_t coins[COIN_ARRAY];
 
@@ -44,14 +45,8 @@ public:
     void draw_coins();
     void draw_coins(uint16_t offset_x);
     bool get_coin(uint16_t x, uint16_t y);
-
     bool is_solid(uint16_t x, int8_t y);
-
-    uint8_t unpack_tile(uint16_t x, int8_t y, uint8_t stagenum);
-
-
-
-    
+    uint8_t unpack_tile(uint16_t x, uint8_t y);
 
 };
 

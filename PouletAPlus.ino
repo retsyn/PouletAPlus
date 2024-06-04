@@ -8,6 +8,7 @@
 #include "digits.h"
 #include "items.h"
 #include "ephemeral.h"
+#include "stages.h"
 
 GameState game_state = title_screen;
 
@@ -20,13 +21,14 @@ int freeMemory();
 Stage *stage = new Stage();
 uint8_t level = 0;
 uint8_t deathtime = DEATHTIME_MAX;
-PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
 
+// Static Memory content:
+PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
+uint16_t spawnstatus = 0; // Bit flags for what is spawned or not.
 Foe *foe_roster[FOE_MAX];
 Balloon *balloon_roster[BALLOON_MAX];
 EphemeralRoster ephemerals;
 ItemRoster items;
-
 
 Door *door = new Door(0, 0);
 
@@ -99,7 +101,6 @@ void loop()
         {
             screen_ticker = 0;
             game_state = in_play;
-
         }
         break;
 
@@ -133,7 +134,6 @@ void loop()
         door->draw(scroll);
         stage->draw_coins(scroll);
 
-
         draw_hud();
 
         if (door->open)
@@ -150,11 +150,17 @@ void loop()
         player->draw(scroll);
         player->control();
         player->physics(stage);
-        
+
         items.updateRoster(stage, player, scroll);
         ephemerals.updateRoster(scroll);
 
         // Debug
+        arduboy->setCursor(0, 56);
+        arduboy->print(spawnstatus);
+        arduboy->setCursor(32, 56);
+        arduboy->print(scroll / 64);
+        
+        
         arduboy->setCursor(64, 56);
         arduboy->print(freeMemory());
 
@@ -163,6 +169,9 @@ void loop()
         {
             die();
         }
+
+        // Work out what should spawn!
+        check_for_spawn(scroll);
 
         advance_master_frames();
 
@@ -245,14 +254,21 @@ void allocate_foes(Foe **roster)
     }
 }
 
-void init_foes(Foe **roster)
+void spawn_foe(Foe **roster, uint16_t newx, uint8_t newy, uint8_t etype)
 {
+
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
-        roster[i]->x = (40 + i * 30);
-        roster[i]->y = 20;
-        roster[i]->spawned = true;
-        roster[i]->dead = false;
+        if (roster[i]->dead == true)
+        {
+            roster[i]->x = newx;
+            roster[i]->y = newy;
+            roster[i]->spawned = true;
+            roster[i]->dead = false;
+            roster[i]->enttype = etype;
+            roster[i]->assign_sprite();
+            break;
+        }
     }
 }
 
@@ -296,9 +312,9 @@ void allocate_balloons(Balloon **roster)
     }
 }
 
+void init_balloons(Balloon **roster)
+{
 
-void init_balloons(Balloon **roster){
-    
     // Debug loop to put balloons in random text position.
     for (uint8_t i = 0; i < BALLOON_MAX; i++)
     {
@@ -308,13 +324,13 @@ void init_balloons(Balloon **roster){
     }
 }
 
-
 void update_balloons(Balloon **roster)
 {
     // Draw them all on screen
     for (uint8_t i = 0; i < BALLOON_MAX; i++)
     {
-        if(roster[i]->popped){
+        if (roster[i]->popped)
+        {
             continue;
         }
         roster[i]->draw(scroll);
@@ -355,7 +371,6 @@ void start_level()
 
 void setup_level()
 {
-    init_foes(foe_roster);
     init_balloons(balloon_roster);
     items.emptyRoster();
     stage->fill_coins();
@@ -378,4 +393,55 @@ void die()
     player->death = true;
     player->lives -= 1;
     player->toque = false;
+}
+
+bool check_spawn_status(uint8_t position)
+{
+    uint16_t reversed_position = 15 - position;
+    return (spawnstatus & (1 << reversed_position)) != 0;
+}
+
+void set_spawn_status(bool newstate, uint16_t position)
+{
+    uint16_t reversed_position = 15 - position;
+    if (newstate == true)
+    {
+        spawnstatus |= (1 << reversed_position);
+    }
+    else
+    {
+        spawnstatus &= ~(1 << reversed_position);
+    }
+}
+
+uint8_t spawn_type(uint8_t position)
+{
+    // Put some bounds checking here?
+    uint16_t slice_data = pgm_read_word(&stages[stage->currentstage * 16 + position]);
+    return (slice_data >> 12) & 0x0F;
+}
+
+void check_for_spawn(uint16_t scroll_x)
+{
+    uint8_t meta_tile = (scroll_x + 127) / 64;
+
+    if (check_spawn_status(meta_tile) == false)
+    {
+        // switch case for all spawn types.
+        
+        switch (spawn_type(meta_tile))
+        {
+        case SPAWN_FENNEC:
+            spawn_foe(foe_roster, (meta_tile * 64) + 16, 0, ENT_FENNEC);
+            set_spawn_status(true, meta_tile);
+            break;
+
+        case SPAWN_GOOB:
+            spawn_foe(foe_roster, (meta_tile * 64) + 16, 0, ENT_GOOB);
+            set_spawn_status(true, meta_tile);
+
+        default:
+            break;
+        }
+    }
 }

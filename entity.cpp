@@ -403,11 +403,24 @@ Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
     anim_bit = 0;
 
     enttype = newtype;
+    assign_sprite();
 
+}
+
+
+void Foe::assign_sprite(){
     switch (enttype)
     {
     case (ENT_FENNEC):
         sprite = fennec_plus_mask;
+        break;
+
+    case (ENT_GOOB):
+        sprite = goob_plus_mask;
+        break;
+
+    case (ENT_BLOOB):
+        sprite = bloob_plus_mask;
         break;
 
     default:
@@ -455,7 +468,18 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     switch (enttype)
     {
+    case (ENT_BLOOB):
+    // Same as Fennec.
     case (ENT_FENNEC):
+        if (timer >= SPEED_FENNEC)
+        {
+            advance = true;
+            anim_bit = !anim_bit;
+            timer = 0;
+        }
+        break;
+
+    case (ENT_GOOB):
         if (timer >= SPEED_FENNEC)
         {
             advance = true;
@@ -472,6 +496,7 @@ void Foe::update(Stage *stage, PlayerEntity *player)
     {
         switch (enttype)
         {
+        case (ENT_BLOOB):
         case (ENT_FENNEC):
 
             if (flip)
@@ -495,6 +520,17 @@ void Foe::update(Stage *stage, PlayerEntity *player)
                 {
                     flip = true;
                 }
+            }
+            break;
+
+        case (ENT_GOOB):
+            if (player->x < x)
+            {
+                flip = true;
+            }
+            else
+            {
+                flip = false;
             }
             break;
 
