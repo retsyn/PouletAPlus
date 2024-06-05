@@ -146,7 +146,7 @@ void loop()
         update_balloons(balloon_roster);
         update_foes(foe_roster);
 
-        stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN));
+        stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN), uint16_t(player->x + SPR_RGTSKIN), uint16_t(player->y + SPR_BOTSKIN));
         player->draw(scroll);
         player->control();
         player->physics(stage);
@@ -205,6 +205,7 @@ void show_title_screen()
 
 void next_stage()
 {
+    spawnstatus = 0;
     level += 1;
     door->open = false;
     player->x = 0;
@@ -294,7 +295,7 @@ void update_foes(Foe **roster)
             else
             {
                 roster[i]->dead = true;
-                player->attack = false;
+                //player->attack = false; // Attack persists until touching ground!
                 player->vy = -KILL_BOUNCE;
                 player->score += 25;
             }
@@ -439,6 +440,12 @@ void check_for_spawn(uint16_t scroll_x)
         case SPAWN_GOOB:
             spawn_foe(foe_roster, (meta_tile * 64) + 16, 0, ENT_GOOB);
             set_spawn_status(true, meta_tile);
+            break;
+
+        case SPAWN_BLOOB:
+            spawn_foe(foe_roster, (meta_tile * 64) + 16, 0, ENT_BLOOB);
+            set_spawn_status(true, meta_tile);
+            break;
 
         default:
             break;

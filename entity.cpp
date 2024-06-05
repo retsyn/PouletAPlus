@@ -404,11 +404,10 @@ Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
 
     enttype = newtype;
     assign_sprite();
-
 }
 
-
-void Foe::assign_sprite(){
+void Foe::assign_sprite()
+{
     switch (enttype)
     {
     case (ENT_FENNEC):
@@ -450,9 +449,12 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 {
     bool advance = false;
 
-    if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))
+    if (enttype != ENT_BLOOB)
     {
-        y += 1;
+        if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))
+        {
+            y += 1;
+        }
     }
 
     timer += 1;

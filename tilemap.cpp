@@ -363,13 +363,11 @@ void Stage::draw_coins(uint16_t cam_offset_x)
   }
 }
 
-bool Stage::get_coin(uint16_t x, uint16_t y)
-{
+bool Stage::check_coin(uint16_t x, uint16_t y){
 
   uint16_t i;
   uint16_t tx = x / 8;
   uint8_t ty = (y / 8) - 1;
-
   if (ty < 0 || ty > 7)
     return false; // Refuse to regard spaces above the screen as anything but empty.
 
@@ -386,6 +384,15 @@ bool Stage::get_coin(uint16_t x, uint16_t y)
   }
 
   return false;
+}
+
+void Stage::get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2)
+{
+  // Four corner coin check:
+  check_coin(x, y);
+  check_coin(x2, y);
+  check_coin(x, y2);
+  check_coin(x2, y2);
 }
 
 uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
