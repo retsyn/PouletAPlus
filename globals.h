@@ -3,6 +3,8 @@
 #define LEFT_BOUND 0
 #define RIGHT_BOUND 1024
 
+#define ONEUP_MILESTONE 1000
+
 #define DEATHTIME_MAX 255
 
 #define KILL_BOUNCE 1.25
