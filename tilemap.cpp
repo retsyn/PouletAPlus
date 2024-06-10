@@ -399,6 +399,11 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
 {
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
+  // If below playfield, tile must return nothing.
+  if(y > 64 || y < 0){
+    return TILE_EMPTY;
+  }
+
   // First find how many screens in the x value is...
   uint8_t meta_x = (x / 8); // This should point to what meta tile we are in...
 

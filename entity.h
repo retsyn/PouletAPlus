@@ -141,7 +141,7 @@ public:
     bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
 
     uint8_t enttype = ENT_DUD;
-    uint16_t x = 0;
+    int16_t x = 0;
     uint8_t y = 0;
     uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
     // When enemies die they probably won't fly away, just blink.

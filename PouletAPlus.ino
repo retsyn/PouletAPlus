@@ -12,10 +12,10 @@
 
 GameState game_state = title_screen;
 
-uint8_t u_frame{0}; // The update frame value for animations not handled by objects. (menus,etc)
-uint8_t screen_ticker = 0;
-uint8_t power_up_seq = 0;
-uint8_t freelivesseq = 1;
+// 'universal frame' for animations not part of ents, a screen-ticker speed for wait times,
+// record of the power_up_seq for which powerup will drop next, and where in the free-lives
+// Aware scheme we are.
+uint8_t u_frame{0}, screen_ticker = 0, power_up_seq = 0, freelivesseq = 1;
 
 int freeMemory();
 
@@ -119,7 +119,8 @@ void loop()
         }
 
         // Award lives?
-        if(player->score >= freelivesseq * ONEUP_MILESTONE * (freelivesseq)){
+        if (player->score >= freelivesseq * ONEUP_MILESTONE * (freelivesseq))
+        {
             freelivesseq++;
             player->lives++;
             // Animated indicator of 1up using ephem system?
@@ -162,8 +163,12 @@ void loop()
         ephemerals.updateRoster(scroll);
 
         // Debug
-        arduboy->setCursor(64, 56);
+        arduboy->setCursor(84, 56);
         arduboy->print(freeMemory());
+
+        arduboy->setCursor(0, 56);
+        arduboy->print(scroll);
+
 
         // Some in game stuff:
         if (player->y > 64 && !player->death)
@@ -172,7 +177,11 @@ void loop()
         }
 
         // Work out what should spawn!
-        check_for_spawn(scroll);
+        check_for_spawn(scroll, 2);
+        check_for_spawn(scroll, -2);
+        cleanup_spawns();
+
+
 
         advance_master_frames();
 
@@ -185,7 +194,7 @@ void loop()
     arduboy->display();
 }
 
-void advance_master_frames()
+inline void advance_master_frames()
 {
     static uint8_t master_ticker = TICKER_SPEED;
     // Advance the frames of all animations.
@@ -198,13 +207,13 @@ void advance_master_frames()
     }
 }
 
-void show_title_screen()
+inline void show_title_screen()
 {
 
     Sprites::drawOverwrite(0, 0, title, 0);
 }
 
-void next_stage()
+inline void next_stage()
 {
     spawnstatus = 0;
     stage->currentstage += 1;
@@ -213,7 +222,7 @@ void next_stage()
     scroll = 0;
 }
 
-void fade_out()
+inline void fade_out()
 {
     for (uint8_t i = 128; i > 3; i -= 3)
     {
@@ -261,7 +270,7 @@ void spawn_foe(Foe **roster, uint16_t newx, uint8_t newy, uint8_t etype)
 
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
-        if (roster[i]->dead == true)
+        if (roster[i]->spawned == false)
         {
             roster[i]->x = newx;
             roster[i]->y = newy;
@@ -287,12 +296,12 @@ void update_foes(Foe **roster)
             continue;
         }
 
-        if (roster[i]->x < (scroll - 32))
+        if (roster[i]->x < (scroll - 128))
         {
             roster[i]->spawned = false;
             roster[i]->dead = true;
         }
-        if (roster[i]->x > (scroll + 192))
+        if (roster[i]->x > (scroll + 256))
         {
             roster[i]->spawned = false;
             roster[i]->dead = true;
@@ -325,8 +334,9 @@ void allocate_balloons(Balloon **roster)
     }
 }
 
-void spawn_balloon(uint16_t newx, uint8_t newy){
-    
+void spawn_balloon(uint16_t newx, uint8_t newy)
+{
+
     for (uint8_t i = 0; i < BALLOON_MAX; i++)
     {
         if (balloon_roster[i]->popped == true)
@@ -358,7 +368,7 @@ void update_balloons(Balloon **roster)
     }
 }
 
-void draw_hud()
+inline void draw_hud()
 {
     draw_digits(player->score, 7, 78, 1);
     draw_lives(100, 1, player->lives);
@@ -377,6 +387,10 @@ void start_level()
     }
 
     setup_level();
+    // Check for spawns in this tile and one to the right:
+    check_for_spawn(scroll, 0);
+    check_for_spawn(scroll, 1);
+    check_for_spawn(scroll, 2);
 
     if (game_state == in_play)
     {
@@ -402,7 +416,7 @@ int freeMemory()
     return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
 
-void die()
+inline void die()
 {
     player->death = true;
     player->lives -= 1;
@@ -431,6 +445,10 @@ void set_spawn_status(bool newstate, uint16_t position)
 uint8_t spawn_type(uint8_t position)
 {
     // Put some bounds checking here?
+    if(position < 0){
+        return 0;
+    }
+
     uint16_t slice_data = pgm_read_word(&stages[stage->currentstage * 16 + position]);
     return (slice_data >> 12) & 0x0F;
 }
@@ -441,10 +459,23 @@ bool spawn_high(uint8_t position)
     return (slice_data >> 11) & 0x01;
 }
 
-void check_for_spawn(uint16_t scroll_x)
+void cleanup_spawns(){
+    uint8_t meta_tile = (scroll / 64);
+    for (uint8_t i; i < 16; i++)
+    {
+        if (i < (meta_tile - 1) || i > (meta_tile + 4))
+        {
+            set_spawn_status(false, i);
+        }
+    }
+
+}
+
+void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 {
-    uint8_t meta_tile = (scroll_x + 127) / 64;
+    uint8_t meta_tile = (scroll_x / 64) + tile_offset;
     bool height = (spawn_high(meta_tile));
+   
     uint16_t spawnheight = 0;
 
     if (check_spawn_status(meta_tile) == false)
@@ -459,9 +490,9 @@ void check_for_spawn(uint16_t scroll_x)
             spawnheight = 8;
         }
 
-        switch (spawn_type(meta_tile))
+        switch (spawn_type(meta_tile + tile_offset))
         {
-        
+
         case SPAWN_BALLOON:
             spawn_balloon((meta_tile * 64) + 16, spawnheight);
             set_spawn_status(true, meta_tile);

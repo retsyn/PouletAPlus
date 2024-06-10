@@ -443,6 +443,12 @@ void Foe::draw(int16_t offset_x)
     }
 
     Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
+
+    arduboy->setCursor(x- offset_x, y - 8);
+    arduboy->print(x);
+    arduboy->setCursor(x- offset_x, y - 13);
+    arduboy->print(x - offset_x);
+
 }
 
 void Foe::update(Stage *stage, PlayerEntity *player)
