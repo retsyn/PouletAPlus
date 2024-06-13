@@ -63,6 +63,7 @@ void Entity::physics(Stage *in_stage)
     if (vy > 0)
     {
 
+
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
@@ -443,12 +444,6 @@ void Foe::draw(int16_t offset_x)
     }
 
     Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
-
-    arduboy->setCursor(x- offset_x, y - 8);
-    arduboy->print(x);
-    arduboy->setCursor(x- offset_x, y - 13);
-    arduboy->print(x - offset_x);
-
 }
 
 void Foe::update(Stage *stage, PlayerEntity *player)

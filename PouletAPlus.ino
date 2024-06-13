@@ -171,13 +171,14 @@ void loop()
 
 
         // Some in game stuff:
-        if (player->y > 64 && !player->death)
+        if (player->y > 56 && !player->death)
         {
+            player->vx = 0;
             die();
         }
 
         // Work out what should spawn!
-        check_for_spawn(scroll, 2);
+        check_for_spawn(scroll, 3);
         check_for_spawn(scroll, -2);
         cleanup_spawns();
 
@@ -388,9 +389,9 @@ void start_level()
 
     setup_level();
     // Check for spawns in this tile and one to the right:
-    check_for_spawn(scroll, 0);
-    check_for_spawn(scroll, 1);
+    check_for_spawn(scroll, -2);
     check_for_spawn(scroll, 2);
+    check_for_spawn(scroll, 3);
 
     if (game_state == in_play)
     {

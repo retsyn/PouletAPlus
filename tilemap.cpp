@@ -302,6 +302,10 @@ bool Stage::is_solid(uint16_t x, int8_t y)
   {
     return 0;
   }
+  else if (y > 56)
+  {
+    return 0;
+  }
 
   uint8_t unpacked = unpack_tile(tx, ty);
   if (unpacked != TILE_EMPTY && unpacked <= LAST_SOLID)
@@ -363,7 +367,8 @@ void Stage::draw_coins(uint16_t cam_offset_x)
   }
 }
 
-bool Stage::check_coin(uint16_t x, uint16_t y){
+bool Stage::check_coin(uint16_t x, uint16_t y)
+{
 
   uint16_t i;
   uint16_t tx = x / 8;
@@ -400,9 +405,12 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
   // If below playfield, tile must return nothing.
-  if(y > 64 || y < 0){
+  if (y > 56 || y < 0)
+  {
     return TILE_EMPTY;
   }
+
+  uint8_t mx = (x % 8);
 
   // First find how many screens in the x value is...
   uint8_t meta_x = (x / 8); // This should point to what meta tile we are in...
@@ -418,6 +426,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
 
   // Now get the tile inside the meta tile?
   uint8_t unpacked = pgm_read_byte(&meta_tiles[tile_index]);
+  
 
   // Now perform 'mutations'
   // 0x0020- Coins on or off
@@ -447,9 +456,13 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
     }
   }
 
-  //0x0400- Hole Punch Floor on or off
-  if(x > 1 && x < 6 && y > 1){
-    unpacked == TILE_EMPTY;
+  // 0x0400- Hole Punch Floor on or off
+  if ((slice_data & 0x0400) != 0)
+  {
+    if (mx > 1 && mx < 6 && y > 4)
+    {
+      unpacked = TILE_EMPTY;
+    }
   }
 
   // 0x0100- Castle tiles on or off
@@ -466,12 +479,12 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   }
 
   // 0x0200- Fill backwall on or off
-  if((slice_data & 0x0200) != 0)
+  if ((slice_data & 0x0200) != 0)
   {
-    if(unpacked == TILE_EMPTY){
-      unpacked == TILE_CHOCWALL;
+    if (unpacked == TILE_EMPTY)
+    {
+      unpacked = TILE_CHOCWALL;
     }
   }
   return unpacked;
-
 }
