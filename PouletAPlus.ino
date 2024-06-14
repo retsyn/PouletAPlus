@@ -34,6 +34,7 @@ ItemRoster items;
 Door *door = new Door(0, 0);
 
 int16_t scroll = 0;
+bool masterblink = true;
 
 void advance_master_frames();
 void next_stage();
@@ -162,27 +163,25 @@ void loop()
         items.updateRoster(stage, player, scroll);
         ephemerals.updateRoster(scroll);
 
-        // Debug
-        arduboy->setCursor(84, 56);
-        arduboy->print(freeMemory());
-
-        arduboy->setCursor(0, 56);
-        arduboy->print(scroll);
-
+        draw_digits(scroll / 64, 2, 16, 57);
+        draw_digits((scroll / 64) + 1, 2, 32, 57);
+        draw_digits(freeMemory(), 4, 100, 57);
 
         // Some in game stuff:
-        if (player->y > 56 && !player->death)
+        if (player->y > 56)
         {
             player->vx = 0;
-            die();
+            player->vy = 0;
+            if (!player->death)
+            {
+                die();
+            }
         }
 
         // Work out what should spawn!
+        cleanup_spawns();
         check_for_spawn(scroll, 3);
         check_for_spawn(scroll, -2);
-        cleanup_spawns();
-
-
 
         advance_master_frames();
 
@@ -389,9 +388,9 @@ void start_level()
 
     setup_level();
     // Check for spawns in this tile and one to the right:
-    check_for_spawn(scroll, -2);
+    check_for_spawn(scroll, 0);
+    check_for_spawn(scroll, 1);
     check_for_spawn(scroll, 2);
-    check_for_spawn(scroll, 3);
 
     if (game_state == in_play)
     {
@@ -446,7 +445,8 @@ void set_spawn_status(bool newstate, uint16_t position)
 uint8_t spawn_type(uint8_t position)
 {
     // Put some bounds checking here?
-    if(position < 0){
+    if (position < 0)
+    {
         return 0;
     }
 
@@ -460,7 +460,8 @@ bool spawn_high(uint8_t position)
     return (slice_data >> 11) & 0x01;
 }
 
-void cleanup_spawns(){
+void cleanup_spawns()
+{
     uint8_t meta_tile = (scroll / 64);
     for (uint8_t i; i < 16; i++)
     {
@@ -469,14 +470,13 @@ void cleanup_spawns(){
             set_spawn_status(false, i);
         }
     }
-
 }
 
 void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 {
     uint8_t meta_tile = (scroll_x / 64) + tile_offset;
     bool height = (spawn_high(meta_tile));
-   
+
     uint16_t spawnheight = 0;
 
     if (check_spawn_status(meta_tile) == false)
@@ -491,7 +491,7 @@ void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             spawnheight = 8;
         }
 
-        switch (spawn_type(meta_tile + tile_offset))
+        switch (spawn_type(meta_tile))
         {
 
         case SPAWN_BALLOON:

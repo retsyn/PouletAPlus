@@ -292,6 +292,34 @@ void Stage::draw_level(uint16_t cam_offset_x)
   }
 }
 
+
+bool Stage::is_spike(uint16_t x, int8_t y)
+{
+  int i;
+  uint16_t tx = x / 8;
+  uint16_t ty = y / 8;
+
+  if (y < 0)
+  {
+    return 0;
+  }
+  else if (y > 56)
+  {
+    return 0;
+  }
+
+  uint8_t unpacked = unpack_tile(tx, ty);
+  if (unpacked == TILE_SPIKE)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+
 bool Stage::is_solid(uint16_t x, int8_t y)
 {
   int i;
