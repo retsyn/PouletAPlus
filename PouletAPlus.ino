@@ -160,7 +160,7 @@ void loop()
         player->control();
         player->physics(stage);
 
-        items.updateRoster(stage, player, scroll);
+        items.updateRoster(stage, player, scroll, &ephemerals);
         ephemerals.updateRoster(scroll);
 
         draw_digits(scroll / 64, 2, 16, 57);

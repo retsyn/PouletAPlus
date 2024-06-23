@@ -16,10 +16,16 @@
 #define SPAWN_BLOOB 4
 
 #define SPR_WAIT 6
+// Sprite "skins" to adjust for their visible size.
 #define SPR_TOPSKIN 9
 #define SPR_BOTSKIN 15
 #define SPR_LFTSKIN 4
 #define SPR_RGTSKIN 11
+// Extra forgiving collision skin for spikes:
+#define SPR_STOPSKIN 11
+#define SPR_SBOTSKIN 12
+#define SPR_SLFTSKIN 6
+#define SPR_SRGTSKIN 9
 
 
 // Foe speeds:
@@ -110,6 +116,8 @@ public:
     Entity(uint8_t newtype, float start_x, float start_y);
     virtual void draw(int16_t offset_x);
     void physics(Stage *in_stage);
+    virtual void hitspike();
+
 };
 
 class PlayerEntity : public Entity
@@ -124,6 +132,9 @@ public:
     void control();
     void draw(int16_t offset_x) override;
     void takehit(Foe *hitter);
+    void power_down();
+    void hitspike() override;
+ 
 
 protected:
     // Precalc framelengths--

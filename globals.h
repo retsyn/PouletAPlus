@@ -16,6 +16,7 @@
 #define ITEM_MAX 2
 
 #define EPHEM_ANIM_SPEED 3
+#define EPHEM_TEXT_SPEED 10
 #define EPHEM_MAX 2
 #define EPHEM_END_FRAME 4
 

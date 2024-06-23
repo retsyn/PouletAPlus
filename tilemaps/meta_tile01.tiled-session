@@ -3,18 +3,290 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "1-2.tmx",
+    "activeFile": "11.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "00.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "01.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "02.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "03.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.887719298245614
+            }
+        },
+        "04.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "05.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "06.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "07.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
+            }
+        },
+        "08.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.887719298245614,
+                "y": 31.887719298245614
+            }
+        },
+        "09.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.887719298245614,
+                "y": 31.887719298245614
+            }
+        },
+        "1-1.tmx": {
+            "scale": 1.1244140624999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 512.2668056279314,
+                "y": 32.016675351745675
+            }
+        },
         "1-2.tmx": {
             "scale": 3,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 227.99999999999997,
-                "y": 82.33333333333331
+                "x": 156.66666666666669,
+                "y": 46.66666666666666
+            }
+        },
+        "10.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
+            }
+        },
+        "11.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
+            }
+        },
+        "12.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 29.716959064327487,
+                "y": 32.71111111111111
+            }
+        },
+        "13.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
+            }
+        },
+        "14.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.812865497076025,
+                "y": 31.812865497076025
+            }
+        },
+        "15.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "16.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "17.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "18.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.887719298245614,
+                "y": 41.768421052631574
+            }
+        },
+        "19.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "20.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "21.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "22.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "23.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 27.54619883040936,
+                "y": 31.588304093567253
+            }
+        },
+        "24.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "25.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 40.046783625730995,
+                "y": 38.774269005847955
+            }
+        },
+        "26.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "27.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "28.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "29.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 32.0374269005848,
+                "y": 32.0374269005848
+            }
+        },
+        "30.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "31.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
+            }
+        },
+        "32.tmx": {
+            "scale": 13.359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 31.962573099415206,
+                "y": 31.962573099415206
             }
         },
         "PouletAPlus.tsx": {
@@ -25,104 +297,104 @@
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 34.58245614035088,
-                "y": 32
+                "x": 34.50760233918129,
+                "y": 31.962573099415206
             }
         },
         "meta02.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta03.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta04.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta05.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta06.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.98501872659176,
-                "y": 31.947565543071164
+                "x": 31.910112359550567,
+                "y": 31.910112359550563
             }
         },
         "meta07.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta08.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.98501872659176,
-                "y": 31.947565543071164
+                "x": 31.910112359550567,
+                "y": 31.910112359550563
             }
         },
         "meta09.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta10.tmx": {
             "scale": 13.35,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.98501872659176,
-                "y": 31.947565543071164
+                "x": 31.910112359550567,
+                "y": 31.910112359550563
             }
         },
         "meta11.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta12.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 31.962573099415206,
-                "y": 32
+                "x": 31.887719298245614,
+                "y": 31.962573099415206
             }
         },
         "meta13.tmx": {
             "scale": 13.359375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 38.02573099415205,
-                "y": 32.26198830409357
+                "x": 31.962573099415206,
+                "y": 32
             }
         },
         "meta14.tmx": {
@@ -150,7 +422,7 @@
             }
         }
     },
-    "last.exportedFilePath": "C:/GameDev/PouletAPlus/tilemaps",
+    "last.exportedFilePath": "C:/GameDev/PouletAPlus/tilemaps/csvs",
     "last.externalTilesetPath": "C:/GameDev/PouletAPlus/tilemaps",
     "last.imagePath": "C:/GameDev/PouletAPlus/tilemaps",
     "map.height": 8,
@@ -158,41 +430,56 @@
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 8,
     "map.tileWidth": 8,
-    "map.width": 128,
+    "map.width": 8,
     "openFiles": [
-        "PouletAPlus.tsx",
-        "meta01.tmx",
-        "meta02.tmx",
-        "meta03.tmx",
-        "meta04.tmx",
-        "meta05.tmx",
-        "meta06.tmx",
-        "meta07.tmx",
-        "meta08.tmx",
-        "meta09.tmx",
-        "meta16.tmx",
-        "meta14.tmx",
-        "meta10.tmx",
-        "meta11.tmx",
-        "meta12.tmx",
-        "meta13.tmx",
-        "meta15.tmx",
-        "1-2.tmx"
+        "00.tmx",
+        "01.tmx",
+        "02.tmx",
+        "03.tmx",
+        "04.tmx",
+        "05.tmx",
+        "06.tmx",
+        "07.tmx",
+        "08.tmx",
+        "09.tmx",
+        "10.tmx",
+        "11.tmx",
+        "12.tmx",
+        "13.tmx",
+        "14.tmx",
+        "15.tmx",
+        "16.tmx",
+        "17.tmx",
+        "18.tmx",
+        "19.tmx",
+        "20.tmx",
+        "21.tmx",
+        "23.tmx",
+        "24.tmx",
+        "25.tmx",
+        "22.tmx",
+        "26.tmx",
+        "27.tmx",
+        "28.tmx",
+        "29.tmx",
+        "30.tmx",
+        "31.tmx",
+        "32.tmx"
     ],
     "project": "meta_tile01.tiled-project",
     "recentFiles": [
-        "PouletAPlus.tsx",
-        "meta01.tmx",
-        "meta02.tmx",
-        "meta03.tmx",
-        "meta04.tmx",
-        "meta05.tmx",
-        "meta06.tmx",
-        "meta07.tmx",
-        "meta08.tmx",
-        "meta09.tmx",
-        "meta16.tmx",
-        "meta14.tmx"
+        "00.tmx",
+        "01.tmx",
+        "02.tmx",
+        "03.tmx",
+        "04.tmx",
+        "05.tmx",
+        "06.tmx",
+        "07.tmx",
+        "08.tmx",
+        "09.tmx",
+        "10.tmx",
+        "32.tmx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",

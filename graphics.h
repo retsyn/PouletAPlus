@@ -46,6 +46,7 @@ extern const unsigned char PROGMEM glasses_plus_mask[];
 extern const unsigned char PROGMEM balloon_plus_mask[];
 extern const unsigned char PROGMEM toquepowerup_plus_mask[];
 extern const unsigned char PROGMEM oneup_plus_mask[];
+extern const unsigned char PROGMEM toquetext_plus_mask[];
 
 // Ephemeral effects:
 extern const unsigned char PROGMEM pop_plus_mask[];

@@ -20,13 +20,18 @@ void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
     {
     case pop:
         sprite = pop_plus_mask;
+        text = false;
+        break;
+
+    case toqueword:
+        sprite = toquetext_plus_mask;
+        text = true;
         break;
 
     default:
         break;
     }
 
-    sprite = pop_plus_mask;
     frame = 0;
     done = false;
     anim_timer = EPHEM_ANIM_SPEED;
@@ -57,11 +62,24 @@ void Ephemeral::animate()
     }
     else
     {
-        frame++;
-        anim_timer = EPHEM_ANIM_SPEED;
-        if (frame >= EPHEM_END_FRAME)
+        if (!text)
         {
-            done = true;
+            frame++;
+            anim_timer = EPHEM_ANIM_SPEED;
+            if (frame >= EPHEM_END_FRAME)
+            {
+                done = true;
+            }
+        }
+        else
+        {
+            y--;
+            anim_timer = EPHEM_ANIM_SPEED;
+            frame = 0;
+            if (y <= 10)
+            {
+                done = true;
+            }
         }
     }
 }
@@ -85,20 +103,23 @@ void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
         {
             break;
         }
-
     }
 
     roster[i]->make(new_x, new_y, type);
 }
 
+void EphemeralRoster::updateRoster(uint16_t scroll)
+{
 
-void EphemeralRoster::updateRoster(uint16_t scroll){
-
-    for(uint8_t i = 0; i < EPHEM_MAX; i++){
-        if(!roster[i]->done){
+    for (uint8_t i = 0; i < EPHEM_MAX; i++)
+    {
+        if (!roster[i]->done)
+        {
             roster[i]->draw(scroll);
             roster[i]->animate();
-        } else {
+        }
+        else
+        {
             continue;
         }
     }

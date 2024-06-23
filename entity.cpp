@@ -63,10 +63,13 @@ void Entity::physics(Stage *in_stage)
     if (vy > 0)
     {
 
-
         // Check for downward collision by iterating through pixels travelled;
         for (int i = floor(y); i <= floor(ny) + 1; i++)
         {
+            if (in_stage->is_spike(int16_t(floor(x) + SPR_SLFTSKIN), int16_t(i + SPR_SBOTSKIN)) || in_stage->is_spike(int16_t(floor(x) + SPR_SRGTSKIN), int16_t(i + SPR_SBOTSKIN)))
+            {
+                hitspike();
+            }
             if (in_stage->is_solid(int16_t(floor(x) + SPR_LFTSKIN), int16_t(i + SPR_BOTSKIN)) || in_stage->is_solid(int16_t(floor(x) + SPR_RGTSKIN), int16_t(i + SPR_BOTSKIN)))
             {
                 vy = 0;
@@ -87,6 +90,11 @@ void Entity::physics(Stage *in_stage)
         // Check for upward collision by iterating through pixels travelled;
         for (int i = y; i >= int(ny); i--)
         {
+            if (in_stage->is_spike(int16_t(x + SPR_SLFTSKIN + 1), int16_t(i + SPR_STOPSKIN)) || in_stage->is_spike(int16_t(x + SPR_SRGTSKIN - 1), int16_t(i + SPR_STOPSKIN)))
+            {
+                hitspike();
+            }
+
             if (in_stage->is_solid(int16_t(x + SPR_LFTSKIN + 1), int16_t(i + SPR_TOPSKIN)) || in_stage->is_solid(int16_t(x + SPR_RGTSKIN - 1), int16_t(i + SPR_TOPSKIN)))
             {
                 vy = 0;
@@ -104,6 +112,11 @@ void Entity::physics(Stage *in_stage)
         // Check for right collision...
         for (int i = floor(x); i <= floor(nx) + 1; i++)
         {
+            if (in_stage->is_spike(int16_t(i + SPR_SRGTSKIN), int16_t(y + SPR_STOPSKIN + 1)) || in_stage->is_spike(int16_t(i + SPR_SRGTSKIN), int16_t(y + SPR_SBOTSKIN - 1)))
+            {
+                hitspike();
+            }
+
             if (in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
@@ -118,6 +131,11 @@ void Entity::physics(Stage *in_stage)
         // Check for left collision...
         for (int i = floor(x); i >= floor(nx); i--)
         {
+            if (in_stage->is_spike(int16_t(i + SPR_SLFTSKIN), int16_t(y + SPR_STOPSKIN + 1)) || in_stage->is_spike(int16_t(i + SPR_SLFTSKIN), int16_t(y + SPR_SBOTSKIN - 1)))
+            {
+                hitspike();
+            }
+
             if (in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
             {
                 vx = 0;
@@ -361,6 +379,33 @@ void PlayerEntity::draw(int16_t offset_x)
     }
 }
 
+void PlayerEntity::hitspike()
+{
+    if (iframes > 0)
+    {
+        return;
+    }
+    vy = -1.0;
+    power_down();
+}
+
+void PlayerEntity::power_down()
+{
+    if (toque)
+    {
+        toque = false;
+    }
+    else
+    {
+        death = true;
+        lives -= 1;
+    }
+
+    blinking = true;
+    iframes = PLAYER_IFRAMES;
+}
+
+
 void PlayerEntity::takehit(Foe *hitter)
 {
     // Iframes will prevent a hit.
@@ -379,19 +424,9 @@ void PlayerEntity::takehit(Foe *hitter)
         vx = 2;
     }
 
-    if (toque)
-    {
-        toque = false;
-    }
-    else
-    {
-        death = true;
-        lives -= 1;
-    }
-
-    blinking = true;
-    iframes = PLAYER_IFRAMES;
+    power_down();
 }
+
 
 Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
 {
@@ -451,7 +486,8 @@ void Foe::update(Stage *stage, PlayerEntity *player)
     bool advance = false;
 
     // Kill what does off screen:
-    if(x < -8 || y > 56 || x > 1042){
+    if (x < -8 || y > 56 || x > 1042)
+    {
         spawned = false;
         dead = true;
     }

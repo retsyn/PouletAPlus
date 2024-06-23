@@ -1,6 +1,7 @@
 #include "items.h"
 #include "globals.h"
 #include "entity.h"
+#include "ephemeral.h"
 
 Balloon::Balloon(uint16_t new_x, uint8_t new_y)
 {
@@ -63,12 +64,13 @@ void Item::draw(uint16_t offset_x)
     Sprites::drawPlusMask(x - offset_x, y, sprite, 0);
 }
 
-void Item::giveitem(PlayerEntity *player){
+void Item::giveitem(PlayerEntity *player, EphemeralRoster *ephem){
 
     switch (type)
     {
     case (toque):
         player->toque = true;
+        ephem->add(player->x, player->y, toqueword);
         break;
     
     default:
@@ -167,7 +169,7 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
     }
 }
 
-void ItemRoster::updateRoster(Stage *stage, PlayerEntity *player, uint16_t scroll)
+void ItemRoster::updateRoster(Stage *stage, PlayerEntity *player, uint16_t scroll, EphemeralRoster *ephem)
 {
 
     for (uint8_t i = 0; i < ITEM_MAX; i++)
@@ -178,7 +180,7 @@ void ItemRoster::updateRoster(Stage *stage, PlayerEntity *player, uint16_t scrol
             roster[i]->update(stage, player);
             if(roster[i]->collide(player)){
                 roster[i]->gotten = true;
-                roster[i]->giveitem(player);
+                roster[i]->giveitem(player, ephem);
             }
         }
         else
