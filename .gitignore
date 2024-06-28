@@ -34,8 +34,9 @@
 # Level Building stuff
 *.csv
 *.tmx
-*.tiled-project
+*.tiled\-project
 *.tiled-session
+*.png
 
 # Build and config
 .vscode/*

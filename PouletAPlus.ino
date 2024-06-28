@@ -49,6 +49,7 @@ void allocate_balloons(Balloon **roster);
 
 void setup()
 {
+    //Serial.begin(9600);
     initArduboy2();
 
     // Hardware stuff

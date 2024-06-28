@@ -45,6 +45,10 @@ Item::Item()
 
 void Item::update(Stage *stage, PlayerEntity *player)
 {
+    if(y >= 56){
+        gotten = true;
+        return;
+    }
 
     // Item softly falls!
     if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))

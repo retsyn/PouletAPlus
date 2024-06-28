@@ -5,6 +5,7 @@
 #include "stages.h"
 
 const unsigned char meta_tiles[] PROGMEM = {
+  // 00000
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -13,6 +14,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 7, 0, 0,
     0, 0, 0, 4, 4, 6, 0, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
+  // 00001    
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 9, 0, 0,
@@ -21,6 +23,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 1, 1, 1, 1, 0, 0,
     4, 4, 1, 1, 1, 1, 4, 4,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00010
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 9, 0, 0,
     0, 0, 7, 0, 0, 0, 0, 0,
@@ -29,6 +32,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 2, 2, 2, 2, 2, 2, 1,
     1, 2, 2, 2, 2, 2, 2, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00011
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 9, 9, 0, 0, 0,
     0, 0, 0, 9, 9, 0, 0, 0,
@@ -37,6 +41,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00100
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 9, 9,
     0, 0, 0, 0, 0, 0, 9, 9,
@@ -45,6 +50,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 1, 1, 0, 0, 0,
     0, 0, 1, 1, 1, 4, 4, 4,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00101
     0, 0, 0, 0, 0, 0, 0, 0,
     9, 9, 0, 0, 0, 0, 0, 0,
     9, 9, 0, 0, 0, 0, 0, 0,
@@ -53,6 +59,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 1, 1, 0, 0, 0,
     4, 4, 4, 1, 1, 1, 0, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00110
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 9, 9, 9, 0, 0,
@@ -61,6 +68,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 00111
     1, 1, 1, 1, 1, 1, 1, 1,
     5, 5, 5, 5, 5, 5, 5, 5,
     5, 0, 0, 5, 5, 0, 0, 5,
@@ -69,6 +77,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 4, 4, 4, 4, 5, 5,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 01000
     1, 1, 1, 1, 1, 1, 1, 1,
     5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 0, 9, 9, 0, 5, 5,
@@ -77,6 +86,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     5, 5, 5, 5, 5, 5, 5, 5,
     5, 5, 4, 4, 4, 4, 5, 5,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 01001
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 9, 9, 0,
@@ -85,6 +95,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     8, 8, 8, 8, 0, 0, 0, 0,
     8, 8, 8, 8, 4, 4, 4, 4,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 01010
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     5, 0, 0, 5, 5, 0, 0, 5,
@@ -93,6 +104,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 01011
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     5, 0, 0, 5, 5, 1, 1, 1,
@@ -101,6 +113,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 5, 5, 5, 5, 5,
     1, 1, 1, 4, 5, 5, 5, 5,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 01100
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 9, 9, 9,
@@ -109,6 +122,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 1, 1, 1,
     0, 0, 0, 0, 0, 1, 1, 1,
     1, 1, 4, 4, 4, 1, 1, 1,
+    // 01101
     0, 0, 0, 0, 0, 0, 0, 0,
     9, 9, 9, 0, 0, 0, 9, 9,
     9, 9, 9, 0, 0, 0, 9, 9,
@@ -117,6 +131,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 1, 1, 1, 0, 0,
     0, 0, 0, 1, 1, 1, 0, 0,
     4, 4, 4, 1, 1, 1, 4, 4,
+    // 01110
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 9, 0, 0,
@@ -125,6 +140,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 01111
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 9, 9, 0,
     0, 0, 0, 0, 0, 9, 9, 0,
@@ -133,6 +149,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 1, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 10000
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 9, 9, 0, 0, 0,
@@ -141,6 +158,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 10001
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 0, 0, 0,
     0, 0, 9, 9, 9, 0, 0, 0,
@@ -149,6 +167,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 10010
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 9, 9, 9, 0, 0,
     0, 0, 0, 9, 9, 9, 0, 0,
@@ -157,6 +176,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 10011
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 0,
@@ -165,6 +185,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 9, 9, 9, 0, 0, 0,
     0, 0, 1, 1, 1, 0, 0, 0,
     4, 4, 4, 4, 4, 4, 4, 4,
+    // 10100
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 9, 9, 0,
     0, 0, 9, 9, 9, 9, 9, 0,
@@ -173,6 +194,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 0, 0, 0, 0, 0, 1,
     1, 1, 0, 0, 0, 0, 0, 1,
     1, 1, 4, 4, 4, 4, 4, 1,
+    // 10101
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 0, 0, 0,
     0, 0, 9, 9, 9, 0, 0, 0,
@@ -181,6 +203,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 0, 0, 0, 1, 1, 0,
     1, 1, 4, 4, 4, 1, 1, 0,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 10110
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 9, 9, 9, 9, 0, 0,
     0, 0, 9, 9, 9, 9, 0, 0,
@@ -189,6 +212,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 1, 2, 2, 1, 0, 0,
     0, 0, 1, 2, 2, 1, 0, 0,
     4, 4, 1, 1, 1, 1, 4, 4,
+    // 10111
     0, 0, 1, 2, 2, 1, 0, 0,
     0, 0, 1, 1, 1, 1, 0, 0,
     9, 9, 5, 5, 5, 5, 9, 9,
@@ -197,6 +221,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 1, 2, 2, 1, 0, 0,
     0, 0, 1, 2, 2, 1, 0, 0,
     4, 4, 1, 2, 2, 1, 4, 4,
+    // 11000
     2, 2, 2, 2, 2, 2, 2, 2,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -205,6 +230,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 0, 0, 1, 0, 0, 0,
     0, 1, 0, 0, 1, 0, 0, 0,
     4, 1, 4, 4, 1, 4, 4, 4,
+    // 11001
     2, 2, 2, 2, 2, 2, 2, 2,
     1, 1, 1, 1, 1, 1, 1, 1,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -213,6 +239,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 1, 1, 0, 0, 0,
     4, 4, 4, 1, 1, 4, 4, 4,
+    // 11010
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 9, 0, 0,
     0, 0, 0, 0, 9, 1, 0, 0,
@@ -221,6 +248,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 1, 1, 1, 1, 0, 0,
     0, 0, 1, 1, 1, 1, 0, 0,
     4, 4, 1, 1, 1, 1, 4, 4,
+    // 11011
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -229,6 +257,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 1, 1, 1, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
+    // 11100
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 9, 9, 9, 9, 9, 9, 0,
     0, 0, 0, 0, 4, 0, 0, 0,
@@ -237,6 +266,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 1, 1, 1, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
+    // 11101
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -245,6 +275,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 4, 1, 4, 0, 0,
     0, 0, 0, 1, 1, 1, 0, 0,
+    // 11110
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     9, 9, 9, 9, 4, 4, 4, 4,
@@ -253,6 +284,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     8, 5, 5, 5, 5, 5, 5, 8,
     8, 5, 5, 5, 5, 5, 5, 8,
     1, 1, 1, 1, 1, 1, 1, 1,
+    // 11111
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 9, 9, 0, 0, 0,
     0, 0, 0, 9, 9, 0, 0, 0,
@@ -261,14 +293,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 0, 0, 1, 1, 1,
     1, 1, 1, 0, 0, 1, 1, 1,
     1, 1, 1, 0, 0, 1, 1, 1,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 9, 9, 0, 0, 0,
-    0, 0, 0, 9, 9, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 1, 0, 0, 1, 1, 0,
-    4, 1, 1, 4, 4, 1, 1, 4,
-    1, 1, 1, 1, 1, 1, 1, 1};
+};
 
 void Stage::draw_level(uint16_t cam_offset_x)
 {
@@ -309,7 +334,7 @@ bool Stage::is_spike(uint16_t x, int8_t y)
   {
     return 0;
   }
-  else if (y > 56)
+  else if (y >= 56)
   {
     return 0;
   }
@@ -331,7 +356,7 @@ bool Stage::is_solid(uint16_t x, int8_t y)
   uint16_t tx = x / 8;
   uint16_t ty = y / 8;
 
-  if (y < 0)
+  if (y <= 0)
   {
     return 0;
   }
@@ -438,7 +463,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
   // If below playfield, tile must return nothing.
-  if (y > 56 || y < 0)
+  if (y >= 56 || y <= 0)
   {
     return TILE_EMPTY;
   }
@@ -452,10 +477,27 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   uint16_t slice_data = pgm_read_word(&stages[currentstage * 16 + meta_x]);
 
   // Now the slice data needs to be read for the piece we need-- last five bits are meta-tile
-  uint8_t meta_tile_index = (slice_data & 0x1F);
+  uint16_t meta_tile_index = (slice_data & 0x1F);
+
+  /* Unpacking debug hooey
+  Serial.print("Slice Data: ");
+  Serial.println(slice_data, BIN);
+  Serial.print("Meta Tile BIN: ");
+  Serial.println(meta_tile_index, BIN);
+  Serial.print("Meta Tile Dec: ");
+  Serial.println(meta_tile_index, DEC);
+  delay(0);
+  */
+
+  // Serial output at this point was:
+  //Slice Data: 101
+  //Meta Tile BIN: 101
+  //Meta Tile Dec: 5
+
+  //Which is absolutely correct.  The issue is somewhere else.
 
   // Calculate the index within the meta-tile:
-  uint8_t tile_index = (meta_tile_index * 64) + ((y % 8) * 8) + (x % 8);
+  uint16_t tile_index = (meta_tile_index * 64) + ((y % 8) * 8) + (x % 8);
 
   // Now get the tile inside the meta tile?
   uint8_t unpacked = pgm_read_byte(&meta_tiles[tile_index]);

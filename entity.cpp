@@ -486,10 +486,11 @@ void Foe::update(Stage *stage, PlayerEntity *player)
     bool advance = false;
 
     // Kill what does off screen:
-    if (x < -8 || y > 56 || x > 1042)
+    if (x < -8 || y >= 56 || x > 1042)
     {
         spawned = false;
         dead = true;
+        return;
     }
 
     if (enttype != ENT_BLOOB)
