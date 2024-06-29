@@ -42,7 +42,7 @@ void Entity::physics(Stage *in_stage)
     bool horiz_collide = 0;
 
     // Cap horizontal movement speed on ground:
-    if (grounded)
+    if (grounded && (!attack))
     {
         if (vx > PLAYER_TOPSPEED)
             vx = PLAYER_TOPSPEED;
@@ -148,13 +148,13 @@ void Entity::physics(Stage *in_stage)
     if (!horiz_collide)
         x += vx;
 
-    if (grounded && (attack == false))
+    if (grounded && (!attack))
     {
         if (vx > 0)
         {
             vx -= PHYS_FRICTION;
         }
-        if (vx < 0)
+        else if (vx < 0)
         {
             vx += PHYS_FRICTION;
         }
@@ -236,6 +236,9 @@ void PlayerEntity::control()
             {
                 vy = -PLAYER_JUMPPOWER;
                 grounded = false;
+                attack = false;
+                coyote_buffer = 0;
+
             }
         }
         jump_buffer--;
@@ -263,7 +266,7 @@ void PlayerEntity::control()
             vx = -HORIZ_ATTACK_SPEED;
         }
         vy = VERT_ATTACK_SPEED;
-        skidding = 20;
+        skidding = SKID_MAX;
     }
 
     if (attack)
@@ -405,7 +408,6 @@ void PlayerEntity::power_down()
     iframes = PLAYER_IFRAMES;
 }
 
-
 void PlayerEntity::takehit(Foe *hitter)
 {
     // Iframes will prevent a hit.
@@ -426,7 +428,6 @@ void PlayerEntity::takehit(Foe *hitter)
 
     power_down();
 }
-
 
 Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
 {

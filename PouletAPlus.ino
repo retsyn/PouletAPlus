@@ -166,6 +166,7 @@ void loop()
 
         draw_digits(scroll / 64, 2, 16, 57);
         draw_digits((scroll / 64) + 1, 2, 32, 57);
+        draw_digits(player->attack, 1, 48, 57);
         draw_digits(freeMemory(), 4, 100, 57);
 
         // Some in game stuff:

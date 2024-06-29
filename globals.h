@@ -8,6 +8,7 @@
 #define DEATHTIME_MAX 255
 
 #define KILL_BOUNCE 1.25
+#define SKID_MAX 8
 
 #define COIN_PTS 2
 
