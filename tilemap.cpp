@@ -458,12 +458,14 @@ void Stage::get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2)
   check_coin(x2, y2);
 }
 
+
+
 uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
 {
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
-  // If below playfield, tile must return nothing.
-  if (y >= 56 || y <= 0)
+  // If below or above playfield, tile must return nothing.
+  if (y > 56 || y < 1)
   {
     return TILE_EMPTY;
   }
@@ -480,16 +482,16 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   uint16_t meta_tile_index = (slice_data & 0x1F);
 
   /* Unpacking debug hooey
-  Serial.print("Slice Data: ");
-  Serial.println(slice_data, BIN);
-  Serial.print("Meta Tile BIN: ");
-  Serial.println(meta_tile_index, BIN);
-  Serial.print("Meta Tile Dec: ");
-  Serial.println(meta_tile_index, DEC);
+  //Serial.print("Slice Data: ");
+  //Serial.println(slice_data, BIN);
+  //Serial.print("Meta Tile BIN: ");
+  //Serial.println(meta_tile_index, BIN);
+  //Serial.print("Meta Tile Dec: ");
+  //Serial.println(meta_tile_index, DEC);
   delay(0);
   */
 
-  // Serial output at this point was:
+  // //Serial output at this point was:
   //Slice Data: 101
   //Meta Tile BIN: 101
   //Meta Tile Dec: 5
@@ -560,5 +562,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
       unpacked = TILE_CHOCWALL;
     }
   }
+
   return unpacked;
+
 }

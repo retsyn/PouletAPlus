@@ -49,7 +49,7 @@ void allocate_balloons(Balloon **roster);
 
 void setup()
 {
-    //Serial.begin(9600);
+    ////Serial.begin(9600);
     initArduboy2();
 
     // Hardware stuff
@@ -168,6 +168,7 @@ void loop()
         draw_digits((scroll / 64) + 1, 2, 32, 57);
         draw_digits(player->attack, 1, 48, 57);
         draw_digits(freeMemory(), 4, 100, 57);
+        draw_digits(player->x, 3, 16, 9);
 
         // Some in game stuff:
         if (player->y > 56)
@@ -182,8 +183,8 @@ void loop()
 
         // Work out what should spawn!
         cleanup_spawns();
-        check_for_spawn(scroll, 3);
-        check_for_spawn(scroll, -2);
+        check_for_spawn(scroll, 2);
+        // check_for_spawn(scroll, -2);
 
         advance_master_frames();
 
@@ -379,6 +380,7 @@ inline void draw_hud()
 
 void start_level()
 {
+    scroll = 0;
     if (stage->currentstage % 3 == 0)
     {
         game_state = interstitial;
@@ -388,11 +390,13 @@ void start_level()
         game_state = in_play;
     }
 
+    kill_all_foes();
+
     setup_level();
     // Check for spawns in this tile and one to the right:
-    check_for_spawn(scroll, 0);
-    check_for_spawn(scroll, 1);
-    check_for_spawn(scroll, 2);
+    // check_for_spawn(scroll, 0);
+    // check_for_spawn(scroll, 1);
+    // check_for_spawn(scroll, 2);
 
     if (game_state == in_play)
     {
@@ -467,10 +471,20 @@ void cleanup_spawns()
     uint8_t meta_tile = (scroll / 64);
     for (uint8_t i; i < 16; i++)
     {
-        if (i < (meta_tile - 1) || i > (meta_tile + 4))
+        if (i < (meta_tile - 1) || i > (meta_tile + 5))
         {
             set_spawn_status(false, i);
         }
+    }
+}
+
+void kill_all_foes()
+{
+
+    for (uint8_t i = 0; i < FOE_MAX; i++)
+    {
+        foe_roster[i]->dead = true;
+        foe_roster[i]->spawned = false;
     }
 }
 
@@ -483,40 +497,78 @@ void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 
     if (check_spawn_status(meta_tile) == false)
     {
-        // switch case for all spawn types.
-        if (spawn_high(meta_tile) == false)
+        //Serial.print("Unspawned chunk!:\n");
+        //Serial.print("Meta Tile is: ");
+        //Serial.println(meta_tile);
+        //Serial.print("Type was: ");
+        //Serial.println(spawn_type(meta_tile));
+
+        uint16_t spawnx = ((meta_tile * 64) + 16);
+
+        if (spawn_high(meta_tile) == true)
         {
-            spawnheight = 40;
+            //Serial.print("...high\n");
+            for (uint8_t i = 0; i < 40; i += 8)
+            {
+
+                if (stage->is_solid(spawnx, i + 16) == 0)
+                {
+
+                    spawnheight = i;
+                    break;
+                }
+            }
         }
         else
         {
-            spawnheight = 8;
+            //Serial.print("...low\n");
+            for (uint8_t i = 40; i > 0; i -= 8)
+            {
+                if (stage->is_solid(spawnx, i + 16) == 0)
+                {
+
+                    spawnheight = i;
+                    break;
+                }
+            }
         }
 
+        //Serial.print("\n\nMetaTile: ");
+        //Serial.print(meta_tile);
+        //Serial.print("\nSpawn Coords chosen: ");
+        //Serial.print(spawnx);
+        //Serial.print(", ");
+        //Serial.print(spawnheight);
+        //Serial.print("\n");
         switch (spawn_type(meta_tile))
         {
 
         case SPAWN_BALLOON:
-            spawn_balloon((meta_tile * 64) + 16, spawnheight);
+            spawn_balloon(spawnx, spawnheight);
             set_spawn_status(true, meta_tile);
+            //Serial.print("BALLOON SPAWNED!\n");
             break;
 
         case SPAWN_FENNEC:
-            spawn_foe(foe_roster, (meta_tile * 64) + 16, spawnheight, ENT_FENNEC);
+            spawn_foe(foe_roster, spawnx, spawnheight, ENT_FENNEC);
             set_spawn_status(true, meta_tile);
+            //Serial.print("FENNEC SPAWNED!\n");
             break;
 
         case SPAWN_GOOB:
-            spawn_foe(foe_roster, (meta_tile * 64) + 16, spawnheight, ENT_GOOB);
+            spawn_foe(foe_roster, spawnx, spawnheight, ENT_GOOB);
             set_spawn_status(true, meta_tile);
+            //Serial.print("GOOB SPAWNED!\n");
             break;
 
         case SPAWN_BLOOB:
-            spawn_foe(foe_roster, (meta_tile * 64) + 16, spawnheight, ENT_BLOOB);
+            spawn_foe(foe_roster, spawnx, spawnheight, ENT_BLOOB);
             set_spawn_status(true, meta_tile);
+            //Serial.print("BLOOB SPAWNED!\n");
             break;
 
         default:
+            set_spawn_status(true, meta_tile);
             break;
         }
     }
