@@ -238,7 +238,6 @@ void PlayerEntity::control()
                 grounded = false;
                 attack = false;
                 coyote_buffer = 0;
-
             }
         }
         jump_buffer--;
@@ -280,9 +279,23 @@ void PlayerEntity::control()
     }
 
     // Little physics manipulation outside the physics module so we don't have to override:
-    if (vy < 0 and arduboy->pressed(B_BUTTON))
+    if (!flyboy)
     {
-        vy -= JUMP_JUICE;
+        if (vy < 0 and arduboy->pressed(B_BUTTON))
+        {
+            vy -= JUMP_JUICE;
+        }
+    }
+    else
+    {
+        if (vy < 0 and arduboy->pressed(B_BUTTON))
+        {
+            vy -= JUMP_JUICE * 1.1;
+        }
+        else if (vy >= 0 and arduboy->pressed(B_BUTTON))
+        {
+            vy -= JUMP_JUICE;
+        }
     }
 }
 
@@ -316,13 +329,27 @@ void PlayerEntity::draw(int16_t offset_x)
     }
     else
     {
-        if (vy < 0)
+        if (!flyboy)
         {
-            anim_state = jumping_up;
+            if (vy < 0)
+            {
+                anim_state = jumping_up;
+            }
+            else
+            {
+                anim_state = jumping_down;
+            }
         }
         else
         {
-            anim_state = jumping_down;
+            if (vy < 0)
+            {
+                anim_state = hovering;
+            }
+            else
+            {
+                anim_state = jumping_down;
+            }
         }
     }
 
@@ -349,6 +376,11 @@ void PlayerEntity::draw(int16_t offset_x)
         anim_state = deading;
     }
 
+    if (toque && flyboy)
+    {
+        Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
+    }
+
     switch (anim_state)
     {
     case idle:
@@ -372,11 +404,14 @@ void PlayerEntity::draw(int16_t offset_x)
     case deading:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
         break;
+    case hovering:
+        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
+        break;
     default:
         break;
     }
 
-    if (toque && (anim_state != jumping_up))
+    if (toque && (anim_state != jumping_up) && !flyboy)
     {
         Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
     }

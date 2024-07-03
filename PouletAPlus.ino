@@ -22,6 +22,7 @@ int freeMemory();
 Stage *stage = new Stage();
 
 uint8_t deathtime = DEATHTIME_MAX;
+uint8_t prize_seq = 0;
 
 // Static Memory content:
 PlayerEntity *player = new PlayerEntity(ENT_POULET, 10.0f, 10.0f);
@@ -33,8 +34,11 @@ ItemRoster items;
 
 Door *door = new Door(0, 0);
 
+
 int16_t scroll = 0;
 bool masterblink = true;
+
+
 
 void advance_master_frames();
 void next_stage();
@@ -164,9 +168,10 @@ void loop()
         items.updateRoster(stage, player, scroll, &ephemerals);
         ephemerals.updateRoster(scroll);
 
+        // Debug HUD
         draw_digits(scroll / 64, 2, 16, 57);
         draw_digits((scroll / 64) + 1, 2, 32, 57);
-        draw_digits(player->attack, 1, 48, 57);
+        draw_digits(player->flyboy, 1, 48, 57);
         draw_digits(freeMemory(), 4, 100, 57);
         draw_digits(player->x, 3, 16, 9);
 
@@ -362,11 +367,34 @@ void update_balloons(Balloon **roster)
             continue;
         }
         roster[i]->draw(scroll);
+
         if (roster[i]->collide(player))
         {
             ephemerals.add(roster[i]->x, roster[i]->y, pop);
-            items.add(roster[i]->x, roster[i]->y, toque);
+
+            switch (prize_seq)
+            {
+            case PRIZE_TOQUE:
+                items.add(roster[i]->x, roster[i]->y, PRIZE_TOQUE);
+                break;
+
+            case PRIZE_GLASSES:
+                items.add(roster[i]->x, roster[i]->y, PRIZE_GLASSES);
+                break;
+
+            case PRIZE_1UP:
+                items.add(roster[i]->x, roster[i]->y, PRIZE_1UP);
+                break;
+
+            default:
+                break;
+            }
+
             roster[i]->popped = true;
+            prize_seq += 1;
+            if(prize_seq > PRIZE_1UP){
+                prize_seq = PRIZE_TOQUE;
+            }
         }
     }
 }

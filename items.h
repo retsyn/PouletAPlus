@@ -5,17 +5,15 @@
 #define BALLOON_SKIN_TOP 2
 #define BALLOON_SKIN_BOT 14
 
+#define PRIZE_TOQUE 0
+#define PRIZE_GLASSES 1
+#define PRIZE_1UP 2
+
+
 #include "graphics.h"
 #include "entity.h"
 #include "globals.h"
 #include "ephemeral.h"
-
-enum ItemType
-{
-    toque = 1,
-    glasses,
-    oneup
-};
 
 class Balloon
 {

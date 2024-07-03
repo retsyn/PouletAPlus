@@ -72,11 +72,21 @@ void Item::giveitem(PlayerEntity *player, EphemeralRoster *ephem){
 
     switch (type)
     {
-    case (toque):
+    case (PRIZE_TOQUE):
         player->toque = true;
         ephem->add(player->x, player->y, toqueword);
         break;
-    
+
+    case (PRIZE_GLASSES):
+        player->flyboy = true;
+        ephem->add(player->x, player->y, flyboy);
+        player->sprite = aviator_plus_mask;
+        break;
+
+    case (PRIZE_1UP):
+        player->lives += 1;
+        break;
+
     default:
         break;
     }
@@ -159,12 +169,16 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
 
     switch (new_type)
     {
-    case glasses:
+    case PRIZE_GLASSES:
         roster[i]->sprite = glasses_plus_mask;
         break;
 
-    case toque:
+    case PRIZE_TOQUE:
         roster[i]->sprite = toquepowerup_plus_mask;
+        break;
+
+    case PRIZE_1UP:
+        roster[i]->sprite = oneup_plus_mask;
         break;
 
     default:

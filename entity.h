@@ -54,6 +54,7 @@ enum PlayerAnimState
 {
     idle = 0,
     walking,
+    hovering,
     jumping_up,
     jumping_down,
     attacking,
@@ -84,7 +85,8 @@ protected:
     uint8_t anim_state = 0;
 
     // Precalc framelengths--
-    const uint8_t FRAMELEN[3] = {0, 2, 0};
+    const uint8_t FRAMELEN[3] = {0, 2, 1};
+    
 
 public:
     float vx = 0.0f;

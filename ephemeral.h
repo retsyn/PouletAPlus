@@ -5,6 +5,7 @@ enum EphemType
 {
     pop = 0,
     toqueword,
+    flyboy
 };
 
 class Ephemeral

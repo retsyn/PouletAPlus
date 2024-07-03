@@ -18,6 +18,7 @@ extern const unsigned char PROGMEM poulet_anim_jump_up[];
 extern const unsigned char PROGMEM poulet_anim_jump_down[];
 extern const unsigned char PROGMEM poulet_anim_attack[];
 extern const unsigned char PROGMEM poulet_anim_death[];
+extern const unsigned char PROGMEM poulet_anim_hover[];
 
 // objects
 extern const unsigned char PROGMEM door_plus_mask[];
@@ -50,3 +51,4 @@ extern const unsigned char PROGMEM toquetext_plus_mask[];
 
 // Ephemeral effects:
 extern const unsigned char PROGMEM pop_plus_mask[];
+extern const unsigned char PROGMEM flyboy_plus_mask[];

@@ -28,6 +28,11 @@ void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
         text = true;
         break;
 
+    case flyboy:
+        sprite = flyboy_plus_mask;
+        text = true;
+        break;
+
     default:
         break;
     }
