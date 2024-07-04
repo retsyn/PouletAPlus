@@ -9,7 +9,11 @@
 extern const unsigned char PROGMEM foreground[];
 extern const unsigned char PROGMEM poulet_plus_mask[];
 extern const unsigned char PROGMEM aviator_plus_mask[];
-extern const uint8_t PROGMEM title[];
+//extern const uint8_t PROGMEM title[];
+extern const unsigned char PROGMEM smallpoulet[];
+extern const unsigned char PROGMEM titlecard[];
+extern const unsigned char PROGMEM aplus[];
+
 
 // Anim frame id's for Poulet
 extern const unsigned char PROGMEM poulet_anim_idle[];

@@ -218,7 +218,10 @@ inline void advance_master_frames()
 inline void show_title_screen()
 {
 
-    Sprites::drawOverwrite(0, 0, title, 0);
+    Sprites::drawOverwrite(7, 11, smallpoulet, 0);
+    Sprites::drawOverwrite(60, 16, titlecard, 0);
+    Sprites::drawOverwrite(74, 36, aplus, 0);
+    
 }
 
 inline void next_stage()

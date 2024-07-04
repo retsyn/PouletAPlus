@@ -329,27 +329,13 @@ void PlayerEntity::draw(int16_t offset_x)
     }
     else
     {
-        if (!flyboy)
+        if (vy < 0)
         {
-            if (vy < 0)
-            {
-                anim_state = jumping_up;
-            }
-            else
-            {
-                anim_state = jumping_down;
-            }
+            anim_state = jumping_up;
         }
         else
         {
-            if (vy < 0)
-            {
-                anim_state = hovering;
-            }
-            else
-            {
-                anim_state = jumping_down;
-            }
+            anim_state = jumping_down;
         }
     }
 
@@ -365,7 +351,7 @@ void PlayerEntity::draw(int16_t offset_x)
         anim_frame++;
         anim_ticker = SPR_WAIT;
     };
-    // If the frame exceeds the current animation, refer to the pre-calced anim lengths.
+    // If the frame exceeds the current animation; refer to the pre-calced anim lengths.
     if (anim_frame > FRAMELEN[anim_state])
     {
         anim_frame = 0;
@@ -396,7 +382,14 @@ void PlayerEntity::draw(int16_t offset_x)
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_down:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
+        if (!flyboy)
+        {
+            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
+        }
+        else
+        {
+            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
+        }
         break;
     case attacking:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_attack[anim_frame]) + (MIRROR * int(flip)));
@@ -404,9 +397,7 @@ void PlayerEntity::draw(int16_t offset_x)
     case deading:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
         break;
-    case hovering:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
-        break;
+
     default:
         break;
     }
