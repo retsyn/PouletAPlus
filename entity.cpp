@@ -295,6 +295,10 @@ void PlayerEntity::control()
         else if (vy >= 0 and arduboy->pressed(B_BUTTON))
         {
             vy -= JUMP_JUICE;
+            if (vy > HOVER_SPEED)
+            {
+                vy = HOVER_SPEED;
+            }
         }
     }
 }
@@ -335,7 +339,14 @@ void PlayerEntity::draw(int16_t offset_x)
         }
         else
         {
-            anim_state = jumping_down;
+            if (!flyboy)
+            {
+                anim_state = jumping_down;
+            }
+            else
+            {
+                anim_state = hovering;
+            }
         }
     }
 
@@ -382,20 +393,16 @@ void PlayerEntity::draw(int16_t offset_x)
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_down:
-        if (!flyboy)
-        {
-            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
-        }
-        else
-        {
-            Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
-        }
+        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
         break;
     case attacking:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_attack[anim_frame]) + (MIRROR * int(flip)));
         break;
     case deading:
         Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
+        break;
+    case hovering:
+        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
         break;
 
     default:
@@ -420,11 +427,22 @@ void PlayerEntity::hitspike()
 
 void PlayerEntity::power_down()
 {
-    if (toque)
+    bool lethal = true;
+
+    if (!toque)
     {
+        if (flyboy)
+        {
+            flyboy = false;
+            sprite = poulet_plus_mask;
+            lethal = false;
+        }
+    } else {
         toque = false;
+        lethal = false;
     }
-    else
+
+    if (lethal)
     {
         death = true;
         lives -= 1;

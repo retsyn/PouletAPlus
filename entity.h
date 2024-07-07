@@ -45,6 +45,7 @@
 #define HORIZ_ATTACK_SPEED 1.5f
 #define VERT_ATTACK_SPEED 1.3f
 #define JUMP_JUICE 0.043f
+#define HOVER_SPEED 0.2f
 
 // World physics
 #define PHYS_GRAVITY 0.07f
@@ -85,7 +86,7 @@ protected:
     uint8_t anim_state = 0;
 
     // Precalc framelengths--
-    const uint8_t FRAMELEN[3] = {0, 2, 1};
+    const uint8_t FRAMELEN[3] = {0, 2, 2};
     
 
 public:
@@ -139,7 +140,7 @@ public:
  
 protected:
     // Precalc framelengths--
-    const uint8_t FRAMELEN[6] = {0, 3, 0, 0, 0, 0};
+    const uint8_t FRAMELEN[6] = {0, 3, 1, 0, 0, 0};
 
     uint8_t jump_buffer = 0;
 };
