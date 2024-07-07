@@ -160,7 +160,9 @@ void loop()
         update_balloons(balloon_roster);
         update_foes(foe_roster);
 
-        stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN), uint16_t(player->x + SPR_RGTSKIN), uint16_t(player->y + SPR_BOTSKIN));
+        if(stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN), uint16_t(player->x + SPR_RGTSKIN), uint16_t(player->y + SPR_BOTSKIN))){
+            player->score += 5;
+        }
         player->draw(scroll);
         player->control();
         player->physics(stage);

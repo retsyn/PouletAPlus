@@ -356,7 +356,7 @@ bool Stage::is_solid(uint16_t x, int8_t y)
   uint16_t tx = x / 8;
   uint16_t ty = y / 8;
 
-  if (y <= 0)
+  if (y < 0)
   {
     return 0;
   }
@@ -431,7 +431,7 @@ bool Stage::check_coin(uint16_t x, uint16_t y)
   uint16_t i;
   uint16_t tx = x / 8;
   uint8_t ty = (y / 8) - 1;
-  if (ty < 0 || ty > 7)
+  if (y < 8 || y > 56)
     return false; // Refuse to regard spaces above the screen as anything but empty.
 
   // Convert i to be the queried tile on the 1-d map.
@@ -449,13 +449,14 @@ bool Stage::check_coin(uint16_t x, uint16_t y)
   return false;
 }
 
-void Stage::get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2)
+bool Stage::get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2)
 {
   // Four corner coin check:
-  check_coin(x, y);
-  check_coin(x2, y);
-  check_coin(x, y2);
-  check_coin(x2, y2);
+  if(check_coin(x, y) || check_coin(x2, y) || check_coin(x, y2) || check_coin(x2, y2)){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 

@@ -44,7 +44,7 @@ public:
     void fill_coins();
     void draw_coins();
     void draw_coins(uint16_t offset_x);
-    void get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2);
+    bool get_coin(uint16_t x, uint16_t y, uint16_t x2, uint16_t y2);
     bool check_coin(uint16_t x, uint16_t y);
     bool is_solid(uint16_t x, int8_t y);
     bool is_spike(uint16_t x, int8_t y);
