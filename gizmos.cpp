@@ -33,5 +33,14 @@ Door::Door(int16_t start_x, int16_t start_y)
 
 void Door::draw(int16_t camera_offset)
 {
-    Sprites::drawPlusMask(x - camera_offset, y, door_plus_mask, open);
+    Sprites::drawOverwrite(x - camera_offset, y, doorspr, open);
+}
+
+void Pole::draw(int16_t camera_offset)
+{
+    for (uint8_t i = 24; i <= 48; i += 8)
+    {
+        Sprites::drawOverwrite(POLE_X - camera_offset, i, polemid, 0);
+    }
+    Sprites::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
 }

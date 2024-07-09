@@ -17,7 +17,7 @@ GameState game_state = title_screen;
 // Aware scheme we are.
 uint8_t u_frame{0}, screen_ticker = 0, power_up_seq = 0, freelivesseq = 1;
 
-int freeMemory();
+//int freeMemory();
 
 Stage *stage = new Stage();
 
@@ -33,12 +33,10 @@ EphemeralRoster ephemerals;
 ItemRoster items;
 
 Door *door = new Door(0, 0);
-
+Pole *pole = new Pole();
 
 int16_t scroll = 0;
 bool masterblink = true;
-
-
 
 void advance_master_frames();
 void next_stage();
@@ -144,6 +142,9 @@ void loop()
         }
         stage->draw_level(scroll);
 
+        //pole->update(player);
+        pole->draw(scroll);
+
         door->update(player);
         door->draw(scroll);
         stage->draw_coins(scroll);
@@ -174,7 +175,7 @@ void loop()
         draw_digits(scroll / 64, 2, 16, 57);
         draw_digits((scroll / 64) + 1, 2, 32, 57);
         draw_digits(player->flyboy, 1, 48, 57);
-        draw_digits(freeMemory(), 4, 100, 57);
+        //draw_digits(freeMemory(), 4, 100, 57);
         draw_digits(player->x, 3, 16, 9);
 
         // Some in game stuff:
@@ -448,12 +449,14 @@ void setup_level()
     player->death = false;
 }
 
+/*
 int freeMemory()
 {
     extern int __heap_start, *__brkval;
     int v;
     return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
 }
+*/
 
 inline void die()
 {

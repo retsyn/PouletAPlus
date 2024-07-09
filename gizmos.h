@@ -2,6 +2,8 @@
 
 #include "entity.h"
 
+#define POLE_X 1000
+
 
 class Door
 {
@@ -19,4 +21,12 @@ protected:
     int8_t h = 16;
 
 
+};
+
+class Pole
+{
+    public:
+    void update(PlayerEntity *player);
+    void draw(int16_t offset_x);
+    bool on = 0;
 };

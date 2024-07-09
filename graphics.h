@@ -25,7 +25,9 @@ extern const unsigned char PROGMEM poulet_anim_death[];
 extern const unsigned char PROGMEM poulet_anim_hover[];
 
 // objects
-extern const unsigned char PROGMEM door_plus_mask[];
+extern const unsigned char PROGMEM doorspr[];
+extern const unsigned char PROGMEM polemid[];
+extern const unsigned char PROGMEM poletop[];
 
 
 // Anim frame id's for all foes
