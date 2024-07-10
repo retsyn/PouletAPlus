@@ -14,18 +14,16 @@ public:
     Door(int16_t start_x, int16_t start_y);
     void update(PlayerEntity *player);
     void draw(int16_t offset_x);
-    bool open = false;
-
-protected:
+    bool open : 1;
+    bool on : 1;
     int8_t w = 16;
     int8_t h = 16;
-
 
 };
 
 class Pole
 {
-    public:
+public:
     void update(PlayerEntity *player);
     void draw(int16_t offset_x);
     bool on = 0;

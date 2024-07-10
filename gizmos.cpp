@@ -5,6 +5,8 @@
 
 void Door::update(PlayerEntity *player)
 {
+    if (!on)
+        return;
 
     bool collided = false;
     // Check for collision with the player.
@@ -29,18 +31,25 @@ Door::Door(int16_t start_x, int16_t start_y)
 {
     x = start_x;
     y = start_y;
+    on = false;
 }
 
 void Door::draw(int16_t camera_offset)
 {
-    Sprites::drawOverwrite(x - camera_offset, y, doorspr, open);
+    if (on)
+    {
+        Sprites::drawOverwrite(x - camera_offset, y, doorspr, open);
+    }
 }
 
 void Pole::draw(int16_t camera_offset)
 {
-    for (uint8_t i = 24; i <= 48; i += 8)
+    if (on)
     {
-        Sprites::drawOverwrite(POLE_X - camera_offset, i, polemid, 0);
+        for (uint8_t i = 24; i <= 48; i += 8)
+        {
+            Sprites::drawOverwrite(POLE_X - camera_offset, i, polemid, 0);
+        }
+        Sprites::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
     }
-    Sprites::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
 }

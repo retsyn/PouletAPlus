@@ -148,16 +148,15 @@ protected:
 class Foe
 {
 public:
-    bool spawned : 1;
-    bool dead : 1;
-    bool flip : 1;
-    bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
-
-    uint8_t enttype = ENT_DUD;
     int16_t x = 0;
     uint8_t y = 0;
     uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
     // When enemies die they probably won't fly away, just blink.
+    uint8_t enttype : 4;
+    bool spawned : 1;
+    bool dead : 1;
+    bool flip : 1;
+    bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
 
     void draw(int16_t offset);
     void update(Stage *stage, PlayerEntity *player);

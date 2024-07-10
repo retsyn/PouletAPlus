@@ -51,7 +51,7 @@ void allocate_balloons(Balloon **roster);
 
 void setup()
 {
-    ////Serial.begin(9600);
+    //serial.begin(9600);
     initArduboy2();
 
     // Hardware stuff
@@ -109,6 +109,15 @@ void loop()
         break;
 
     case in_play:
+
+        // Set up pole:
+        if(stage->currentstage % 3 == 2){
+            pole->on = true;
+            door->on = false;
+        } else {
+            pole->on = false;
+            door->on = true;
+        }
 
         // If dead!
         if (player->death)
