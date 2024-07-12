@@ -53,3 +53,12 @@ void Pole::draw(int16_t camera_offset)
         Sprites::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
     }
 }
+
+void Pole::update(PlayerEntity *player){
+    if(!on)
+        return;
+        
+    if(player->x > POLE_X){
+        player->celebrate = 1;
+    }
+}

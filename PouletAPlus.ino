@@ -155,6 +155,7 @@ void loop()
         pole->draw(scroll);
 
         door->update(player);
+        pole->update(player);
         door->draw(scroll);
         stage->draw_coins(scroll);
 

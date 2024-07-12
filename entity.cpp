@@ -20,6 +20,7 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     flip = false;
     attack = false;
     blinking = false;
+    celebrate = false;
 
     // Get sprite to point to the spot in progmem.
     switch (type)
@@ -148,7 +149,7 @@ void Entity::physics(Stage *in_stage)
     if (!horiz_collide)
         x += vx;
 
-    if (grounded && (!attack))
+    if ((grounded && (!attack)) || celebrate)
     {
         if (vx > 0)
         {
@@ -177,7 +178,8 @@ void Entity::physics(Stage *in_stage)
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
 {
-    jump_buffer = 0;
+    toque = 0;
+    flyboy = 0;
     accel = PLAYER_ACCEL;
 }
 
@@ -187,6 +189,12 @@ void PlayerEntity::control()
     {
         return;
     }
+
+    if (celebrate)
+    {
+        jump_buffer = 1;
+    }
+
     // IFrames stuff:
     if (blinking)
     {
@@ -198,41 +206,61 @@ void PlayerEntity::control()
         }
     }
 
-    // Movementf
-    if (arduboy->pressed(LEFT_BUTTON))
+    // Movement
+    if (!celebrate)
     {
-        if (vx > -PLAYER_TOPSPEED)
-            vx -= accel;
-        flip = true;
-    }
-    if (arduboy->pressed(RIGHT_BUTTON))
-    {
-        if (vx < PLAYER_TOPSPEED)
-            vx += accel;
-        flip = false;
+        if (arduboy->pressed(LEFT_BUTTON))
+        {
+            if (vx > -PLAYER_TOPSPEED)
+                vx -= accel;
+            flip = true;
+        }
+        if (arduboy->pressed(RIGHT_BUTTON))
+        {
+            if (vx < PLAYER_TOPSPEED)
+                vx += accel;
+            flip = false;
+        }
+
+        // Jumping
+        if (arduboy->justPressed(B_BUTTON))
+        {
+            if (grounded || (coyote_buffer > 0 && vy >= 0))
+            {
+                vy = -PLAYER_JUMPPOWER;
+                grounded = false;
+                attack = false;
+                coyote_buffer = 0;
+            }
+            else
+            {
+                jump_buffer = PLAYER_JUMP_BUFFER_TIME;
+            }
+        }
+
+        // Attacking
+        if (!grounded && arduboy->justPressed(A_BUTTON))
+        {
+            attack = true;
+            if (!flip)
+            {
+                vx = HORIZ_ATTACK_SPEED;
+            }
+            else
+            {
+                vx = -HORIZ_ATTACK_SPEED;
+            }
+            vy = VERT_ATTACK_SPEED;
+            skidding = SKID_MAX;
+        }
     }
 
-    // Jumping
-    if (arduboy->justPressed(B_BUTTON))
-    {
-        if (grounded || (coyote_buffer > 0 && vy >= 0))
-        {
-            vy = -PLAYER_JUMPPOWER;
-            grounded = false;
-            attack = false;
-            coyote_buffer = 0;
-        }
-        else
-        {
-            jump_buffer = PLAYER_JUMP_BUFFER_TIME;
-        }
-    }
     // Jump buffer logic-- to be triggered if the buffer count is nonzero and the button is held.
     if (jump_buffer > 0)
     {
         if (grounded)
         {
-            if (arduboy->pressed(B_BUTTON))
+            if (arduboy->pressed(B_BUTTON) || celebrate)
             {
                 vy = -PLAYER_JUMPPOWER;
                 grounded = false;
@@ -250,22 +278,6 @@ void PlayerEntity::control()
     {
         if (coyote_buffer > 0)
             coyote_buffer--;
-    }
-
-    // Attacking
-    if (!grounded && arduboy->justPressed(A_BUTTON))
-    {
-        attack = true;
-        if (!flip)
-        {
-            vx = HORIZ_ATTACK_SPEED;
-        }
-        else
-        {
-            vx = -HORIZ_ATTACK_SPEED;
-        }
-        vy = VERT_ATTACK_SPEED;
-        skidding = SKID_MAX;
     }
 
     if (attack)
@@ -437,7 +449,9 @@ void PlayerEntity::power_down()
             sprite = poulet_plus_mask;
             lethal = false;
         }
-    } else {
+    }
+    else
+    {
         toque = false;
         lethal = false;
     }

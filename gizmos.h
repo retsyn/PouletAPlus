@@ -2,7 +2,7 @@
 
 #include "entity.h"
 
-#define POLE_X 1000
+#define POLE_X 950
 
 
 class Door

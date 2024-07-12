@@ -107,6 +107,7 @@ public:
     bool flip : 1;
     bool attack : 1;
     bool blinking : 1;
+    bool celebrate : 1;
 
     uint8_t iframes = 0;
     uint8_t skidding = 0;
@@ -127,8 +128,8 @@ public:
 class PlayerEntity : public Entity
 {
 public:
-    bool flyboy = false;
-    bool toque = false;
+    bool flyboy : 1;
+    bool toque : 1;
     uint8_t coyote_buffer = 0;
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
