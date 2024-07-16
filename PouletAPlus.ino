@@ -17,7 +17,7 @@ GameState game_state = title_screen;
 // Aware scheme we are.
 uint8_t u_frame{0}, screen_ticker = 0, power_up_seq = 0, freelivesseq = 1;
 
-//int freeMemory();
+// int freeMemory();
 
 Stage *stage = new Stage();
 
@@ -51,7 +51,7 @@ void allocate_balloons(Balloon **roster);
 
 void setup()
 {
-    //serial.begin(9600);
+    // serial.begin(9600);
     initArduboy2();
 
     // Hardware stuff
@@ -110,11 +110,24 @@ void loop()
 
     case in_play:
 
+        if (player->celebrate)
+        {
+            screen_ticker += 1;
+            if (screen_ticker > LEVEL_END_SPEED)
+            {
+                screen_ticker = 0;
+                advance_stage();
+            }
+        }
+
         // Set up pole:
-        if(stage->currentstage % 3 == 2){
+        if (stage->currentstage % 3 == 2)
+        {
             pole->on = true;
             door->on = false;
-        } else {
+        }
+        else
+        {
             pole->on = false;
             door->on = true;
         }
@@ -151,7 +164,7 @@ void loop()
         }
         stage->draw_level(scroll);
 
-        //pole->update(player);
+        // pole->update(player);
         pole->draw(scroll);
 
         door->update(player);
@@ -163,15 +176,14 @@ void loop()
 
         if (door->open)
         {
-            fade_out();
-            next_stage();
-            start_level();
+            advance_stage();
         }
 
         update_balloons(balloon_roster);
         update_foes(foe_roster);
 
-        if(stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN), uint16_t(player->x + SPR_RGTSKIN), uint16_t(player->y + SPR_BOTSKIN))){
+        if (stage->get_coin(uint16_t(player->x + SPR_LFTSKIN), uint16_t(player->y + SPR_TOPSKIN), uint16_t(player->x + SPR_RGTSKIN), uint16_t(player->y + SPR_BOTSKIN)))
+        {
             player->score += 5;
         }
         player->draw(scroll);
@@ -185,7 +197,7 @@ void loop()
         draw_digits(scroll / 64, 2, 16, 57);
         draw_digits((scroll / 64) + 1, 2, 32, 57);
         draw_digits(player->flyboy, 1, 48, 57);
-        //draw_digits(freeMemory(), 4, 100, 57);
+        // draw_digits(freeMemory(), 4, 100, 57);
         draw_digits(player->x, 3, 16, 9);
 
         // Some in game stuff:
@@ -215,6 +227,14 @@ void loop()
     arduboy->display();
 }
 
+inline void advance_stage()
+{
+    fade_out();
+    next_stage();
+    start_level();
+    player->celebrate = 0;
+}
+
 inline void advance_master_frames()
 {
     static uint8_t master_ticker = TICKER_SPEED;
@@ -234,7 +254,6 @@ inline void show_title_screen()
     Sprites::drawOverwrite(7, 11, smallpoulet, 0);
     Sprites::drawOverwrite(60, 16, titlecard, 0);
     Sprites::drawOverwrite(74, 36, aplus, 0);
-    
 }
 
 inline void next_stage()
@@ -262,7 +281,7 @@ inline void fade_out()
     }
 }
 
-void fade_in()
+inline void fade_in()
 {
     for (uint8_t i = 1; i < 128; i += 5)
     {
@@ -408,7 +427,8 @@ void update_balloons(Balloon **roster)
 
             roster[i]->popped = true;
             prize_seq += 1;
-            if(prize_seq > PRIZE_1UP){
+            if (prize_seq > PRIZE_1UP)
+            {
                 prize_seq = PRIZE_TOQUE;
             }
         }
@@ -417,9 +437,9 @@ void update_balloons(Balloon **roster)
 
 inline void draw_hud()
 {
-    draw_digits(player->score, 7, 78, 1);
-    draw_lives(100, 1, player->lives);
-    draw_level(1, 1, stage->currentstage);
+    draw_digits(player->score, 7, 80, 0);
+    draw_lives(96, 0, player->lives);
+    draw_level(1, 0, stage->currentstage);
 }
 
 void start_level()
@@ -543,17 +563,17 @@ void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 
     if (check_spawn_status(meta_tile) == false)
     {
-        //Serial.print("Unspawned chunk!:\n");
-        //Serial.print("Meta Tile is: ");
-        //Serial.println(meta_tile);
-        //Serial.print("Type was: ");
-        //Serial.println(spawn_type(meta_tile));
+        // Serial.print("Unspawned chunk!:\n");
+        // Serial.print("Meta Tile is: ");
+        // Serial.println(meta_tile);
+        // Serial.print("Type was: ");
+        // Serial.println(spawn_type(meta_tile));
 
         uint16_t spawnx = ((meta_tile * 64) + 16);
 
         if (spawn_high(meta_tile) == true)
         {
-            //Serial.print("...high\n");
+            // Serial.print("...high\n");
             for (uint8_t i = 0; i < 40; i += 8)
             {
 
@@ -567,7 +587,7 @@ void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
         }
         else
         {
-            //Serial.print("...low\n");
+            // Serial.print("...low\n");
             for (uint8_t i = 40; i > 0; i -= 8)
             {
                 if (stage->is_solid(spawnx, i + 16) == 0)
@@ -579,38 +599,38 @@ void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             }
         }
 
-        //Serial.print("\n\nMetaTile: ");
-        //Serial.print(meta_tile);
-        //Serial.print("\nSpawn Coords chosen: ");
-        //Serial.print(spawnx);
-        //Serial.print(", ");
-        //Serial.print(spawnheight);
-        //Serial.print("\n");
+        // Serial.print("\n\nMetaTile: ");
+        // Serial.print(meta_tile);
+        // Serial.print("\nSpawn Coords chosen: ");
+        // Serial.print(spawnx);
+        // Serial.print(", ");
+        // Serial.print(spawnheight);
+        // Serial.print("\n");
         switch (spawn_type(meta_tile))
         {
 
         case SPAWN_BALLOON:
             spawn_balloon(spawnx, spawnheight);
             set_spawn_status(true, meta_tile);
-            //Serial.print("BALLOON SPAWNED!\n");
+            // Serial.print("BALLOON SPAWNED!\n");
             break;
 
         case SPAWN_FENNEC:
             spawn_foe(foe_roster, spawnx, spawnheight, ENT_FENNEC);
             set_spawn_status(true, meta_tile);
-            //Serial.print("FENNEC SPAWNED!\n");
+            // Serial.print("FENNEC SPAWNED!\n");
             break;
 
         case SPAWN_GOOB:
             spawn_foe(foe_roster, spawnx, spawnheight, ENT_GOOB);
             set_spawn_status(true, meta_tile);
-            //Serial.print("GOOB SPAWNED!\n");
+            // Serial.print("GOOB SPAWNED!\n");
             break;
 
         case SPAWN_BLOOB:
             spawn_foe(foe_roster, spawnx, spawnheight, ENT_BLOOB);
             set_spawn_status(true, meta_tile);
-            //Serial.print("BLOOB SPAWNED!\n");
+            // Serial.print("BLOOB SPAWNED!\n");
             break;
 
         default:

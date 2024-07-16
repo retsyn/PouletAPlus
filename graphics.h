@@ -43,7 +43,7 @@ extern const unsigned char PROGMEM bloob_plus_mask[];
 extern const unsigned char PROGMEM toque_plus_mask[];
 
 // The digits
-extern const unsigned char PROGMEM digits_plus_mask[];
+extern const unsigned char PROGMEM digits_sheet[];
 
 // Other text
 extern const uint8_t PROGMEM stage_label[];

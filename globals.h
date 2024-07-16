@@ -21,6 +21,8 @@
 #define EPHEM_MAX 2
 #define EPHEM_END_FRAME 4
 
+#define LEVEL_END_SPEED 100
+
 
 #include <Arduboy2.h>
 
