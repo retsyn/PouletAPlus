@@ -99,7 +99,7 @@ void loop()
     case interstitial:
         draw_hud();
         Sprites::drawOverwrite(36, 30, stage_label, 0);
-        draw_level(76, 30, stage->currentstage);
+        draw_level(76, 31, stage->currentstage);
         screen_ticker += 1;
         if (screen_ticker >= SCREEN_TRANS_SPEED)
         {
@@ -109,16 +109,6 @@ void loop()
         break;
 
     case in_play:
-
-        if (player->celebrate)
-        {
-            screen_ticker += 1;
-            if (screen_ticker > LEVEL_END_SPEED)
-            {
-                screen_ticker = 0;
-                advance_stage();
-            }
-        }
 
         // Set up pole:
         if (stage->currentstage % 3 == 2)
@@ -213,10 +203,24 @@ void loop()
 
         // Work out what should spawn!
         cleanup_spawns();
-        check_for_spawn(scroll, 2);
-        // check_for_spawn(scroll, -2);
+        check_for_spawn(scroll, 3);
+        check_for_spawn(scroll, -3);
 
         advance_master_frames();
+
+        // If a flagpole was touched and the player is "celebrating"
+        if (player->celebrate)
+        {
+            Sprites::drawOverwrite(28, 30, stage_label, 0);
+            Sprites::drawOverwrite(66, 30, done, 0);
+            screen_ticker += 1;
+            if (screen_ticker > LEVEL_END_SPEED)
+            {
+                screen_ticker = 0;
+                advance_stage();
+            }
+        }
+
 
         break;
 
@@ -251,9 +255,9 @@ inline void advance_master_frames()
 inline void show_title_screen()
 {
 
-    Sprites::drawOverwrite(7, 11, smallpoulet, 0);
-    Sprites::drawOverwrite(60, 16, titlecard, 0);
-    Sprites::drawOverwrite(74, 36, aplus, 0);
+    Sprites::drawSelfMasked(7, 11, smallpoulet, 0);
+    Sprites::drawSelfMasked(60, 16, titlecard, 0);
+    Sprites::drawSelfMasked(74, 36, aplus, 0);
 }
 
 inline void next_stage()
@@ -326,7 +330,7 @@ void spawn_foe(Foe **roster, uint16_t newx, uint8_t newy, uint8_t etype)
     }
 }
 
-void update_foes(Foe **roster)
+inline void update_foes(Foe **roster)
 {
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {

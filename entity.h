@@ -8,6 +8,7 @@
 #define ENT_FENNEC 2
 #define ENT_GOOB 3
 #define ENT_BLOOB 4
+#define ENT_PROJ 5
 
 #define SPAWN_NOTHING 0
 #define SPAWN_BALLOON 1
@@ -154,6 +155,7 @@ public:
     uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
     // When enemies die they probably won't fly away, just blink.
     uint8_t enttype : 4;
+    
     bool spawned : 1;
     bool dead : 1;
     bool flip : 1;

@@ -318,7 +318,7 @@ void Stage::draw_level(uint16_t cam_offset_x)
 
       if (unpacked != 0 && unpacked != TILE_COIN1)
       {
-        Sprites::drawOverwrite(tx, ty, foreground, unpacked);
+        Sprites::drawSelfMasked(tx, ty, foreground, unpacked);
       }
     }
   }
@@ -466,7 +466,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
   // If below or above playfield, tile must return nothing.
-  if (y > 56 || y < 1)
+  if (y > 56)
   {
     return TILE_EMPTY;
   }

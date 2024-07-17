@@ -517,6 +517,10 @@ void Foe::assign_sprite()
         sprite = bloob_plus_mask;
         break;
 
+    case (ENT_PROJ):
+        sprite = proj;
+        break;
+
     default:
         break;
     }
@@ -524,6 +528,10 @@ void Foe::assign_sprite()
 
 void Foe::draw(int16_t offset_x)
 {
+    if (enttype == ENT_PROJ)
+    {
+        Sprites::drawSelfMasked(x - offset_x, y, proj, 0);
+    }
 
     if (!spawned)
         return;

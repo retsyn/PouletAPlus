@@ -38,6 +38,7 @@ extern const unsigned char PROGMEM foe_anim_die[];
 extern const unsigned char PROGMEM fennec_plus_mask[];
 extern const unsigned char PROGMEM goob_plus_mask[];
 extern const unsigned char PROGMEM bloob_plus_mask[];
+extern const unsigned char PROGMEM proj[];
 
 // The toque!
 extern const unsigned char PROGMEM toque_plus_mask[];
@@ -47,6 +48,7 @@ extern const unsigned char PROGMEM digits_sheet[];
 
 // Other text
 extern const uint8_t PROGMEM stage_label[];
+extern const unsigned char PROGMEM done[];
 
 // Items:
 extern const unsigned char PROGMEM glasses_plus_mask[];
