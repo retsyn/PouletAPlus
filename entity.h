@@ -120,7 +120,6 @@ public:
     const unsigned char *sprite;
 
     Entity(uint8_t newtype, float start_x, float start_y);
-    virtual void draw(int16_t offset_x);
     void physics(Stage *in_stage);
     virtual void hitspike();
 
@@ -135,7 +134,7 @@ public:
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
-    void draw(int16_t offset_x) override;
+    void draw(int16_t offset_x);
     void takehit(Foe *hitter);
     void power_down();
     void hitspike() override;
