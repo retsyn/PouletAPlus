@@ -521,7 +521,7 @@ void set_spawn_status(bool newstate, uint16_t position)
 uint8_t spawn_type(uint8_t position)
 {
     // Put some bounds checking here?
-    if (position < 0)
+    if ((int8_t)position < 0)
     {
         return 0;
     }
