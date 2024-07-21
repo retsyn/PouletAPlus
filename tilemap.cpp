@@ -378,7 +378,7 @@ bool Stage::is_solid(uint16_t x, int8_t y)
 
 void Stage::fill_coins()
 {
-  for (uint16_t i = 0; i < 768; i++)
+  for (uint16_t i = 0; i < COIN_ARRAY * 8; i++)
   {
 
     // For debug, just fill them all...
@@ -406,7 +406,7 @@ void Stage::draw_coins(uint16_t cam_offset_x)
   int16_t tx;
   uint8_t ty;
 
-  for (uint16_t i = 0; i < 768; i++)
+  for (uint16_t i = 0; i < COIN_ARRAY * 8; i++)
   {
     size_t byte_index = i / 8;
     uint8_t bit_index = i % 8;
@@ -439,6 +439,8 @@ bool Stage::check_coin(uint16_t x, uint16_t y)
 
   size_t byte_index = i / 8;
   uint8_t bit_index = i % 8;
+
+  if (byte_index >= COIN_ARRAY) return false;
 
   if (coins[byte_index] & (1 << bit_index))
   {
