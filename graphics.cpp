@@ -470,7 +470,7 @@ const unsigned char PROGMEM proj[] =
 0x00, 0x08, 0x00, 0x58, 0x1a, 0x00, 0x10, 0x00,
 };
 
-const unsigned char PROGMEM done[] =
+const unsigned char PROGMEM done_label[] =
 {
 // width, height,
 32, 8,

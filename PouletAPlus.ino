@@ -212,7 +212,7 @@ void loop()
         if (player->celebrate)
         {
             Sprites::drawOverwrite(28, 30, stage_label, 0);
-            Sprites::drawOverwrite(66, 30, done, 0);
+            Sprites::drawOverwrite(66, 30, done_label, 0);
             screen_ticker += 1;
             if (screen_ticker > LEVEL_END_SPEED)
             {
