@@ -539,7 +539,7 @@ bool spawn_high(uint8_t position)
 void cleanup_spawns()
 {
     uint8_t meta_tile = (scroll / 64);
-    for (uint8_t i; i < 16; i++)
+    for (uint8_t i = 0; i < 16; i++)
     {
         if (i < (meta_tile - 1) || i > (meta_tile + 5))
         {
