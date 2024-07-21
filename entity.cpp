@@ -180,7 +180,6 @@ PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Enti
 {
     toque = 0;
     flyboy = 0;
-    accel = PLAYER_ACCEL;
 }
 
 void PlayerEntity::control()

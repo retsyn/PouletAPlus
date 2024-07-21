@@ -81,6 +81,7 @@ class Foe;
 class Entity
 {
 protected:
+    inline static const float accel = 0.1f;
     // Anim state vars:
     uint8_t anim_frame = 0;
     uint8_t anim_ticker = 0;
@@ -92,7 +93,6 @@ public:
     float vy = 0.0f;
 
     //float top_speed = 1.0f;
-    float accel = 0.1f;
 
     uint16_t score = 0;
     uint8_t lives = 5;
@@ -128,6 +128,7 @@ public:
     bool flyboy : 1;
     bool toque : 1;
     uint8_t coyote_buffer = 0;
+    inline static const float accel = PLAYER_ACCEL;
     // Precalc framelengths--
     inline static const uint8_t FRAMELEN[6] = {0, 3, 1, 0, 0, 0};
 
