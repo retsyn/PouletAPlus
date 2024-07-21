@@ -378,13 +378,13 @@ bool Stage::is_solid(uint16_t x, int8_t y)
 
 void Stage::fill_coins()
 {
+  for (uint16_t i = 0; i < COIN_ARRAY; ++i)
+    coins[i] = 0;
+
   for (uint16_t i = 0; i < COIN_ARRAY * 8; i++)
   {
-
-    // For debug, just fill them all...
     size_t byte_index = i / 8;
     uint8_t bit_index = i % 8;
-    coins[byte_index] &= ~(1 << bit_index);
 
     uint8_t tx = i % 128;
     uint8_t ty = (i / 128) + 1;
@@ -392,10 +392,6 @@ void Stage::fill_coins()
     {
       // Add a bit:
       coins[byte_index] |= (1 << bit_index);
-    }
-    else
-    {
-      coins[byte_index] &= ~(1 << bit_index);
     }
   }
 }
