@@ -80,22 +80,22 @@ class Foe;
 
 class Entity
 {
-protected:
+public:
+    float vy = 0.0f;
+    float vx = 0.0f;
+    float y = 0.0f;
+    float x = 0.0f;
+
+    //float top_speed = 1.0f;
     inline static const float accel = 0.1f;
+
+    uint16_t score = 0;
+    uint8_t lives = 5;
+
     // Anim state vars:
     uint8_t anim_frame = 0;
     uint8_t anim_ticker = 0;
     uint8_t anim_state = 0;
-
-
-public:
-    float vx = 0.0f;
-    float vy = 0.0f;
-
-    //float top_speed = 1.0f;
-
-    uint16_t score = 0;
-    uint8_t lives = 5;
 
     bool flying : 1;
     bool blinkon : 1;
@@ -110,11 +110,9 @@ public:
     uint8_t iframes = 0;
     uint8_t skidding = 0;
 
-
     uint8_t type = 0;
-    float x = 0.0f;
-    float y = 0.0f;
-    const unsigned char *sprite;
+
+    unsigned char *sprite;
 
     Entity(uint8_t newtype, float start_x, float start_y);
     bool physics(Stage *in_stage);
@@ -127,7 +125,10 @@ public:
     bool flyboy : 1;
     bool toque : 1;
     uint8_t coyote_buffer = 0;
+    uint8_t jump_buffer = 0;
+
     inline static const float accel = PLAYER_ACCEL;
+
     // Precalc framelengths--
     inline static const uint8_t FRAMELEN[6] = {0, 3, 1, 0, 0, 0};
 
@@ -136,8 +137,6 @@ public:
     void draw(int16_t offset_x);
     void takehit(Foe *hitter);
     void power_down();
- 
-    uint8_t jump_buffer = 0;
     void hitspike();
 };
 
@@ -149,17 +148,19 @@ public:
     uint8_t timer = 0; // We aren't using any floats for enemies, so we have a timer ticker.
     // When enemies die they probably won't fly away, just blink.
     uint8_t enttype : 4;
-    
+
     bool spawned : 1;
     bool dead : 1;
     bool flip : 1;
     bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
+
+    unsigned char *sprite;
 
     void draw(int16_t offset);
     void update(Stage *stage, PlayerEntity *player);
     bool collide(PlayerEntity *player);
     void assign_sprite();
 
+    Foe() {};
     Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y);
-    unsigned char *sprite;
 };

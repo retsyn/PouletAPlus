@@ -3,10 +3,16 @@
 #include "entity.h"
 #include "ephemeral.h"
 
+Balloon::Balloon()
+{
+    Balloon(0, 0);
+}
+
 Balloon::Balloon(uint16_t new_x, uint8_t new_y)
 {
     x = new_x;
     y = new_y;
+    popped = true;
 
     sprite = balloon_plus_mask;
 }
@@ -39,6 +45,7 @@ Item::Item()
     y = 0;
     gotten = true;
     grounded = false;
+    type = 0;
 
     sprite = glasses_plus_mask;
 }
@@ -124,22 +131,14 @@ ItemRoster::ItemRoster()
 
     for (uint8_t i = 0; i < ITEM_MAX; i++)
     {
-        roster[i] = new Item();
-    }
-}
-
-ItemRoster::~ItemRoster()
-{
-    for (uint8_t i = 0; i < ITEM_MAX; i++)
-    {
-        delete roster[i];
+        roster[i] = Item();
     }
 }
 
 void ItemRoster::emptyRoster(){
     // Empty the entire roster (While static memory remains.)
     for (uint8_t i = 0; i < ITEM_MAX; i++){
-        roster[i]->gotten = true;
+        roster[i].gotten = true;
     }
 }
 
@@ -150,7 +149,7 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
     uint8_t i = 0;
     for (i = 0; i < ITEM_MAX; i++)
     {
-        if (roster[i]->gotten == true)
+        if (roster[i].gotten == true)
         {
             break;
         }
@@ -161,28 +160,28 @@ void ItemRoster::add(uint16_t new_x, uint8_t new_y, uint8_t new_type)
     }
 
     // Assign all the arg values to the chosen spot in the roster:
-    roster[i]->x = new_x;
-    roster[i]->y = new_y;
-    roster[i]->type = new_type;
-    roster[i]->gotten = false;
-    roster[i]->grounded = false;
+    roster[i].x = new_x;
+    roster[i].y = new_y;
+    roster[i].type = new_type;
+    roster[i].gotten = false;
+    roster[i].grounded = false;
 
     switch (new_type)
     {
     case PRIZE_GLASSES:
-        roster[i]->sprite = glasses_plus_mask;
+        roster[i].sprite = glasses_plus_mask;
         break;
 
     case PRIZE_TOQUE:
-        roster[i]->sprite = toquepowerup_plus_mask;
+        roster[i].sprite = toquepowerup_plus_mask;
         break;
 
     case PRIZE_1UP:
-        roster[i]->sprite = oneup_plus_mask;
+        roster[i].sprite = oneup_plus_mask;
         break;
 
     default:
-        roster[i]->sprite = glasses_plus_mask;
+        roster[i].sprite = glasses_plus_mask;
         break;
     }
 }
@@ -192,13 +191,13 @@ void ItemRoster::updateRoster(Stage *stage, PlayerEntity *player, uint16_t scrol
 
     for (uint8_t i = 0; i < ITEM_MAX; i++)
     {
-        if (!roster[i]->gotten)
+        if (!roster[i].gotten)
         {
-            roster[i]->draw(scroll);
-            roster[i]->update(stage, player);
-            if(roster[i]->collide(player)){
-                roster[i]->gotten = true;
-                roster[i]->giveitem(player, ephem);
+            roster[i].draw(scroll);
+            roster[i].update(stage, player);
+            if(roster[i].collide(player)){
+                roster[i].gotten = true;
+                roster[i].giveitem(player, ephem);
             }
         }
         else

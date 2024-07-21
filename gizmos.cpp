@@ -27,11 +27,20 @@ void Door::update(PlayerEntity *player)
     }
 }
 
+Door::Door()
+{
+    x = 0;
+    y = 0;
+    on = false;
+    open = false;
+}
+
 Door::Door(int16_t start_x, int16_t start_y)
 {
     x = start_x;
     y = start_y;
     on = false;
+    open = false;
 }
 
 void Door::draw(int16_t camera_offset)

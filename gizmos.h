@@ -11,6 +11,7 @@ class Door
 public:
     int16_t x;
     int16_t y;
+    Door();
     Door(int16_t start_x, int16_t start_y);
     void update(PlayerEntity *player);
     void draw(int16_t offset_x);

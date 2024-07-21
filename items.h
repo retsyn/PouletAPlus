@@ -19,13 +19,13 @@ class Balloon
 {
 
 public:
-    bool popped : 1;
-
     uint16_t x = 0;
     uint8_t y = 0;
+    bool popped : 1;
 
     unsigned char *sprite;
 
+    Balloon();
     Balloon(uint16_t start_x, uint8_t start_y);
     void draw(uint16_t offset_x);
     bool collide(PlayerEntity *player);
@@ -35,14 +35,14 @@ class Item
 {
 
 public:
-    bool gotten : 1;
-    bool grounded : 1;
-    uint8_t type : 2;
+    unsigned char *sprite;
 
     uint16_t x;
     uint8_t y;
 
-    unsigned char *sprite;
+    bool gotten : 1;
+    bool grounded : 1;
+    uint8_t type : 2;
 
     Item();
     void update(Stage *stage, PlayerEntity *player);
@@ -55,10 +55,10 @@ public:
 class ItemRoster{
 
 public:
-    Item *roster[ITEM_MAX];
+    Item roster[ITEM_MAX];
 
     ItemRoster();
-    ~ItemRoster();
+    ~ItemRoster() {};
     void add(uint16_t new_x, uint8_t new_y, uint8_t type);
     void emptyRoster();
     void updateRoster(Stage *stage, PlayerEntity *player, uint16_t scroll, EphemeralRoster *ephem);

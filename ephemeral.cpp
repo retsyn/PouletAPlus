@@ -9,6 +9,8 @@ Ephemeral::Ephemeral()
     frame = 0;
     anim_timer = EPHEM_ANIM_SPEED;
     done = true;
+    text = false;
+    sprite = pop_plus_mask;
 }
 
 void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
@@ -94,7 +96,7 @@ EphemeralRoster::EphemeralRoster()
 
     for (uint8_t i = 0; i < EPHEM_MAX; i++)
     {
-        roster[i] = new Ephemeral();
+        roster[i] = Ephemeral();
     }
 }
 
@@ -104,13 +106,13 @@ void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
     uint8_t i = 0;
     for (i = 0; i < EPHEM_MAX - 1; i++)
     {
-        if (roster[i]->done)
+        if (roster[i].done)
         {
             break;
         }
     }
 
-    roster[i]->make(new_x, new_y, type);
+    roster[i].make(new_x, new_y, type);
 }
 
 void EphemeralRoster::updateRoster(uint16_t scroll)
@@ -118,10 +120,10 @@ void EphemeralRoster::updateRoster(uint16_t scroll)
 
     for (uint8_t i = 0; i < EPHEM_MAX; i++)
     {
-        if (!roster[i]->done)
+        if (!roster[i].done)
         {
-            roster[i]->draw(scroll);
-            roster[i]->animate();
+            roster[i].draw(scroll);
+            roster[i].animate();
         }
         else
         {
