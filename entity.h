@@ -86,9 +86,6 @@ protected:
     uint8_t anim_ticker = 0;
     uint8_t anim_state = 0;
 
-    // Precalc framelengths--
-    const uint8_t FRAMELEN[3] = {0, 2, 2};
-    
 
 public:
     float vx = 0.0f;
@@ -131,6 +128,8 @@ public:
     bool flyboy : 1;
     bool toque : 1;
     uint8_t coyote_buffer = 0;
+    // Precalc framelengths--
+    inline static const uint8_t FRAMELEN[6] = {0, 3, 1, 0, 0, 0};
 
     PlayerEntity(uint8_t newtype, float start_x, float start_y);
     void control();
@@ -140,9 +139,6 @@ public:
     void hitspike() override;
  
 protected:
-    // Precalc framelengths--
-    const uint8_t FRAMELEN[6] = {0, 3, 1, 0, 0, 0};
-
     uint8_t jump_buffer = 0;
 };
 
