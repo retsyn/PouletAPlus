@@ -4,7 +4,6 @@
 #define FOE_MIRROR 3
 
 #include <Arduboy2.h>
-#include <Arduboy.h>
 
 extern const unsigned char PROGMEM foreground[];
 extern const unsigned char PROGMEM poulet_plus_mask[];
