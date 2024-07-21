@@ -466,7 +466,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
   // Reaches through the unpacking of meta-tiles to find a tile-id.
 
   // If below or above playfield, tile must return nothing.
-  if (y > 56)
+  if (y > 7)
   {
     return TILE_EMPTY;
   }
