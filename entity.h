@@ -117,8 +117,7 @@ public:
     const unsigned char *sprite;
 
     Entity(uint8_t newtype, float start_x, float start_y);
-    void physics(Stage *in_stage);
-    virtual void hitspike();
+    bool physics(Stage *in_stage);
 
 };
 
@@ -137,10 +136,9 @@ public:
     void draw(int16_t offset_x);
     void takehit(Foe *hitter);
     void power_down();
-    void hitspike() override;
  
-protected:
     uint8_t jump_buffer = 0;
+    void hitspike();
 };
 
 class Foe

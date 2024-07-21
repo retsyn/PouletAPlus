@@ -178,7 +178,7 @@ void loop()
         }
         player->draw(scroll);
         player->control();
-        player->physics(stage);
+        if (player->physics(&stage)) player.hitspike();
 
         items.updateRoster(stage, player, scroll, &ephemerals);
         ephemerals.updateRoster(scroll);

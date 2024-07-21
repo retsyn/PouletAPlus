@@ -37,10 +37,11 @@ Entity::Entity(uint8_t newtype, float start_x, float start_y)
     vy = 0.0f;
 }
 
-void Entity::physics(Stage *in_stage)
+bool Entity::physics(Stage *in_stage)
 {
     bool vert_collide = 0;
     bool horiz_collide = 0;
+    bool hitspike = false;
 
     // Cap horizontal movement speed on ground:
     if (grounded && (!attack))
@@ -69,7 +70,7 @@ void Entity::physics(Stage *in_stage)
         {
             if (in_stage->is_spike(int16_t(floor(x) + SPR_SLFTSKIN), int16_t(i + SPR_SBOTSKIN)) || in_stage->is_spike(int16_t(floor(x) + SPR_SRGTSKIN), int16_t(i + SPR_SBOTSKIN)))
             {
-                hitspike();
+                hitspike = true;
             }
             if (in_stage->is_solid(int16_t(floor(x) + SPR_LFTSKIN), int16_t(i + SPR_BOTSKIN)) || in_stage->is_solid(int16_t(floor(x) + SPR_RGTSKIN), int16_t(i + SPR_BOTSKIN)))
             {
@@ -93,7 +94,7 @@ void Entity::physics(Stage *in_stage)
         {
             if (in_stage->is_spike(int16_t(x + SPR_SLFTSKIN + 1), int16_t(i + SPR_STOPSKIN)) || in_stage->is_spike(int16_t(x + SPR_SRGTSKIN - 1), int16_t(i + SPR_STOPSKIN)))
             {
-                hitspike();
+                hitspike = true;
             }
 
             if (in_stage->is_solid(int16_t(x + SPR_LFTSKIN + 1), int16_t(i + SPR_TOPSKIN)) || in_stage->is_solid(int16_t(x + SPR_RGTSKIN - 1), int16_t(i + SPR_TOPSKIN)))
@@ -115,7 +116,7 @@ void Entity::physics(Stage *in_stage)
         {
             if (in_stage->is_spike(int16_t(i + SPR_SRGTSKIN), int16_t(y + SPR_STOPSKIN + 1)) || in_stage->is_spike(int16_t(i + SPR_SRGTSKIN), int16_t(y + SPR_SBOTSKIN - 1)))
             {
-                hitspike();
+                hitspike = true;
             }
 
             if (in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_RGTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
@@ -134,7 +135,7 @@ void Entity::physics(Stage *in_stage)
         {
             if (in_stage->is_spike(int16_t(i + SPR_SLFTSKIN), int16_t(y + SPR_STOPSKIN + 1)) || in_stage->is_spike(int16_t(i + SPR_SLFTSKIN), int16_t(y + SPR_SBOTSKIN - 1)))
             {
-                hitspike();
+                hitspike = true;
             }
 
             if (in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_TOPSKIN + 1)) || in_stage->is_solid(int16_t(i + SPR_LFTSKIN), int16_t(y + SPR_BOTSKIN - 1)))
@@ -174,6 +175,8 @@ void Entity::physics(Stage *in_stage)
     {
         x = RIGHT_BOUND - SPR_RGTSKIN - 1;
     }
+
+    return hitspike;
 }
 
 PlayerEntity::PlayerEntity(uint8_t newtype, float start_x, float start_y) : Entity(newtype, start_x, start_y)
