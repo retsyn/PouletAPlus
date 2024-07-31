@@ -51,7 +51,7 @@ void Ephemeral::draw(uint16_t offset_x)
 {
     if (!done)
     {
-        Sprites::drawPlusMask(x - offset_x, y, sprite, frame);
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, frame);
     }
 }
 

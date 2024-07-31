@@ -22,7 +22,7 @@ void Balloon::draw(uint16_t offset_x)
 
     if (!popped)
     {
-        Sprites::drawPlusMask(x - offset_x, y, sprite, 0);
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, 0);
     }
 }
 
@@ -72,7 +72,7 @@ void Item::update(Stage *stage, PlayerEntity *player)
 void Item::draw(uint16_t offset_x)
 {
 
-    Sprites::drawPlusMask(x - offset_x, y, sprite, 0);
+    SpritesB::drawPlusMask(x - offset_x, y, sprite, 0);
 }
 
 void Item::giveitem(PlayerEntity *player, EphemeralRoster *ephem){

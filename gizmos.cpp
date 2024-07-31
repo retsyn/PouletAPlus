@@ -47,7 +47,7 @@ void Door::draw(int16_t camera_offset)
 {
     if (on)
     {
-        Sprites::drawOverwrite(x - camera_offset, y, doorspr, open);
+        SpritesB::drawOverwrite(x - camera_offset, y, doorspr, open);
     }
 }
 
@@ -57,9 +57,9 @@ void Pole::draw(int16_t camera_offset)
     {
         for (uint8_t i = 24; i <= 48; i += 8)
         {
-            Sprites::drawOverwrite(POLE_X - camera_offset, i, polemid, 0);
+            SpritesB::drawOverwrite(POLE_X - camera_offset, i, polemid, 0);
         }
-        Sprites::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
+        SpritesB::drawOverwrite(POLE_X - camera_offset, 16, poletop, 0);
     }
 }
 

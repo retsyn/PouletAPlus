@@ -98,7 +98,7 @@ static void loop()
 
     case interstitial:
         draw_hud();
-        Sprites::drawOverwrite(36, 30, stage_label, 0);
+        SpritesB::drawOverwrite(36, 30, stage_label, 0);
         draw_level(76, 31, stage.currentstage);
         screen_ticker += 1;
         if (screen_ticker >= SCREEN_TRANS_SPEED)
@@ -207,8 +207,8 @@ static void loop()
         // If a flagpole was touched and the player is "celebrating"
         if (player.celebrate)
         {
-            Sprites::drawOverwrite(28, 30, stage_label, 0);
-            Sprites::drawOverwrite(66, 30, done_label, 0);
+            SpritesB::drawOverwrite(28, 30, stage_label, 0);
+            SpritesB::drawOverwrite(66, 30, done_label, 0);
             screen_ticker += 1;
             if (screen_ticker > LEVEL_END_SPEED)
             {
@@ -251,9 +251,9 @@ static void advance_master_frames()
 static void show_title_screen()
 {
 
-    Sprites::drawSelfMasked(7, 11, smallpoulet, 0);
-    Sprites::drawSelfMasked(60, 16, titlecard, 0);
-    Sprites::drawSelfMasked(74, 36, aplus, 0);
+    SpritesB::drawSelfMasked(7, 11, smallpoulet, 0);
+    SpritesB::drawSelfMasked(60, 16, titlecard, 0);
+    SpritesB::drawSelfMasked(74, 36, aplus, 0);
 }
 
 static void next_stage()

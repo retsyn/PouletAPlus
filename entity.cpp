@@ -389,34 +389,34 @@ void PlayerEntity::draw(int16_t offset_x)
 
     if (toque && flyboy)
     {
-        Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
+        SpritesB::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
     }
 
     switch (anim_state)
     {
     case idle:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_idle[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_idle[anim_frame]) + (MIRROR * int(flip)));
         break;
     case walking:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_walk[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_walk[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_up:
         // Special hack for drawing toque first only on this anim:
         if (toque)
-            Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 1, toque_plus_mask, 0);
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
+            SpritesB::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 1, toque_plus_mask, 0);
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_up[anim_frame]) + (MIRROR * int(flip)));
         break;
     case jumping_down:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_jump_down[anim_frame]) + (MIRROR * int(flip)));
         break;
     case attacking:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_attack[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_attack[anim_frame]) + (MIRROR * int(flip)));
         break;
     case deading:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_death[anim_frame]) + (MIRROR * int(flip)));
         break;
     case hovering:
-        Sprites::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, pgm_read_byte(&poulet_anim_hover[anim_frame]) + (MIRROR * int(flip)));
         break;
 
     default:
@@ -425,7 +425,7 @@ void PlayerEntity::draw(int16_t offset_x)
 
     if (toque && (anim_state != jumping_up) && !flyboy)
     {
-        Sprites::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
+        SpritesB::drawPlusMask(x - offset_x + SPR_LFTSKIN, y + 2 - (anim_frame % 2), toque_plus_mask, 0);
     }
 }
 
@@ -532,7 +532,7 @@ void Foe::draw(int16_t offset_x)
 {
     if (enttype == ENT_PROJ)
     {
-        Sprites::drawSelfMasked(x - offset_x, y, proj, 0);
+        SpritesB::drawSelfMasked(x - offset_x, y, proj, 0);
     }
 
     if (!spawned)
@@ -542,12 +542,12 @@ void Foe::draw(int16_t offset_x)
     {
         if (timer % 2 == 0)
         {
-            Sprites::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
+            SpritesB::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
         }
         return;
     }
 
-    Sprites::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
+    SpritesB::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
 }
 
 void Foe::update(Stage *stage, PlayerEntity *player)
