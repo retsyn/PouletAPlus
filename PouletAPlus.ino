@@ -217,6 +217,10 @@ static void loop()
             }
         }
 
+        if(arduboy->justPressed(UP_BUTTON)){
+            shoot_projectile(player.x, player.y, 0 - scroll, 0);
+        }
+
 
         break;
 
@@ -405,7 +409,7 @@ static void update_balloons()
 
         if (balloon_roster[i].collide(&player))
         {
-            ephemerals.add(balloon_roster[i].x, balloon_roster[i].y, pop);
+            ephemerals.add(balloon_roster[i].x, balloon_roster[i].y, pop, 0, 0);
 
             switch (prize_seq)
             {
@@ -554,6 +558,16 @@ static void kill_all_foes()
         foe_roster[i].spawned = false;
     }
 }
+
+static void shoot_projectile(int16_t sx, int16_t sy, int16_t tx, int16_t ty){
+    float theta = atan2f (tx - sx, ty - sy);
+    uint16_t projectile_speed = (uint16_t)(1.5 * (1<<4));
+    int16_t proj_vx = (int16_t)(cosf(theta) * projectile_speed);
+    int16_t proj_vy = (int16_t)(sinf(theta) * projectile_speed);
+
+    ephemerals.add(sx, sy, proj, proj_vx, proj_vy);
+}
+
 
 static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 {

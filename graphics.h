@@ -37,7 +37,7 @@ extern const unsigned char PROGMEM foe_anim_die[];
 extern const unsigned char PROGMEM fennec_plus_mask[];
 extern const unsigned char PROGMEM goob_plus_mask[];
 extern const unsigned char PROGMEM bloob_plus_mask[];
-extern const unsigned char PROGMEM proj[];
+extern const unsigned char PROGMEM proj_plus_mask[];
 
 // The toque!
 extern const unsigned char PROGMEM toque_plus_mask[];

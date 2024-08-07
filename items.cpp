@@ -81,12 +81,12 @@ void Item::giveitem(PlayerEntity *player, EphemeralRoster *ephem){
     {
     case (PRIZE_TOQUE):
         player->toque = true;
-        ephem->add(player->x, player->y, toqueword);
+        ephem->add(player->x, player->y, toqueword, 0, 0);
         break;
 
     case (PRIZE_GLASSES):
         player->flyboy = true;
-        ephem->add(player->x, player->y, flyboy);
+        ephem->add(player->x, player->y, flyboy, 0, 0);
         player->sprite = aviator_plus_mask;
         break;
 

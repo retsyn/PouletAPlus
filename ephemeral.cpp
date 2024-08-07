@@ -13,7 +13,7 @@ Ephemeral::Ephemeral()
     sprite = pop_plus_mask;
 }
 
-void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
+void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType, int16_t new_vx, int16_t new_vy)
 {
 
     // Assign new sprite if needed:
@@ -35,6 +35,12 @@ void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
         text = true;
         break;
 
+    case proj:
+        sprite = proj_plus_mask;
+
+        text = false;
+        break;
+
     default:
         break;
     }
@@ -43,15 +49,19 @@ void Ephemeral::make(uint16_t new_x, uint8_t new_y, uint8_t ephemType)
     done = false;
     anim_timer = EPHEM_ANIM_SPEED;
 
-    x = new_x;
-    y = new_y;
+    x = new_x << 4;
+    y = new_y << 4;
+    vx = new_vx;
+    vy = new_vy;
 }
 
 void Ephemeral::draw(uint16_t offset_x)
 {
     if (!done)
     {
-        SpritesB::drawPlusMask(x - offset_x, y, sprite, frame);
+        uint16_t screen_x = (x >> 4) - offset_x;
+        uint16_t screen_y = (y >> 4);
+        SpritesB::drawPlusMask(screen_x, screen_y, sprite, frame);
     }
 }
 
@@ -63,31 +73,58 @@ void Ephemeral::animate()
         return;
     }
 
+    // Nonzero velocity means this is projectile
+    if (vx != 0 || vy != 0)
+    {
+        return;
+    }
+
     if (anim_timer > 0)
     {
         anim_timer--;
     }
     else
     {
-        if (!text)
+        if (vy != 0 || vx != 0)
         {
-            frame++;
-            anim_timer = EPHEM_ANIM_SPEED;
-            if (frame >= EPHEM_END_FRAME)
-            {
-                done = true;
-            }
         }
         else
         {
-            y--;
-            anim_timer = EPHEM_ANIM_SPEED;
-            frame = 0;
-            if (y <= 10)
+            if (!text)
             {
-                done = true;
+                frame++;
+                anim_timer = EPHEM_ANIM_SPEED;
+                if (frame >= EPHEM_END_FRAME)
+                {
+                    done = true;
+                }
+            }
+            else
+            {
+                y -= 1<<4;
+                anim_timer = EPHEM_ANIM_SPEED;
+                frame = 0;
+                if (y <= (10<<4))
+                {
+                    done = true;
+                }
             }
         }
+    }
+}
+
+void Ephemeral::proj_update(uint16_t offset_x)
+{
+    // Move by velocity:
+    // TODO: This is a problem as nothign will actually accumulate below the fraction
+    x += vx;
+    y += vy;
+
+    uint16_t screen_x = ((x >> 4) - offset_x);
+    uint16_t screen_y = ((y >> 4));
+    if (screen_x < 0 || screen_x > 128 || screen_y < 0 || screen_y > 64)
+    {
+        done = true;
     }
 }
 
@@ -100,7 +137,7 @@ EphemeralRoster::EphemeralRoster()
     }
 }
 
-void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
+void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type, int16_t vx, int16_t vy)
 {
 
     uint8_t i = 0;
@@ -112,7 +149,7 @@ void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type)
         }
     }
 
-    roster[i].make(new_x, new_y, type);
+    roster[i].make(new_x, new_y, type, vx, vy);
 }
 
 void EphemeralRoster::updateRoster(uint16_t scroll)
@@ -123,7 +160,14 @@ void EphemeralRoster::updateRoster(uint16_t scroll)
         if (!roster[i].done)
         {
             roster[i].draw(scroll);
-            roster[i].animate();
+            if (roster[i].vx != 0 || roster[i].vy != 0)
+            {
+                roster[i].proj_update(scroll);
+            }
+            else
+            {
+                roster[i].animate();
+            }
         }
         else
         {

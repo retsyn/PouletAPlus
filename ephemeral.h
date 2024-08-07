@@ -5,15 +5,18 @@ enum EphemType
 {
     pop = 0,
     toqueword,
-    flyboy
+    flyboy,
+    proj
 };
 
 class Ephemeral
 {
-
 public:
     uint16_t x;
-    uint8_t y;
+    uint16_t y;
+
+    int8_t vx;
+    int8_t vy;
 
     uint8_t frame;
     uint8_t anim_timer;
@@ -24,8 +27,9 @@ public:
     unsigned char *sprite;
 
     Ephemeral();
-    void make(uint16_t new_x, uint8_t new_y, uint8_t ephemType);
+    void make(uint16_t new_x, uint8_t new_y, uint8_t ephemType, int16_t vx, int16_t vy);
     void draw(uint16_t offset_x);
+    void proj_update(uint16_t offset_x);
     void animate();
 };
 
@@ -36,6 +40,6 @@ public:
     Ephemeral roster[EPHEM_MAX];
 
     EphemeralRoster();
-    void add(uint16_t new_x, uint8_t new_y, uint8_t type);
+    void add(uint16_t new_x, uint8_t new_y, uint8_t type, int16_t new_vx, int16_t new_vy);
     void updateRoster(uint16_t offset_x);
 };
