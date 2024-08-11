@@ -2,12 +2,14 @@
 
 #include "graphics.h"
 #include "tilemap.h"
+#include "ephemeral.h"
 
 #define ENT_DUD 0
 #define ENT_POULET 1
 #define ENT_FENNEC 2
 #define ENT_GOOB 3
 #define ENT_BLOOB 4
+#define ENT_DRAKE 5
 #define ENT_PROJ 5
 
 #define SPAWN_NOTHING 0
@@ -15,6 +17,7 @@
 #define SPAWN_FENNEC 2
 #define SPAWN_GOOB 3
 #define SPAWN_BLOOB 4
+#define SPAWN_DRAKE 5
 
 #define SPR_WAIT 6
 // Sprite "skins" to adjust for their visible size.
@@ -27,6 +30,10 @@
 #define SPR_SBOTSKIN 12
 #define SPR_SLFTSKIN 6
 #define SPR_SRGTSKIN 9
+
+
+// Enemy behavior constants
+#define BLOOB_DROPRATE 20
 
 
 // Foe speeds:
@@ -153,11 +160,14 @@ public:
     bool dead : 1;
     bool flip : 1;
     bool anim_bit : 1; // Just two frames.  We gotta be elfin'.
+    bool act : 1;
+
+    uint8_t think;
 
     unsigned char *sprite;
 
     void draw(int16_t offset);
-    void update(Stage *stage, PlayerEntity *player);
+    void update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals);
     bool collide(PlayerEntity *player);
     void assign_sprite();
 

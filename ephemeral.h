@@ -41,5 +41,6 @@ public:
 
     EphemeralRoster();
     void add(uint16_t new_x, uint8_t new_y, uint8_t type, int16_t new_vx, int16_t new_vy);
+    void shoot_projectile(int16_t sx, int16_t sy, int16_t tx, int16_t ty, uint8_t speed);
     void updateRoster(uint16_t offset_x);
 };

@@ -38,6 +38,8 @@ extern const unsigned char PROGMEM fennec_plus_mask[];
 extern const unsigned char PROGMEM goob_plus_mask[];
 extern const unsigned char PROGMEM bloob_plus_mask[];
 extern const unsigned char PROGMEM proj_plus_mask[];
+extern const unsigned char PROGMEM drake_plus_mask[];
+
 
 // The toque!
 extern const unsigned char PROGMEM toque_plus_mask[];

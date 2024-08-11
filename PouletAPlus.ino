@@ -178,7 +178,8 @@ static void loop()
         }
         player.draw(scroll);
         player.control();
-        if (player.physics(&stage)) player.hitspike();
+        if (player.physics(&stage))
+            player.hitspike();
 
         items.updateRoster(&stage, &player, scroll, &ephemerals);
         ephemerals.updateRoster(scroll);
@@ -216,11 +217,6 @@ static void loop()
                 advance_stage();
             }
         }
-
-        if(arduboy->justPressed(UP_BUTTON)){
-            shoot_projectile(player.x, player.y, 0 - scroll, 0);
-        }
-
 
         break;
 
@@ -344,7 +340,7 @@ static void update_foes()
 {
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
-        foe_roster[i].update(&stage, &player);
+        foe_roster[i].update(&stage, &player, &ephemerals);
         foe_roster[i].draw(scroll);
 
         // No need to operate on dead foes.
@@ -559,15 +555,6 @@ static void kill_all_foes()
     }
 }
 
-static void shoot_projectile(int16_t sx, int16_t sy, int16_t tx, int16_t ty){
-    float theta = atan2f (tx - sx, ty - sy);
-    uint16_t projectile_speed = (uint16_t)(1.5 * (1<<4));
-    int16_t proj_vx = (int16_t)(cosf(theta) * projectile_speed);
-    int16_t proj_vy = (int16_t)(sinf(theta) * projectile_speed);
-
-    ephemerals.add(sx, sy, proj, proj_vx, proj_vy);
-}
-
 
 static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 {
@@ -646,6 +633,12 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             set_spawn_status(true, meta_tile);
             // Serial.print("BLOOB SPAWNED!\n");
             break;
+
+        case SPAWN_DRAKE:
+            spawn_foe(spawnx, spawnheight, ENT_DRAKE);
+            set_spawn_status(true, meta_tile);
+            break;
+
 
         default:
             set_spawn_status(true, meta_tile);

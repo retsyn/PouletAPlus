@@ -101,10 +101,10 @@ void Ephemeral::animate()
             }
             else
             {
-                y -= 1<<4;
+                y -= 1 << 4;
                 anim_timer = EPHEM_ANIM_SPEED;
                 frame = 0;
-                if (y <= (10<<4))
+                if (y <= (10 << 4))
                 {
                     done = true;
                 }
@@ -174,4 +174,20 @@ void EphemeralRoster::updateRoster(uint16_t scroll)
             continue;
         }
     }
+}
+
+static void EphemeralRoster::shoot_projectile(int16_t sx, int16_t sy, int16_t tx, int16_t ty, uint8_t speed)
+{
+
+    int16_t dx = tx - sx;
+    int16_t dy = ty - sy;
+
+    // Cheeky lil normalization faker:
+    dx = (dx > 0) - (dx < 0);
+    dy = (dy > 0) - (dy < 0);
+
+    int16_t proj_vx = (int16_t)(dx * speed);
+    int16_t proj_vy = (int16_t)(dy * speed);
+
+    add(sx, sy, proj, proj_vx, proj_vy);
 }

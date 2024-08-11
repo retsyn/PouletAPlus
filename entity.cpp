@@ -498,6 +498,8 @@ Foe::Foe(uint8_t newtype, uint16_t start_x, uint8_t start_y)
     dead = 1;
     flip = 0;
     anim_bit = 0;
+    act = 0;
+    think = 0;
 
     enttype = newtype;
     assign_sprite();
@@ -519,6 +521,9 @@ void Foe::assign_sprite()
         sprite = bloob_plus_mask;
         break;
 
+    case (ENT_DRAKE):
+        sprite = drake_plus_mask;
+        break;
 
     default:
         break;
@@ -540,10 +545,15 @@ void Foe::draw(int16_t offset_x)
         return;
     }
 
+    if(act == 1){
+        SpritesB::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
+        return;
+    }
+
     SpritesB::drawPlusMask(x - offset_x, y, sprite, int(anim_bit) + (FOE_MIRROR * int(flip)));
 }
 
-void Foe::update(Stage *stage, PlayerEntity *player)
+void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals)
 {
     bool advance = false;
 
@@ -555,6 +565,7 @@ void Foe::update(Stage *stage, PlayerEntity *player)
         return;
     }
 
+    // Shitty gravity
     if (enttype != ENT_BLOOB)
     {
         if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN + 1) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN + 1))
@@ -577,8 +588,10 @@ void Foe::update(Stage *stage, PlayerEntity *player)
     switch (enttype)
     {
     case (ENT_BLOOB):
+
     // Same as Fennec.
     case (ENT_FENNEC):
+    case (ENT_DRAKE):
         if (timer >= SPEED_FENNEC)
         {
             advance = true;
@@ -602,9 +615,43 @@ void Foe::update(Stage *stage, PlayerEntity *player)
 
     if (advance)
     {
+        think += 1;
+
         switch (enttype)
         {
         case (ENT_BLOOB):
+            if (think > BLOOB_DROPRATE)
+            {
+                think = 0;
+                ephemerals->shoot_projectile(x + 4, y + SPR_BOTSKIN - 2, x + 4, 64, 5);
+            }
+            break;
+
+        case (ENT_DRAKE):
+            if (think > BLOOB_DROPRATE)
+            {
+                
+                uint16_t xdir = 0;
+                if (player->x < x)
+                {
+                    flip = true;
+                    xdir = 0;
+                }
+                else
+                {
+                    xdir = 1024;
+                    flip = false;
+                }
+
+                if(act == 0) ephemerals->shoot_projectile(x + 4, y + 8, xdir, y + 8, 7);
+                act = 1;
+                if(think > (BLOOB_DROPRATE + BLOOB_DROPRATE / 4)){
+                    think = 0;
+                    act = 0;
+                }                
+            }
+            break;
+
         case (ENT_FENNEC):
 
             if (flip)
