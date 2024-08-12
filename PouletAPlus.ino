@@ -201,7 +201,7 @@ static void loop()
         // Work out what should spawn!
         cleanup_spawns();
         check_for_spawn(scroll, 3);
-        check_for_spawn(scroll, -3);
+        check_for_spawn(scroll, -2);
 
         advance_master_frames();
 
@@ -329,6 +329,7 @@ static void spawn_foe(uint16_t newx, uint8_t newy, uint8_t etype)
             foe_roster[i].y = newy;
             foe_roster[i].spawned = true;
             foe_roster[i].dead = false;
+            foe_roster[i].act = false;
             foe_roster[i].enttype = etype;
             foe_roster[i].assign_sprite();
             break;
@@ -458,9 +459,9 @@ static void start_level()
 
     setup_level();
     // Check for spawns in this tile and one to the right:
-    // check_for_spawn(scroll, 0);
-    // check_for_spawn(scroll, 1);
-    // check_for_spawn(scroll, 2);
+    check_for_spawn(scroll, 0);
+    check_for_spawn(scroll, 1);
+    check_for_spawn(scroll, 2);
 
     if (game_state == in_play)
     {
@@ -538,7 +539,7 @@ static void cleanup_spawns()
     uint8_t meta_tile = (scroll / 64);
     for (uint8_t i = 0; i < 16; i++)
     {
-        if (i < (meta_tile - 1) || i > (meta_tile + 5))
+        if (i < (meta_tile - 2) || i > (meta_tile + 5))
         {
             set_spawn_status(false, i);
         }
@@ -551,10 +552,10 @@ static void kill_all_foes()
     for (uint8_t i = 0; i < FOE_MAX; i++)
     {
         foe_roster[i].dead = true;
+        foe_roster[i].act = false;
         foe_roster[i].spawned = false;
     }
 }
-
 
 static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 {
@@ -564,23 +565,13 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 
     if (check_spawn_status(meta_tile) == false)
     {
-        // Serial.print("Unspawned chunk!:\n");
-        // Serial.print("Meta Tile is: ");
-        // Serial.println(meta_tile);
-        // Serial.print("Type was: ");
-        // Serial.println(spawn_type(meta_tile));
-
         uint16_t spawnx = ((meta_tile * 64) + 16);
-
         if (spawn_high(meta_tile) == true)
         {
-            // Serial.print("...high\n");
             for (uint8_t i = 0; i < 40; i += 8)
             {
-
                 if (stage.is_solid(spawnx, i + 16) == 0)
                 {
-
                     spawnheight = i;
                     break;
                 }
@@ -588,61 +579,43 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
         }
         else
         {
-            // Serial.print("...low\n");
             for (uint8_t i = 40; i > 0; i -= 8)
             {
                 if (stage.is_solid(spawnx, i + 16) == 0)
                 {
-
                     spawnheight = i;
                     break;
                 }
             }
         }
 
-        // Serial.print("\n\nMetaTile: ");
-        // Serial.print(meta_tile);
-        // Serial.print("\nSpawn Coords chosen: ");
-        // Serial.print(spawnx);
-        // Serial.print(", ");
-        // Serial.print(spawnheight);
-        // Serial.print("\n");
         switch (spawn_type(meta_tile))
         {
-
         case SPAWN_BALLOON:
             spawn_balloon(spawnx, spawnheight);
-            set_spawn_status(true, meta_tile);
-            // Serial.print("BALLOON SPAWNED!\n");
             break;
 
         case SPAWN_FENNEC:
             spawn_foe(spawnx, spawnheight, ENT_FENNEC);
-            set_spawn_status(true, meta_tile);
-            // Serial.print("FENNEC SPAWNED!\n");
             break;
 
         case SPAWN_GOOB:
             spawn_foe(spawnx, spawnheight, ENT_GOOB);
-            set_spawn_status(true, meta_tile);
-            // Serial.print("GOOB SPAWNED!\n");
             break;
 
         case SPAWN_BLOOB:
             spawn_foe(spawnx, spawnheight, ENT_BLOOB);
-            set_spawn_status(true, meta_tile);
-            // Serial.print("BLOOB SPAWNED!\n");
             break;
 
         case SPAWN_DRAKE:
             spawn_foe(spawnx, spawnheight, ENT_DRAKE);
-            set_spawn_status(true, meta_tile);
             break;
-
 
         default:
-            set_spawn_status(true, meta_tile);
             break;
         }
+
+        set_spawn_status(true, meta_tile);
+
     }
 }
