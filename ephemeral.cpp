@@ -128,6 +128,17 @@ void Ephemeral::proj_update(uint16_t offset_x)
     }
 }
 
+bool Ephemeral::collide(uint16_t playerx, uint8_t playery)
+{
+
+    uint8_t px = (x >> 4);
+    uint8_t py = (y >> 4);
+    return ((px < playerx + SPR_PRGTSKIN) &&
+            (px + 8 > playerx + SPR_PLFTSKIN) &&
+            (py < playery + SPR_PBOTSKIN) &&
+            (py + 8 > playery + SPR_PTOPSKIN));
+}
+
 EphemeralRoster::EphemeralRoster()
 {
 
@@ -152,8 +163,10 @@ void EphemeralRoster::add(uint16_t new_x, uint8_t new_y, uint8_t type, int16_t v
     roster[i].make(new_x, new_y, type, vx, vy);
 }
 
-void EphemeralRoster::updateRoster(uint16_t scroll)
+// This is a bool since it's also checking if hit by a projectile...
+bool EphemeralRoster::updateRoster(uint16_t scroll, uint16_t playerx, uint8_t playery)
 {
+    bool hit = false;
 
     for (uint8_t i = 0; i < EPHEM_MAX; i++)
     {
@@ -163,6 +176,11 @@ void EphemeralRoster::updateRoster(uint16_t scroll)
             if (roster[i].vx != 0 || roster[i].vy != 0)
             {
                 roster[i].proj_update(scroll);
+                if (roster[i].collide(playerx, playery))
+                {
+                    hit = true;
+                    
+                }
             }
             else
             {
@@ -174,6 +192,8 @@ void EphemeralRoster::updateRoster(uint16_t scroll)
             continue;
         }
     }
+
+    return hit;
 }
 
 static void EphemeralRoster::shoot_projectile(int16_t sx, int16_t sy, int16_t tx, int16_t ty, uint8_t speed)

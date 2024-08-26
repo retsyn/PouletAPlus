@@ -182,10 +182,9 @@ static void loop()
             player.hitspike();
 
         items.updateRoster(&stage, &player, scroll, &ephemerals);
-        ephemerals.updateRoster(scroll);
-
-        // Debug HUD
-        // draw_digits(freeMemory(), 4, 100, 57);
+        if(ephemerals.updateRoster(scroll, player.x, player.y)){
+            player.hitspike();
+        }
 
         // Some in game stuff:
         if (player.y > 56)
