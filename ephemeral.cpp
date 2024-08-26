@@ -131,8 +131,8 @@ void Ephemeral::proj_update(uint16_t offset_x)
 bool Ephemeral::collide(uint16_t playerx, uint8_t playery)
 {
 
-    uint8_t px = (x >> 4);
-    uint8_t py = (y >> 4);
+    uint16_t px = (x >> 4);
+    uint16_t py = (y >> 4);
     return ((px < playerx + SPR_PRGTSKIN) &&
             (px + 8 > playerx + SPR_PLFTSKIN) &&
             (py < playery + SPR_PBOTSKIN) &&

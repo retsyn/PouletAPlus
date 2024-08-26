@@ -364,7 +364,16 @@ static void update_foes()
         {
             if (!player.attack)
             {
+                if(player.toque){
+                    prize_seq = 0;
+                }
                 player.takehit(&foe_roster[i]);
+                if(player.flyboy){
+                    player.flyboy = false;
+                }
+
+
+
             }
             else
             {

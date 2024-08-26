@@ -2,10 +2,10 @@
 #include "globals.h"
 
 // Extra forgiving collision skin for spikes:
-#define SPR_PTOPSKIN 11
-#define SPR_PBOTSKIN 12
-#define SPR_PLFTSKIN 6
-#define SPR_PRGTSKIN 9
+#define SPR_PTOPSKIN 8
+#define SPR_PBOTSKIN 16
+#define SPR_PLFTSKIN 4
+#define SPR_PRGTSKIN 12
 
 // Forward declare later access to Player info.
 class PlayerEntity;

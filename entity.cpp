@@ -545,7 +545,8 @@ void Foe::draw(int16_t offset_x)
         return;
     }
 
-    if(act == 1){
+    if (act == 1)
+    {
         SpritesB::drawPlusMask(x - offset_x, y, sprite, 2 + (FOE_MIRROR * int(flip)));
         return;
     }
@@ -625,32 +626,6 @@ void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals
                 think = 0;
                 ephemerals->shoot_projectile(x + 4, y + SPR_BOTSKIN - 2, x + 4, 64, 5);
             }
-            break;
-
-        case (ENT_DRAKE):
-            if (think > BLOOB_DROPRATE)
-            {
-                
-                uint16_t xdir = 0;
-                if (player->x < x)
-                {
-                    flip = true;
-                    xdir = 0;
-                }
-                else
-                {
-                    xdir = 1024;
-                    flip = false;
-                }
-
-                if(act == 0) ephemerals->shoot_projectile(x + 4, y + 8, xdir, y + 8, 7);
-                act = 1;
-                if(think > (BLOOB_DROPRATE + BLOOB_DROPRATE / 4)){
-                    think = 0;
-                    act = 0;
-                }                
-            }
-            break;
 
         case (ENT_FENNEC):
 
@@ -674,6 +649,33 @@ void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals
                 else
                 {
                     flip = true;
+                }
+            }
+            break;
+
+        case (ENT_DRAKE):
+            if (think > BLOOB_DROPRATE)
+            {
+
+                uint16_t xdir = 0;
+                if (player->x < x)
+                {
+                    flip = true;
+                    xdir = 0;
+                }
+                else
+                {
+                    xdir = 1024;
+                    flip = false;
+                }
+
+                if (act == 0)
+                    ephemerals->shoot_projectile(x + 4, y + 8, xdir, y + 8, 7);
+                act = 1;
+                if (think > (BLOOB_DROPRATE + BLOOB_DROPRATE / 4))
+                {
+                    think = 0;
+                    act = 0;
                 }
             }
             break;
