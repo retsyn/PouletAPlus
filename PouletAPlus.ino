@@ -547,7 +547,7 @@ static void cleanup_spawns()
     uint8_t meta_tile = (scroll / 64);
     for (uint8_t i = 0; i < 16; i++)
     {
-        if (i < (meta_tile - 2) || i > (meta_tile + 5))
+        if (i < (meta_tile - 3) || i > (meta_tile + 6))
         {
             set_spawn_status(false, i);
         }
@@ -624,6 +624,5 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
         }
 
         set_spawn_status(true, meta_tile);
-
     }
 }

@@ -33,7 +33,7 @@
 
 
 // Enemy behavior constants
-#define BLOOB_DROPRATE 20
+#define BLOOB_DROPRATE 10
 
 
 // Foe speeds:
