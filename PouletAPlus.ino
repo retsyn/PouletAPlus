@@ -63,7 +63,7 @@ static void setup()
     // Static memory initializations:
     allocate_foes();
     allocate_balloons();
-    setup_level();
+    //setup_level();
 
     // Game init stuff!
     door.x = (stage.exit_x * 8);
@@ -85,6 +85,7 @@ static void loop()
     case title_screen:
         show_title_screen();
         advance_master_frames();
+        show_debug_stage();
 
         if (arduboy->justPressed(B_BUTTON))
         {
@@ -94,6 +95,10 @@ static void loop()
             screen_ticker = 0;
             game_state = interstitial;
         }
+
+        if(arduboy->justPressed(UP_BUTTON)) stage.currentstage += 1;
+        if(arduboy->justPressed(DOWN_BUTTON)) stage.currentstage -= 1;
+
         break;
 
     case interstitial:
@@ -104,6 +109,7 @@ static void loop()
         if (screen_ticker >= SCREEN_TRANS_SPEED)
         {
             screen_ticker = 0;
+            setup_level();
             game_state = in_play;
         }
         break;
@@ -625,4 +631,8 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
 
         set_spawn_status(true, meta_tile);
     }
+}
+
+void show_debug_stage(){
+    draw_level(1, 0, stage.currentstage);
 }
