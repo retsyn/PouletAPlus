@@ -18,6 +18,8 @@
 #define SPAWN_GOOB 3
 #define SPAWN_BLOOB 4
 #define SPAWN_DRAKE 5
+#define SPAWN_2FENNEC 6
+#define SPAWN_2GOOB 7
 
 #define SPR_WAIT 6
 // Sprite "skins" to adjust for their visible size.

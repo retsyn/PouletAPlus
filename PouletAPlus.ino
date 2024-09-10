@@ -625,6 +625,16 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             spawn_foe(spawnx, spawnheight, ENT_DRAKE);
             break;
 
+        case SPAWN_2FENNEC:
+            spawn_foe(spawnx - 16, spawnheight, ENT_FENNEC);
+            spawn_foe(spawnx + 16, spawnheight, ENT_FENNEC);
+            break;
+
+        case SPAWN_2GOOB:
+            spawn_foe(spawnx - 16, spawnheight, ENT_GOOB);
+            spawn_foe(spawnx + 16, spawnheight, ENT_GOOB);
+            break;
+
         default:
             break;
         }
