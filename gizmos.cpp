@@ -1,13 +1,8 @@
-/*
- * gizmos.cpp
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #include "globals.h"
 #include "graphics.h"
 #include "gizmos.h"
 #include "entity.h"
+#include "sounds.h"
 
 void Door::update(PlayerEntity *player)
 {
@@ -74,6 +69,8 @@ void Pole::update(PlayerEntity *player){
         return;
         
     if(player->x > POLE_X){
+        if (!player->celebrate)
+            sfx_clear();
         player->celebrate = 1;
     }
 }

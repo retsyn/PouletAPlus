@@ -1,9 +1,3 @@
-/*
- * sounds.cpp
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #include "globals.h"
 #include "sounds.h"
 
@@ -11,7 +5,8 @@
 // automatically honours the saved mute state.
 ArduboyTones sound(Arduboy2Audio::enabled);
 
-
+// ---- Tone sequences (flash/PROGMEM, ~4 bytes per note) ----
+// Format: NOTE, duration_ms, ... TONES_END
 
 static const uint16_t seq_jump[] PROGMEM = {
     NOTE_E5H, 13,  NOTE_FS5H, 13,  NOTE_G5H, 13, TONES_END};
@@ -36,7 +31,10 @@ static const uint16_t seq_powerup[] PROGMEM = {
     TONES_END};
 
 static const uint16_t seq_oneup[] PROGMEM = {
-    NOTE_G5, 55, NOTE_C6, 55, NOTE_E6, 55, NOTE_G6, 130, TONES_END};
+    NOTE_DS6H, 54,  NOTE_REST, 54,  NOTE_F6H, 54,  NOTE_REST, 54,
+    NOTE_AS6H, 54,  NOTE_REST, 54,  NOTE_G6H, 54,  NOTE_REST, 163,
+    NOTE_GS6H, 54,
+    TONES_END};
 
 static const uint16_t seq_hurt[] PROGMEM = {
     NOTE_G4, 40, NOTE_DS4, 80, TONES_END};
@@ -49,10 +47,27 @@ static const uint16_t seq_die[] PROGMEM = {
     TONES_END};
 
 static const uint16_t seq_clear[] PROGMEM = {
-    NOTE_C5, 70, NOTE_F5, 70, NOTE_A5, 70, NOTE_C6, 140, NOTE_A5, 70, NOTE_C6, 300, TONES_END};
+    NOTE_AS4H, 64,  NOTE_REST, 64,  NOTE_C5H, 64,  NOTE_REST, 64,
+    NOTE_AS4H, 64,  NOTE_REST, 192,  NOTE_C5H, 192,  NOTE_REST, 64,
+    NOTE_G4H, 64,  NOTE_REST, 64,  NOTE_G4H, 64,  NOTE_REST, 64,
+    NOTE_G4H, 64,  NOTE_REST, 192,  NOTE_F4H, 64,  NOTE_REST, 192,
+    NOTE_AS4H, 64,  NOTE_REST, 64,  NOTE_C5H, 64,
+    TONES_END};
 
 static const uint16_t seq_start[] PROGMEM = {
-    NOTE_C5, 50, NOTE_G5, 50, NOTE_C6, 120, TONES_END};
+    NOTE_DS6H, 64,  NOTE_REST, 64,  NOTE_C6H, 64,  NOTE_REST, 64,
+    NOTE_AS5H, 64,  NOTE_REST, 192,  NOTE_G5H, 64,  NOTE_REST, 192,
+    NOTE_F5H, 64,  NOTE_REST, 192,  NOTE_C5H, 64,  NOTE_REST, 64,
+    NOTE_DS5H, 64,  NOTE_REST, 64,  NOTE_G5H, 64,  NOTE_REST, 192,
+    NOTE_F5H, 64,
+    TONES_END};
+
+static const uint16_t seq_attack[] PROGMEM = {
+    NOTE_GS5H, 17,  NOTE_CS5H, 13,  NOTE_REST, 3,  NOTE_A4H, 14,
+    NOTE_REST, 3,  NOTE_G4H, 13,  NOTE_REST, 3,  NOTE_F4H, 14,
+    NOTE_REST, 3,  NOTE_CS4H, 13,  NOTE_REST, 3,  NOTE_GS3H, 14,
+    TONES_END
+};
 
 // ---- Players ----
 void sfx_jump()    { sound.tones(seq_jump); }
@@ -65,3 +80,4 @@ void sfx_hurt()    { sound.tones(seq_hurt); }
 void sfx_die()     { sound.tones(seq_die); }
 void sfx_clear()   { sound.tones(seq_clear); }
 void sfx_start()   { sound.tones(seq_start); }
+void sfx_attack()  { sound.tones(seq_attack); }

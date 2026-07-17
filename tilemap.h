@@ -8,6 +8,7 @@
 
 #include "globals.h"
 
+// (moved from stages.h)
 extern const uint16_t PROGMEM stages[];
 
 #define MAP_WIDTH 128
@@ -48,7 +49,7 @@ public:
 
     uint8_t coins[COIN_ARRAY];
 
-    void draw_level(uint16_t offset_x);
+    void draw_level(uint16_t offset_x, bool alt_tiles);
     void fill_coins();
     void draw_coins();
     void draw_coins(uint16_t offset_x);

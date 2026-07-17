@@ -1,9 +1,3 @@
-/*
- * sounds.h
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #pragma once
 
 #include <Arduboy2.h>
@@ -23,3 +17,4 @@ void sfx_hurt();    // non-lethal hit (lost a powerup)
 void sfx_die();     // lethal hit or pit fall
 void sfx_clear();   // level clear (pole / door)
 void sfx_start();   // title screen -> game
+void sfx_attack();

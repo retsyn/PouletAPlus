@@ -55,6 +55,7 @@ static Pole pole;
 
 static int16_t scroll = 0;
 static bool masterblink = true;
+static bool alttiles = false;
 
 static void advance_master_frames();
 static void next_stage();
@@ -130,6 +131,14 @@ static void loop()
             screen_ticker = 0;
             setup_level();
             game_state = in_play;
+            if((stage.currentstage % 4) % 2 == 0) 
+                { 
+                    alttiles = false; 
+                }
+            else
+            {
+                alttiles = true;
+            } 
         }
         break;
 
@@ -178,7 +187,7 @@ static void loop()
         {
             scroll = 1024 - 128;
         }
-        stage.draw_level(scroll);
+        stage.draw_level(scroll, alttiles);
 
         // pole.update(&player);
         pole.draw(scroll);
@@ -315,7 +324,7 @@ static void fade_in()
         {
             i -= 5;
         }
-        stage.draw_level(scroll);
+        stage.draw_level(scroll, alttiles);
         stage.draw_coins(scroll);
         player.draw(scroll);
         arduboy->fillRect(0, 0, 128 - i, 64, BLACK);

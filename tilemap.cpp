@@ -1,9 +1,3 @@
-/*
- * tilemap.cpp
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #include <Arduboy2.h>
 #include "tilemap.h"
 #include "graphics.h"
@@ -300,7 +294,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 0, 0, 1, 1, 1,
 };
 
-void Stage::draw_level(uint16_t cam_offset_x)
+void Stage::draw_level(uint16_t cam_offset_x, bool alt_tiles)
 {
 
   int16_t tx;
@@ -323,7 +317,12 @@ void Stage::draw_level(uint16_t cam_offset_x)
 
       if (unpacked != 0 && unpacked != TILE_COIN1)
       {
-        SpritesB::drawSelfMasked(tx, ty, foreground, unpacked);
+        if(alt_tiles){
+          SpritesB::drawSelfMasked(tx, ty, foregroundb, unpacked);
+        }
+        else {
+          SpritesB::drawSelfMasked(tx, ty, foreground, unpacked);
+        }
       }
     }
   }
@@ -572,7 +571,7 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
 }
 
 
-
+// ============ (moved from stages.cpp) ============
 /* Stage content 16-bit fields for every 8x8 section of stage:
 0b0000000000011111
 0x001F - Choice of 31 meta-tiles
