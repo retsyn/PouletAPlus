@@ -6,6 +6,7 @@
  */
 #include "globals.h"
 #include "entity.h"
+#include "sounds.h"
 
 Entity::Entity(uint8_t newtype, float start_x, float start_y)
 {
@@ -239,6 +240,7 @@ void PlayerEntity::control()
                 grounded = false;
                 attack = false;
                 coyote_buffer = 0;
+                sfx_jump();
             }
             else
             {
@@ -271,6 +273,8 @@ void PlayerEntity::control()
             if (arduboy->pressed(B_BUTTON) || celebrate)
             {
                 vy = -PLAYER_JUMPPOWER;
+                if (!celebrate)
+                    sfx_jump();
                 grounded = false;
                 attack = false;
                 coyote_buffer = 0;
@@ -468,6 +472,11 @@ void PlayerEntity::power_down()
     {
         death = true;
         lives -= 1;
+        sfx_die();
+    }
+    else
+    {
+        sfx_hurt();
     }
 
     blinking = true;

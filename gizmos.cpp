@@ -2,6 +2,7 @@
 #include "graphics.h"
 #include "gizmos.h"
 #include "entity.h"
+#include "sounds.h"
 
 void Door::update(PlayerEntity *player)
 {
@@ -23,6 +24,8 @@ void Door::update(PlayerEntity *player)
 
     if (collided)
     {
+        if (!open)
+            sfx_clear();
         open = true;
     }
 }
@@ -68,6 +71,8 @@ void Pole::update(PlayerEntity *player){
         return;
         
     if(player->x > POLE_X){
+        if (!player->celebrate)
+            sfx_clear();
         player->celebrate = 1;
     }
 }

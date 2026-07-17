@@ -1,9 +1,3 @@
-/*
- * tilemap.cpp
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #include <Arduboy2.h>
 #include "tilemap.h"
 #include "graphics.h"
@@ -571,6 +565,8 @@ uint8_t Stage::unpack_tile(uint16_t x, uint8_t y)
 
 }
 
+
+// ============ (moved from stages.cpp) ============
 /* Stage content 16-bit fields for every 8x8 section of stage:
 0b0000000000011111
 0x001F - Choice of 31 meta-tiles

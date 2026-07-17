@@ -1,9 +1,3 @@
-/*
- * tilemap.h
- * Created Date: 2026-07-17
- * Author: Matthew Riche
- * 
- */
 #pragma once
 
 #include "globals.h"

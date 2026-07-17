@@ -6,7 +6,10 @@
 #include "gizmos.h"
 #include "items.h"
 #include "ephemeral.h"
+#include "sounds.h"
 
+// ============ (moved from globals.cpp) ============
+// Define the global pointer to the arduboy instance.
 Arduboy2Base* arduboy;
 
 void initArduboy2() {
@@ -104,6 +107,7 @@ static void loop()
 
         if (arduboy->justPressed(B_BUTTON))
         {
+            sfx_start();
             fade_out();
             arduboy->clear();
 
@@ -160,6 +164,7 @@ static void loop()
         {
             freelivesseq++;
             player.lives++;
+            sfx_oneup();
             // Animated indicator of 1up using ephem system?
         }
 
@@ -196,6 +201,7 @@ static void loop()
         if (stage.get_coin(uint16_t(player.x + SPR_LFTSKIN), uint16_t(player.y + SPR_TOPSKIN), uint16_t(player.x + SPR_RGTSKIN), uint16_t(player.y + SPR_BOTSKIN)))
         {
             player.score += 5;
+            sfx_coin();
         }
         player.draw(scroll);
         player.control();
@@ -402,6 +408,7 @@ static void update_foes()
                 // player.attack = false; // Attack persists until touching ground!
                 player.vy = -KILL_BOUNCE;
                 player.score += 25;
+                sfx_stomp();
             }
         }
     }
@@ -436,6 +443,7 @@ static void update_balloons()
         if (balloon_roster[i].collide(&player))
         {
             ephemerals.add(balloon_roster[i].x, balloon_roster[i].y, pop, 0, 0);
+            sfx_pop();
 
             switch (prize_seq)
             {
@@ -521,6 +529,7 @@ int freeMemory()
 static void die()
 {
     player.death = true;
+    sfx_die();
     player.lives -= 1;
     player.toque = false;
     player.flyboy = false;

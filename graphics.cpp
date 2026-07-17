@@ -646,6 +646,8 @@ const unsigned char PROGMEM proj_plus_mask[] =
 0x3a, 0xff, 0x08, 0x7f, 0x10, 0x3c, 0x00, 0x38,
 };
 
+
+// ============ (moved from digits.cpp) ============
 void draw_digits(uint32_t value, uint8_t digits, uint8_t x, uint8_t y){
 
     uint16_t number = value;

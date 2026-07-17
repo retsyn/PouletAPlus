@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "entity.h"
 #include "ephemeral.h"
+#include "sounds.h"
 
 Balloon::Balloon()
 {
@@ -81,17 +82,20 @@ void Item::giveitem(PlayerEntity *player, EphemeralRoster *ephem){
     {
     case (PRIZE_TOQUE):
         player->toque = true;
+        sfx_powerup();
         ephem->add(player->x, player->y, toqueword, 0, 0);
         break;
 
     case (PRIZE_GLASSES):
         player->flyboy = true;
+        sfx_powerup();
         ephem->add(player->x, player->y, flyboy, 0, 0);
         player->sprite = aviator_plus_mask;
         break;
 
     case (PRIZE_1UP):
         player->lives += 1;
+        sfx_oneup();
         break;
 
     default:
