@@ -1,6 +1,15 @@
+/*
+ * tilemap.h
+ * Created Date: 2026-07-17
+ * Author: Matthew Riche
+ * 
+ */
 #pragma once
 
-#include "stages.h"
+#include "globals.h"
+
+// (moved from stages.h)
+extern const uint16_t PROGMEM stages[];
 
 #define MAP_WIDTH 128
 #define MAP_MEM 1024

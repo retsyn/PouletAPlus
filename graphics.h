@@ -1,3 +1,9 @@
+/*
+ * graphics.h
+ * Created Date: 2026-07-17
+ * Author: Matthew Riche
+ * 
+ */
 #pragma once
 
 #define MIRROR 8
@@ -61,3 +67,8 @@ extern const unsigned char PROGMEM toquetext_plus_mask[];
 // Ephemeral effects:
 extern const unsigned char PROGMEM pop_plus_mask[];
 extern const unsigned char PROGMEM flyboy_plus_mask[];
+
+// (moved from digits.h)
+void draw_digits(uint32_t value, uint8_t digits, uint8_t x, uint8_t y);
+void draw_lives(uint8_t x, uint8_t y, uint8_t total);
+void draw_level(uint8_t x, uint8_t y, uint8_t stage);

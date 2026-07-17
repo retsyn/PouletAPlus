@@ -1,3 +1,9 @@
+/*
+ * entity.cpp
+ * Created Date: 2026-07-17
+ * Author: Matthew Riche
+ * 
+ */
 #include "globals.h"
 #include "entity.h"
 

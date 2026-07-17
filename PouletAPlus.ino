@@ -1,14 +1,29 @@
 #include <Arduino.h>
 #include "globals.h"
-#include "game.h"
 #include "graphics.h"
 #include "tilemap.h"
 #include "entity.h"
 #include "gizmos.h"
-#include "digits.h"
 #include "items.h"
 #include "ephemeral.h"
-#include "stages.h"
+
+Arduboy2Base* arduboy;
+
+void initArduboy2() {
+  // Allocate the Arduboy2Base instance (static storage)
+  static Arduboy2Base arduboyInstance;
+
+  // Set the global pointer to point to the instance
+  arduboy = &arduboyInstance;
+
+  // Minimal boot instead of begin(): skips the boot logo (~1KB flash).
+  arduboy->boot();
+  arduboy->display();        // ensure a cleared screen is shown
+  arduboy->flashlight();     // keep: UP+power recovery mode (safe re-flashing)
+  arduboy->systemButtons();  // keep: B+power mutes audio, saved to EEPROM
+  arduboy->audio.begin();    // load audio on/off state
+  arduboy->waitNoButtons();
+}
 
 static GameState game_state = title_screen;
 
