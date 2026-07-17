@@ -1,3 +1,9 @@
+/*
+ * globals.h
+ * Created Date: 2026-07-17
+ * Author: Matthew Riche
+ * 
+ */
 #pragma once
 
 #define LEFT_BOUND 0
@@ -27,8 +33,6 @@
 #include <Arduboy2.h>
 
 
-// Declare a global pointer to the Arduboy2Base instance.
-// (Arduboy2Base instead of Arduboy2: we never use print/font, saves ~1KB+ flash)
 extern Arduboy2Base* arduboy;
 
 // Declare a function to initialize the Arduboy2 instance
@@ -37,7 +41,7 @@ void initArduboy2();
 #define TICKER_SPEED 30
 #define SCREEN_TRANS_SPEED 120
 
-// (moved from game.h)
+
 enum GameState{
     title_screen = 0,
     in_play,

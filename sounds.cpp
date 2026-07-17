@@ -1,3 +1,9 @@
+/*
+ * sounds.cpp
+ * Created Date: 2026-07-17
+ * Author: Matthew Riche
+ * 
+ */
 #include "globals.h"
 #include "sounds.h"
 
@@ -5,8 +11,7 @@
 // automatically honours the saved mute state.
 ArduboyTones sound(Arduboy2Audio::enabled);
 
-// ---- Tone sequences (flash/PROGMEM, ~4 bytes per note) ----
-// Format: NOTE, duration_ms, ... TONES_END
+
 
 static const uint16_t seq_jump[] PROGMEM = {
     NOTE_E5H, 13,  NOTE_FS5H, 13,  NOTE_G5H, 13, TONES_END};
