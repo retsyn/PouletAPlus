@@ -466,7 +466,11 @@ void PlayerEntity::power_down()
     if (lethal)
     {
         death = true;
-        lives -= 1;
+        if(lives > 0){
+            lives -= 1;
+        } else {
+            pending_game_over = true;
+        }
         sfx_die();
     }
     else

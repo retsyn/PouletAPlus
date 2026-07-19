@@ -1,5 +1,8 @@
 #pragma once
 
+
+#define START_LIVES 2
+
 #define LEFT_BOUND 0
 #define RIGHT_BOUND 1024
 

@@ -99,7 +99,7 @@ public:
     inline static const float accel = 0.1f;
 
     uint16_t score = 0;
-    uint8_t lives = 5;
+    uint8_t lives = START_LIVES;
 
     // Anim state vars:
     uint8_t anim_frame = 0;
@@ -133,6 +133,7 @@ class PlayerEntity : public Entity
 public:
     bool flyboy : 1;
     bool toque : 1;
+    bool pending_game_over : 1;
     uint8_t coyote_buffer = 0;
     uint8_t jump_buffer = 0;
 
