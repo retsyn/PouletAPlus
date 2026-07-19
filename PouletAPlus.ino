@@ -8,8 +8,6 @@
 #include "ephemeral.h"
 #include "sounds.h"
 
-// ============ (moved from globals.cpp) ============
-// Define the global pointer to the arduboy instance.
 Arduboy2Base* arduboy;
 
 void initArduboy2() {
@@ -56,6 +54,7 @@ static Pole pole;
 static int16_t scroll = 0;
 static bool masterblink = true;
 static bool alttiles = false;
+static bool pending_game_over = false;
 
 static void advance_master_frames();
 static void next_stage();
@@ -107,8 +106,7 @@ static void loop()
         show_debug_stage();
 
         if (arduboy->justPressed(B_BUTTON))
-        {
-            sfx_start();
+        {            
             fade_out();
             arduboy->clear();
 
@@ -122,6 +120,9 @@ static void loop()
         break;
 
     case interstitial:
+        if(screen_ticker == 0) { 
+            sfx_start();
+            }
         draw_hud();
         SpritesB::drawOverwrite(36, 30, stage_label, 0);
         draw_level(76, 31, stage.currentstage);
@@ -131,19 +132,11 @@ static void loop()
             screen_ticker = 0;
             setup_level();
             game_state = in_play;
-            if((stage.currentstage % 4) % 2 == 0) 
-                { 
-                    alttiles = false; 
-                }
-            else
-            {
-                alttiles = true;
-            } 
+            alttiles = (stage.currentstage % 6) >= 3;
         }
         break;
 
     case in_play:
-
         // Set up pole:
         if (stage.currentstage % 3 == 2)
         {
@@ -164,6 +157,10 @@ static void loop()
             {
                 game_state = interstitial;
                 deathtime = DEATHTIME_MAX;
+                player.sprite = poulet_plus_mask;
+                if(player.pending_game_over){
+                    gameover();
+                }
                 setup_level();
             }
         }
@@ -404,12 +401,6 @@ static void update_foes()
                     prize_seq = 0;
                 }
                 player.takehit(&foe_roster[i]);
-                if(player.flyboy){
-                    player.flyboy = false;
-                }
-
-
-
             }
             else
             {
@@ -539,9 +530,28 @@ static void die()
 {
     player.death = true;
     sfx_die();
-    player.lives -= 1;
+    if(player.lives > 0){
+        player.lives -= 1;
+    } else {
+        player.pending_game_over = true;
+    }
     player.toque = false;
     player.flyboy = false;
+}
+
+static void gameover(){
+     
+    screen_ticker = 0; 
+    power_up_seq = 0; 
+    freelivesseq = 1;
+    game_state = title_screen;
+    spawnstatus = 0;
+    stage.currentstage = 0;
+    door.open = false;
+    player.x = 0;
+    player.lives = START_LIVES;
+    scroll = 0;   
+    player.pending_game_over = false;
 }
 
 static bool check_spawn_status(uint8_t position)
