@@ -103,7 +103,9 @@ static void loop()
     case title_screen:
         show_title_screen();
         advance_master_frames();
-        show_debug_stage();
+        if(stage.currentstage != 0){
+            show_debug_stage();
+        }
 
         if (arduboy->justPressed(B_BUTTON))
         {            

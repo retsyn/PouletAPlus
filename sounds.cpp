@@ -21,8 +21,9 @@ static const uint16_t seq_stomp[] PROGMEM = {
     TONES_END};
 
 static const uint16_t seq_pop[] PROGMEM = {
-    NOTE_GS4H, 13,  NOTE_CS4H, 13,  NOTE_E6H, 13,  NOTE_A3H, 13,
-    NOTE_AS3H, 13,  NOTE_B3H, 13,  NOTE_G3H, 13,  NOTE_B3H, 13,
+    NOTE_CS3H, 4,  NOTE_AS6H, 4,  NOTE_GS6H, 4,  NOTE_AS3H, 4,
+    NOTE_CS3H, 4,  NOTE_A4H, 4,  NOTE_REST, 4,  NOTE_C5H, 4,
+    NOTE_CS3H, 4,  NOTE_G4H, 4,
     TONES_END};
 
 static const uint16_t seq_powerup[] PROGMEM = {
@@ -37,7 +38,10 @@ static const uint16_t seq_oneup[] PROGMEM = {
     TONES_END};
 
 static const uint16_t seq_hurt[] PROGMEM = {
-    NOTE_G4, 40, NOTE_DS4, 80, TONES_END};
+    NOTE_G3H, 8,  NOTE_A6H, 8,  NOTE_GS3H, 8,  NOTE_GS6H, 8,
+    NOTE_G3H, 8,  NOTE_G6H, 8,  NOTE_F3H, 8,  NOTE_DS6H, 8,
+    NOTE_E3H, 8,  NOTE_CS6H, 8,
+    TONES_END};
 
 static const uint16_t seq_die[] PROGMEM = {
     NOTE_E5H, 13,  NOTE_FS5H, 13,  NOTE_G5H, 13,  NOTE_CS6H, 13,
@@ -66,6 +70,14 @@ static const uint16_t seq_attack[] PROGMEM = {
     NOTE_GS5H, 17,  NOTE_CS5H, 13,  NOTE_REST, 3,  NOTE_A4H, 14,
     NOTE_REST, 3,  NOTE_G4H, 13,  NOTE_REST, 3,  NOTE_F4H, 14,
     NOTE_REST, 3,  NOTE_CS4H, 13,  NOTE_REST, 3,  NOTE_GS3H, 14,
+    TONES_END};
+
+static const uint16_t seq_door[] PROGMEM = {
+    NOTE_AS6H, 6,  NOTE_E3H, 6,  NOTE_E5H, 6,  NOTE_E3H, 6,
+    NOTE_E5H, 6,  NOTE_E3H, 6,  NOTE_D5H, 6,  NOTE_FS3H, 6,
+    NOTE_REST, 38,  NOTE_AS6H, 6,  NOTE_GS5H, 6,  NOTE_FS6H, 6,
+    NOTE_GS5H, 6,  NOTE_FS6H, 6,  NOTE_GS5H, 6,  NOTE_FS6H, 6,
+    NOTE_FS5H, 6,
     TONES_END
 };
 
@@ -81,3 +93,4 @@ void sfx_die()     { sound.tones(seq_die); }
 void sfx_clear()   { sound.tones(seq_clear); }
 void sfx_start()   { sound.tones(seq_start); }
 void sfx_attack()  { sound.tones(seq_attack); }
+void sfx_door()    { sound.tones(seq_door); }

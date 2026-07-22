@@ -25,6 +25,7 @@ void Door::update(PlayerEntity *player)
     if (collided)
     {
         open = true;
+        sfx_door();
     }
 }
 

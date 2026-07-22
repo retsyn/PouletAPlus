@@ -72,6 +72,7 @@ bool Entity::physics(Stage *in_stage)
             if (in_stage->is_spike(int16_t(floor(x) + SPR_SLFTSKIN), int16_t(i + SPR_SBOTSKIN)) || in_stage->is_spike(int16_t(floor(x) + SPR_SRGTSKIN), int16_t(i + SPR_SBOTSKIN)))
             {
                 hitspike = true;
+
             }
             if (in_stage->is_solid(int16_t(floor(x) + SPR_LFTSKIN), int16_t(i + SPR_BOTSKIN)) || in_stage->is_solid(int16_t(floor(x) + SPR_RGTSKIN), int16_t(i + SPR_BOTSKIN)))
             {
@@ -440,7 +441,7 @@ void PlayerEntity::hitspike()
     {
         return;
     }
-    vy = -1.0;
+    vy = -2.5;
     power_down();
 }
 

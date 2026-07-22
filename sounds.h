@@ -7,14 +7,15 @@
 // Respects the audio mute setting (hold B while powering on to toggle).
 extern ArduboyTones sound;
 
-void sfx_jump();    // player jumps
-void sfx_coin();    // coin collected
-void sfx_stomp();   // foe stomped/attacked
-void sfx_pop();     // balloon popped
-void sfx_powerup(); // toque / glasses collected
-void sfx_oneup();   // extra life (item or score milestone)
-void sfx_hurt();    // non-lethal hit (lost a powerup)
-void sfx_die();     // lethal hit or pit fall
-void sfx_clear();   // level clear (pole / door)
-void sfx_start();   // title screen -> game
+void sfx_jump();    
+void sfx_coin();    
+void sfx_stomp();   
+void sfx_pop();     
+void sfx_powerup(); 
+void sfx_oneup();   
+void sfx_hurt();    
+void sfx_die();     
+void sfx_clear();   
+void sfx_start();   
 void sfx_attack();
+void sfx_door();
