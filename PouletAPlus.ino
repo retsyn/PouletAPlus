@@ -53,7 +53,7 @@ static Pole pole;
 
 static int16_t scroll = 0;
 static bool masterblink = true;
-static bool alttiles = false;
+static uint8_t alttiles = 0;
 static bool pending_game_over = false;
 
 static void advance_master_frames();
@@ -97,6 +97,7 @@ static void loop()
         return;
     arduboy->pollButtons();
     arduboy->clear();
+    masterblink = !masterblink;
 
     switch (game_state)
     {
@@ -114,6 +115,10 @@ static void loop()
 
             screen_ticker = 0;
             game_state = interstitial;
+        }
+
+        if(arduboy->justPressed(A_BUTTON)){
+            arduboy->audio.toggle();
         }
 
         if(arduboy->justPressed(UP_BUTTON)) stage.currentstage += 1;
@@ -134,7 +139,7 @@ static void loop()
             screen_ticker = 0;
             setup_level();
             game_state = in_play;
-            alttiles = (stage.currentstage % 6) >= 3;
+            alttiles = (stage.currentstage / 3) % 3;
         }
         break;
 
@@ -198,6 +203,7 @@ static void loop()
 
         draw_hud();
 
+
         if (door.open)
         {
             advance_stage();
@@ -234,8 +240,11 @@ static void loop()
 
         // Work out what should spawn!
         cleanup_spawns();
-        check_for_spawn(scroll, 3);
-        check_for_spawn(scroll, -2);
+        for (int8_t offset = 0; offset <= 3; offset++)
+        {
+            check_for_spawn(scroll, offset);
+        }
+
 
         advance_master_frames();
 
@@ -284,10 +293,14 @@ static void advance_master_frames()
 
 static void show_title_screen()
 {
-
     SpritesB::drawSelfMasked(7, 11, smallpoulet, 0);
     SpritesB::drawSelfMasked(60, 16, titlecard, 0);
     SpritesB::drawSelfMasked(74, 36, aplus, 0);
+    if(arduboy->audio.enabled()){
+        SpritesB::drawSelfMasked(112, 48, soundicon1, 0);
+    } else {
+        SpritesB::drawSelfMasked(112, 48, soundicon2, 0);
+    }
 }
 
 static void next_stage()
@@ -352,7 +365,7 @@ static void allocate_foes()
     }
 }
 
-static void spawn_foe(uint16_t newx, uint8_t newy, uint8_t etype)
+static bool spawn_foe(uint16_t newx, uint8_t newy, uint8_t etype)
 {
 
     for (uint8_t i = 0; i < FOE_MAX; i++)
@@ -366,9 +379,10 @@ static void spawn_foe(uint16_t newx, uint8_t newy, uint8_t etype)
             foe_roster[i].act = false;
             foe_roster[i].enttype = etype;
             foe_roster[i].assign_sprite();
-            break;
+            return true;
         }
     }
+    return false;
 }
 
 static void update_foes()
@@ -384,7 +398,7 @@ static void update_foes()
             continue;
         }
 
-        if (foe_roster[i].x < (scroll - 128))
+        if (foe_roster[i].x < (scroll - 24))
         {
             foe_roster[i].spawned = false;
             foe_roster[i].dead = true;
@@ -501,6 +515,7 @@ static void start_level()
     check_for_spawn(scroll, 0);
     check_for_spawn(scroll, 1);
     check_for_spawn(scroll, 2);
+    check_for_spawn(scroll, 3);
 
     if (game_state == in_play)
     {
@@ -514,6 +529,8 @@ static void setup_level()
     stage.fill_coins();
     player.x = 8;
     player.y = 8;
+    player.attack = false;
+    player.skidding = false;
     player.vx = 0;
     player.vy = 0;
     player.death = false;
@@ -552,6 +569,7 @@ static void gameover(){
     door.open = false;
     player.x = 0;
     player.lives = START_LIVES;
+    player.score = 0;
     scroll = 0;   
     player.pending_game_over = false;
 }
@@ -598,9 +616,11 @@ static void cleanup_spawns()
     uint8_t meta_tile = (scroll / 64);
     for (uint8_t i = 0; i < 16; i++)
     {
-        if (i < (meta_tile - 3) || i > (meta_tile + 6))
+        if (i < (meta_tile - 4) || i > (meta_tile + 6))
         {
-            set_spawn_status(false, i);
+            if(i > -1 && i < 16){
+                set_spawn_status(false, i);
+            }
         }
     }
 }
@@ -648,6 +668,8 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             }
         }
 
+        bool spawn_ok = true;
+
         switch (spawn_type(meta_tile))
         {
         case SPAWN_BALLOON:
@@ -655,36 +677,38 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
             break;
 
         case SPAWN_FENNEC:
-            spawn_foe(spawnx, spawnheight, ENT_FENNEC);
+            spawn_ok = spawn_foe(spawnx, spawnheight, ENT_FENNEC);
             break;
 
         case SPAWN_GOOB:
-            spawn_foe(spawnx, spawnheight, ENT_GOOB);
+            spawn_ok = spawn_foe(spawnx, spawnheight, ENT_GOOB);
             break;
 
         case SPAWN_BLOOB:
-            spawn_foe(spawnx, spawnheight, ENT_BLOOB);
+            spawn_ok = spawn_foe(spawnx, spawnheight, ENT_BLOOB);
             break;
 
         case SPAWN_DRAKE:
-            spawn_foe(spawnx, spawnheight, ENT_DRAKE);
+            spawn_ok = spawn_foe(spawnx, spawnheight, ENT_DRAKE);
             break;
 
         case SPAWN_2FENNEC:
-            spawn_foe(spawnx - 16, spawnheight, ENT_FENNEC);
-            spawn_foe(spawnx + 16, spawnheight, ENT_FENNEC);
+            spawn_ok = spawn_foe(spawnx - 16, spawnheight, ENT_FENNEC);
+            spawn_ok = spawn_foe(spawnx + 16, spawnheight, ENT_FENNEC);
             break;
 
         case SPAWN_2GOOB:
-            spawn_foe(spawnx - 16, spawnheight, ENT_GOOB);
-            spawn_foe(spawnx + 16, spawnheight, ENT_GOOB);
+            spawn_ok = spawn_foe(spawnx - 16, spawnheight, ENT_GOOB);
+            spawn_ok = spawn_foe(spawnx + 16, spawnheight, ENT_GOOB);
             break;
 
         default:
             break;
         }
 
-        set_spawn_status(true, meta_tile);
+        if(spawn_ok){
+            set_spawn_status(true, meta_tile);
+        }
     }
 }
 

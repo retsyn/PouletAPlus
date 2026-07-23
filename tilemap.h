@@ -49,7 +49,7 @@ public:
 
     uint8_t coins[COIN_ARRAY];
 
-    void draw_level(uint16_t offset_x, bool alt_tiles);
+    void draw_level(uint16_t offset_x, uint8_t alt_tiles);
     void fill_coins();
     void draw_coins();
     void draw_coins(uint16_t offset_x);

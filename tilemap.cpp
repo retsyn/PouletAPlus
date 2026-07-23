@@ -294,7 +294,7 @@ const unsigned char meta_tiles[] PROGMEM = {
     1, 1, 1, 0, 0, 1, 1, 1,
 };
 
-void Stage::draw_level(uint16_t cam_offset_x, bool alt_tiles)
+void Stage::draw_level(uint16_t cam_offset_x, uint8_t alt_tiles)
 {
 
   int16_t tx;
@@ -317,10 +317,19 @@ void Stage::draw_level(uint16_t cam_offset_x, bool alt_tiles)
 
       if (unpacked != 0 && unpacked != TILE_COIN1)
       {
-        if(alt_tiles){
+        switch(alt_tiles)
+        {
+        case (0):
+          SpritesB::drawSelfMasked(tx, ty, foreground, unpacked);
+          break;
+        case (1):
           SpritesB::drawSelfMasked(tx, ty, foregroundb, unpacked);
-        }
-        else {
+          break;
+        case (2):
+          SpritesB::drawSelfMasked(tx, ty, foregroundc, unpacked);
+          break;
+        
+        default:
           SpritesB::drawSelfMasked(tx, ty, foreground, unpacked);
         }
       }
@@ -679,14 +688,14 @@ const uint16_t stages[] PROGMEM = {
 0b0000000000100000,0b0000000000000000,
 
     // 3-1
-    0b0000001000000000, 0b0000000000000000,
-    0b0000000000000010, 0b0010100000100010,
-    0b0000100000000000, 0b0010000001000100,
-    0b0000000000000101, 0b0100100000000000,
-    0b0100100000000000, 0b0100100001001100,
-    0b0100100001000000, 0b0000000000010101,
-    0b0010000000100111, 0b0100100000001000,
-    0b0100100000100000, 0b0000001000001011,
+0b0000000000000000,0b0000000000000000,
+0b0000100000100100,0b0101110000000110,
+0b0000000000000100,0b0101000100100010,
+0b0101000000001010,0b0000000000000000,
+0b0100100000001101,0b0000000000000000,
+0b0101000000101011,0b0000000000000000,
+0b0000000010001101,0b0101000010010000,
+0b0000000000000000,0b0000000100000000,
 
     // 3-2
     0b0000001000000000, 0b0000000000000000,

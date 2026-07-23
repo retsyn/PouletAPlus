@@ -7,6 +7,7 @@
 
 extern const unsigned char PROGMEM foreground[];
 extern const unsigned char PROGMEM foregroundb[];
+extern const unsigned char PROGMEM foregroundc[];
 extern const unsigned char PROGMEM poulet_plus_mask[];
 extern const unsigned char PROGMEM aviator_plus_mask[];
 //extern const uint8_t PROGMEM title[];
@@ -62,6 +63,8 @@ extern const unsigned char PROGMEM toquetext_plus_mask[];
 // Ephemeral effects:
 extern const unsigned char PROGMEM pop_plus_mask[];
 extern const unsigned char PROGMEM flyboy_plus_mask[];
+extern const unsigned char PROGMEM soundicon1[];
+extern const unsigned char PROGMEM soundicon2[];
 
 // (moved from digits.h)
 void draw_digits(uint32_t value, uint8_t digits, uint8_t x, uint8_t y);

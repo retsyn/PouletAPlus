@@ -15,7 +15,7 @@
 
 #define COIN_PTS 2
 
-#define FOE_MAX 3
+#define FOE_MAX 5
 #define BALLOON_MAX 3
 #define ITEM_MAX 2
 
