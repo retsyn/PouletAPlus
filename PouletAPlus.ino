@@ -139,7 +139,7 @@ static void loop()
             screen_ticker = 0;
             setup_level();
             game_state = in_play;
-            alttiles = (stage.currentstage / 3) % 3;
+            alttiles = (stage.currentstage / 3) % 4;
         }
         break;
 

@@ -8,6 +8,7 @@
 extern const unsigned char PROGMEM foreground[];
 extern const unsigned char PROGMEM foregroundb[];
 extern const unsigned char PROGMEM foregroundc[];
+extern const unsigned char PROGMEM foregroundd[];
 extern const unsigned char PROGMEM poulet_plus_mask[];
 extern const unsigned char PROGMEM aviator_plus_mask[];
 //extern const uint8_t PROGMEM title[];
