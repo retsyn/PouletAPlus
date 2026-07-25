@@ -645,6 +645,40 @@ static void check_for_spawn(uint16_t scroll_x, int8_t tile_offset)
     if (check_spawn_status(meta_tile) == false)
     {
         uint16_t spawnx = ((meta_tile * 64) + 16);
+        uint16_t target_spawn_x = spawnx;
+
+        // Find where spawnx should be-- not on top of a holes or unsupported spikes:
+        bool no_hole = false;
+        // Sweep from centre to right...
+        for (uint16_t i = 0; i < 16; i += 8){
+            if((stage.is_solid(spawnx + i, 56) == 0) || stage.is_spike(spawnx + i, 56)) {
+                // still a hole, keep going
+            } else {
+                target_spawn_x = spawnx + i;
+                no_hole = true;
+                break;
+            }
+        }
+        if(!no_hole){
+            target_spawn_x = spawnx; // Reset this for the test.
+            for (uint16_t i = 0; i < 24; i += 8){
+                if((stage.is_solid(spawnx - i, 56) == 0) || stage.is_spike(spawnx - i, 56)){
+                    // still a hole
+                } else {
+                    target_spawn_x = spawnx - i;
+                    no_hole = true;
+                    break;
+                }
+            }
+        }
+
+        // If we've still placed it above a hole, we just let it happen.  Hey, it might be a bird anyways.
+        if(no_hole){
+            spawnx = target_spawn_x;
+        }
+            
+        
+
         if (spawn_high(meta_tile) == true)
         {
             for (uint8_t i = 0; i < 40; i += 8)
