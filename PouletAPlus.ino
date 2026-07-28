@@ -126,6 +126,7 @@ static void loop()
 
         break;
 
+
     case interstitial:
         if(screen_ticker == 0) { 
             sfx_start();
@@ -167,6 +168,10 @@ static void loop()
                 player.sprite = poulet_plus_mask;
                 if(player.pending_game_over){
                     gameover();
+                } else {
+                    spawnstatus = 0;
+                    kill_all_foes();
+                    allocate_balloons();
                 }
                 setup_level();
             }
@@ -565,6 +570,8 @@ static void gameover(){
     freelivesseq = 1;
     game_state = title_screen;
     spawnstatus = 0;
+    kill_all_foes();
+    allocate_balloons();
     stage.currentstage = 0;
     door.open = false;
     player.x = 0;

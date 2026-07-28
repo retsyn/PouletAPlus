@@ -43,6 +43,7 @@ void initArduboy2();
 // (moved from game.h)
 enum GameState{
     title_screen = 0,
+    instruct,
     in_play,
     interstitial,
     game_over

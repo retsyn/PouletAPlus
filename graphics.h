@@ -17,6 +17,7 @@ extern const unsigned char PROGMEM titlecard[];
 extern const unsigned char PROGMEM aplus[];
 
 
+
 // Anim frame id's for Poulet
 extern const unsigned char PROGMEM poulet_anim_idle[];
 extern const unsigned char PROGMEM poulet_anim_walk[];
