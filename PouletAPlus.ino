@@ -126,6 +126,10 @@ static void loop()
 
         break;
 
+    case victory:
+        show_ending_screen();
+        break;
+
 
     case interstitial:
         if(screen_ticker == 0) { 
@@ -133,7 +137,7 @@ static void loop()
             }
         draw_hud();
         SpritesB::drawOverwrite(36, 30, stage_label, 0);
-        draw_level(76, 31, stage.currentstage);
+        draw_level(76, 30, stage.currentstage);
         screen_ticker += 1;
         if (screen_ticker >= SCREEN_TRANS_SPEED)
         {
@@ -229,7 +233,7 @@ static void loop()
 
         items.updateRoster(&stage, &player, scroll, &ephemerals);
         if(ephemerals.updateRoster(scroll, player.x, player.y)){
-            player.hitspike();
+            player.hitprojectile();
         }
 
         // Some in game stuff:
@@ -264,6 +268,9 @@ static void loop()
                 screen_ticker = 0;
                 advance_stage();
             }
+        }
+        if(player.pending_game_over){
+            SpritesB::drawOverwrite(28, 30, gameover_label, 0);
         }
 
         break;
@@ -306,6 +313,10 @@ static void show_title_screen()
     } else {
         SpritesB::drawSelfMasked(112, 48, soundicon2, 0);
     }
+}
+
+static void show_ending_screen(){
+    SpritesB::drawSelfMasked(7, 11, smallpoulet, 0);
 }
 
 static void next_stage()

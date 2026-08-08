@@ -445,6 +445,14 @@ void PlayerEntity::hitspike()
     power_down();
 }
 
+void PlayerEntity::hitprojectile(){
+    if(iframes >0){
+        return;
+    }
+    vy = -0.8;
+    power_down();
+}
+
 void PlayerEntity::power_down()
 {
     bool lethal = true;

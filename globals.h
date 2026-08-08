@@ -34,7 +34,7 @@
 // (Arduboy2Base instead of Arduboy2: we never use print/font, saves ~1KB+ flash)
 extern Arduboy2Base* arduboy;
 
-// Declare a function to initialize the Arduboy2 instance
+// Declare a function to initialize, the Arduboy2 instance
 void initArduboy2();
 
 #define TICKER_SPEED 30
@@ -46,5 +46,6 @@ enum GameState{
     instruct,
     in_play,
     interstitial,
-    game_over
+    game_over,
+    victory
 };
