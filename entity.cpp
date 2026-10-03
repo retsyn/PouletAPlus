@@ -2,6 +2,12 @@
 #include "entity.h"
 #include "sounds.h"
 
+// Hard mode: from this stage onward, walking foes move at 2x speed.
+// currentstage counts from 0, so 2 is the third stage (shown in-game as 1-3).
+#ifndef HARD_MODE_STAGE
+#define HARD_MODE_STAGE 8
+#endif
+
 Entity::Entity(uint8_t newtype, float start_x, float start_y)
 {
 
@@ -609,6 +615,10 @@ void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals
         return;
     }
 
+    // Hard mode: walkers take an extra step halfway through each move interval,
+    // which doubles their speed without touching animation or fire rate.
+    bool extra_step = (stage->currentstage >= HARD_MODE_STAGE) && (timer == SPEED_FENNEC / 2);
+
     switch (enttype)
     {
     case (ENT_BLOOB):
@@ -649,32 +659,9 @@ void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals
                 think = 0;
                 ephemerals->shoot_projectile(x + 4, y + SPR_BOTSKIN - 2, x + 4, 64, 5);
             }
-
-        case (ENT_FENNEC):
-
-            if (flip)
-            {
-                if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN))
-                {
-                    x -= 1;
-                }
-                else
-                {
-                    flip = false;
-                }
-            }
-            else
-            {
-                if (!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN))
-                {
-                    x += 1;
-                }
-                else
-                {
-                    flip = true;
-                }
-            }
             break;
+
+        // Fennec and Bloob walking is handled below so hard mode can reuse it.
 
         case (ENT_DRAKE):
             if (think > BLOOB_DROPRATE)
@@ -716,6 +703,33 @@ void Foe::update(Stage *stage, PlayerEntity *player, EphemeralRoster *ephemerals
 
         default:
             break;
+        }
+    }
+
+    // Walk back and forth, turning around at walls (Bloob and Fennec).
+    if ((advance || extra_step) && (enttype == ENT_BLOOB || enttype == ENT_FENNEC))
+    {
+        if (flip)
+        {
+            if (!stage->is_solid(x + SPR_LFTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_LFTSKIN, y + SPR_TOPSKIN))
+            {
+                x -= 1;
+            }
+            else
+            {
+                flip = false;
+            }
+        }
+        else
+        {
+            if (!stage->is_solid(x + SPR_RGTSKIN, y + SPR_BOTSKIN) && !stage->is_solid(x + SPR_RGTSKIN, y + SPR_TOPSKIN))
+            {
+                x += 1;
+            }
+            else
+            {
+                flip = true;
+            }
         }
     }
 }
