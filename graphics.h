@@ -54,6 +54,7 @@ extern const unsigned char PROGMEM digits_sheet[];
 // Other text
 extern const uint8_t PROGMEM stage_label[];
 extern const unsigned char PROGMEM done_label[];
+extern const uint8_t PROGMEM gameover_label[];
 
 // Items:
 extern const unsigned char PROGMEM glasses_plus_mask[];

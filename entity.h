@@ -148,6 +148,7 @@ public:
     void takehit(Foe *hitter);
     void power_down();
     void hitspike();
+    void hitprojectile();
 };
 
 class Foe
